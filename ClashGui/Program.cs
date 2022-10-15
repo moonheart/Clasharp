@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
+using Avalonia.Logging;
 
 namespace ClashGui
 {
@@ -17,7 +18,7 @@ namespace ClashGui
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToTrace()
+                .LogToTrace(LogEventLevel.Debug)
                 .UseReactiveUI();
     }
 }

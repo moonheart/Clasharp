@@ -1,0 +1,86 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:ClashGui.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ClashGui.Controls.ProxiesListControl">
+    <Design.DataContext>
+        <viewModels:ProxyListViewModel />
+    </Design.DataContext>
+    <ScrollViewer>
+        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*">
+            <StackPanel>
+                <TextBlock>Policy Groups</TextBlock>
+                <ListBox Items="{Binding ProxyGropups}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Background="Green" Text="{Binding Type}"></TextBlock>
+                                </StackPanel>
+                                <ListBox Grid.Row="1" Grid.Column="0" Items="{Binding All}" >
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <WrapPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding }"></TextBlock>
+                                                </StackPanel>
+                                            </WrapPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.Styles>
+                                        <Style Selector="ListBox/template/VirtualizingStackPanel">
+                                            <Setter Property="Orientation" Value="Horizontal"></Setter>
+                                        </Style>
+                                   
+                                    </ListBox.Styles>
+                                </ListBox>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <TextBlock>Providers</TextBlock>
+                <ListBox Items="{Binding ProxyProviders }">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text="{Binding Type}"></TextBlock>
+                                </StackPanel>
+                                <ListBox Grid.Row="1" Grid.Column="0" Items="{Binding Proxies}" >
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <WrapPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                                    <TextBlock Text="{Binding LatestHistory.Delay}"></TextBlock>
+                                                </StackPanel>
+                                            </WrapPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.Styles>
+                                        <Style Selector="ListBox/template/VirtualizingStackPanel">
+                                            <Setter Property="Orientation" Value="Horizontal"></Setter>
+                                        </Style>
+                                   
+                                    </ListBox.Styles>
+                                </ListBox>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                        </Style>
+                    </ListBox.Styles>
+                </ListBox>
+
+            </StackPanel>
+
+        </Grid>
+    </ScrollViewer>
+</UserControl>

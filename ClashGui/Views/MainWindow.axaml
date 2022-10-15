@@ -16,12 +16,17 @@
     </Design.DataContext>
 
     <TabControl>
+        <TabItem Header="Logs">
+            <Panel>
+                <controls:ClashLogsControl DataContext="{Binding ClashLogsViewModel}"></controls:ClashLogsControl>
+            </Panel>
+        </TabItem>
         <TabItem Header="Proxies">
             <Panel>
                 <controls:ProxiesListControl DataContext="{Binding ProxyListViewModel }" />
             </Panel>
         </TabItem>
     </TabControl>
- 
+
 
 </Window>

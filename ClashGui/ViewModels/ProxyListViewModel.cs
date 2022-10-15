@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using ClashGui.Clash.Models.Providers;
+using ClashGui.Clash.Models.Proxies;
 using ClashGui.Controls;
 using ClashGui.Models;
 using ReactiveUI;
@@ -11,12 +13,15 @@ public class ProxyListViewModel : ViewModelBase
 {
     public ProxyListViewModel()
     {
-        this.WhenAnyValue(d => d.ProxyGroups)
+        this.WhenAnyValue(d => d.ProxyProviders)
             .Subscribe(d => this.RaisePropertyChanged(nameof(Count)));
-        ProxyGroups = new ObservableCollection<ProxyGroup>();
+        ProxyProviders = new ObservableCollection<ProxyProvider>();
+        ProxyGropups = new ObservableCollection<ProxyGroup>();
     }
 
-    public ObservableCollection<ProxyGroup> ProxyGroups { get; }
+    public ObservableCollection<ProxyGroup> ProxyGropups { get; }
 
-    public int Count => ProxyGroups.Count;
+    public ObservableCollection<ProxyProvider> ProxyProviders { get; }
+
+    public int Count => ProxyProviders.Count;
 }

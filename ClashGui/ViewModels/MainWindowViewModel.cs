@@ -5,5 +5,7 @@
         public string Greeting => "Welcome to Avalonia!";
 
         public ProxyListViewModel ProxyListViewModel => new ();
+
+        public ClashLogsViewModel ClashLogsViewModel => new();
     }
 }
