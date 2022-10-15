@@ -6,10 +6,7 @@ namespace ClashGui.Clash.Models.Proxies;
 public class ProxyGroup
 {
     public List<string> All { get; set; } = new();
-
     public List<ProxyHistory> History { get; set; } = new();
-
-    public ProxyHistory? LatestHistory => History.LastOrDefault();
 
     public string Name { get; set; } = null!;
 

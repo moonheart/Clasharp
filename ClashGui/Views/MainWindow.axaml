@@ -15,17 +15,18 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <TabControl>
-        <TabItem Header="Logs">
-            <Panel>
-                <controls:ClashLogsControl DataContext="{Binding ClashLogsViewModel}"></controls:ClashLogsControl>
-            </Panel>
-        </TabItem>
+    <TabControl TabStripPlacement="Left">
         <TabItem Header="Proxies">
             <Panel>
                 <controls:ProxiesListControl DataContext="{Binding ProxyListViewModel }" />
             </Panel>
         </TabItem>
+        <TabItem Header="Logs">
+            <Panel>
+                <controls:ClashLogsControl DataContext="{Binding ClashLogsViewModel}"></controls:ClashLogsControl>
+            </Panel>
+        </TabItem>
+       
     </TabControl>
 
 

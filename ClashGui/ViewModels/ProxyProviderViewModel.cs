@@ -1,32 +1,26 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
-using ClashGui.Clash.Models.Proxies;
-using ClashGui.Models;
-using ReactiveUI;
+using ClashGui.Clash.Models.Providers;
 
 namespace ClashGui.ViewModels;
 
-public class ProxyGroupViewModel : ViewModelBase, IValueConverter
+public class ProxyProviderViewModel : ViewModelBase, IValueConverter
 {
-    public ProxyGroupViewModel()
+    public ProxyProviderViewModel()
     {
     }
 
-    public ProxyGroup Group { get; set; } = null!;
+    public ProxyProvider Provider { get; set; } = new();
 
-    public int? SelectedIndex => Group.Now == null ? null : Group.All.IndexOf(Group.Now);
-
-    // public static readonly IValueConverter Instance = new ProxyGroupViewModel();
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is ProxyGroup proxyGroup)
+        if (value is ProxyProvider proxyProvider)
         {
-            return new ProxyGroupViewModel
+            return new ProxyProviderViewModel
             {
-                Group = proxyGroup
+                Provider = proxyProvider
             };
         }
 

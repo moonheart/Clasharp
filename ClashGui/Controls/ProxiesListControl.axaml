@@ -3,82 +3,39 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ClashGui.ViewModels"
+             xmlns:controls="clr-namespace:ClashGui.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ClashGui.Controls.ProxiesListControl">
     <Design.DataContext>
         <viewModels:ProxyListViewModel />
     </Design.DataContext>
+    <UserControl.Resources>
+        <viewModels:ProxyGroupViewModel x:Key="ProxyGroupViewModelConverter" />
+        <viewModels:ProxyProviderViewModel x:Key="ProxyProviderViewModelConverter" />
+    </UserControl.Resources>
     <ScrollViewer>
         <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*">
             <StackPanel>
                 <TextBlock>Policy Groups</TextBlock>
-                <ListBox Items="{Binding ProxyGropups}">
-                    <ListBox.ItemTemplate>
+                <ItemsControl Items="{Binding ProxyGropups}">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Name}" />
-                                    <TextBlock Background="Green" Text="{Binding Type}"></TextBlock>
-                                </StackPanel>
-                                <ListBox Grid.Row="1" Grid.Column="0" Items="{Binding All}" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <WrapPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding }"></TextBlock>
-                                                </StackPanel>
-                                            </WrapPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                    <ListBox.Styles>
-                                        <Style Selector="ListBox/template/VirtualizingStackPanel">
-                                            <Setter Property="Orientation" Value="Horizontal"></Setter>
-                                        </Style>
-                                   
-                                    </ListBox.Styles>
-                                </ListBox>
-                            </Grid>
+                            <controls:ProxyGroupControl
+                                DataContext="{Binding  Converter={StaticResource ProxyGroupViewModelConverter}}" />
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
             <StackPanel Grid.Row="1">
                 <TextBlock>Providers</TextBlock>
-                <ListBox Items="{Binding ProxyProviders }">
-                    <ListBox.ItemTemplate>
+                <ItemsControl Items="{Binding ProxyProviders }">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Name}" />
-                                    <TextBlock Text="{Binding Type}"></TextBlock>
-                                </StackPanel>
-                                <ListBox Grid.Row="1" Grid.Column="0" Items="{Binding Proxies}" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <WrapPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Name}"></TextBlock>
-                                                    <TextBlock Text="{Binding LatestHistory.Delay}"></TextBlock>
-                                                </StackPanel>
-                                            </WrapPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                    <ListBox.Styles>
-                                        <Style Selector="ListBox/template/VirtualizingStackPanel">
-                                            <Setter Property="Orientation" Value="Horizontal"></Setter>
-                                        </Style>
-                                   
-                                    </ListBox.Styles>
-                                </ListBox>
-                            </Grid>
+                            <controls:ProxyProviderControl
+                                DataContext="{Binding Converter={StaticResource ProxyProviderViewModelConverter}}" />
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.Styles>
-                        <Style Selector="ListBoxItem">
-                        </Style>
-                    </ListBox.Styles>
-                </ListBox>
-
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
 
         </Grid>

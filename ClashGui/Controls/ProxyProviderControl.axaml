@@ -3,22 +3,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ClashGui.ViewModels"
+             xmlns:controls="clr-namespace:ClashGui.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ClashGui.Controls.ProxyGroupControl">
+             x:Class="ClashGui.Controls.ProxyProviderControl">
     <Design.DataContext>
-        <viewModels:ProxyGroupViewModel />
+        <viewModels:ProxyProviderViewModel />
     </Design.DataContext>
+    <UserControl.Resources>
+        <viewModels:ProxyInfoViewModel x:Key="ProxyInfoViewModelConverter" />
+    </UserControl.Resources>
+
     <Grid RowDefinitions="*,*">
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding  Group.Name}" />
-            <TextBlock Background="Green" Text="{Binding Group.Type}"></TextBlock>
+            <TextBlock Text="{Binding Provider.Name}" />
+            <TextBlock Text="{Binding Provider.Type}"></TextBlock>
         </StackPanel>
-        <ListBox Grid.Row="1" Grid.Column="0" Items="{Binding Group.All}" SelectedIndex="{Binding SelectedIndex}">
+        <ListBox Grid.Row="1" Grid.Column="0" Items="{Binding Provider.Proxies}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding }"></TextBlock>
-                    </StackPanel>
+                    <controls:ProxyInfoControl
+                        DataContext="{Binding Converter={StaticResource ProxyInfoViewModelConverter}}">
+                    </controls:ProxyInfoControl>
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.ItemsPanel>
@@ -30,6 +35,7 @@
                 <Style Selector="ListBox/template/VirtualizingStackPanel">
                     <Setter Property="Orientation" Value="Horizontal"></Setter>
                 </Style>
+
             </ListBox.Styles>
         </ListBox>
     </Grid>
