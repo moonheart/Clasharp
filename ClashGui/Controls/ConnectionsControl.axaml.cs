@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
@@ -6,6 +9,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
+using ClashGui.Models.Connections;
 using ClashGui.ViewModels;
 
 namespace ClashGui.Controls;
@@ -13,6 +17,9 @@ namespace ClashGui.Controls;
 public partial class ConnectionsControl : ReactiveUserControl<ConnectionsViewModel>, IDisposable
 {
     private Timer _loadRulesTimer;
+    private DataGrid _dataGrid;
+    private DataGridColumn? _sortingColumn;
+    private Dictionary<DataGridColumn, ListSortDirection?> _columnSortingState = new();
     public ConnectionsControl()
     {
         InitializeComponent();
@@ -21,6 +28,22 @@ public partial class ConnectionsControl : ReactiveUserControl<ConnectionsViewMod
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+        _dataGrid = this.FindControl<DataGrid>("ConnectionsGrid");
+        _dataGrid.Sorting += (_, args) =>
+        {
+            // if (_columnSortingState.ContainsKey(args.Column))
+            // {
+            //     _columnSortingState[args.Column] = _columnSortingState[args.Column] == ListSortDirection.Ascending
+            //         ? ListSortDirection.Descending
+            //         : ListSortDirection.Ascending;
+            // }
+            // else
+            // {
+            //     _columnSortingState[args.Column] = ListSortDirection.Ascending;
+            // }
+
+            _sortingColumn = args.Column;
+        };
         _loadRulesTimer = new Timer(_ => LoadRules().ConfigureAwait(false).GetAwaiter().GetResult(),
             null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
     }
@@ -32,12 +55,30 @@ public partial class ConnectionsControl : ReactiveUserControl<ConnectionsViewMod
         {
             if (ViewModel != null)
             {
-                ViewModel.Connections.Clear();
+                var newConns = new List<ConnectionExt>();
+                var dict = ViewModel.Connections.ToDictionary(d => d.Connection.Id, d => d);
                 foreach (var connection in connectionInfo.Connections)
                 {
-                    ViewModel.Connections.Add(connection);
+                    if (dict.TryGetValue(connection.Id, out var conn))
+                    {
+                        conn.Download = connection.Download;
+                        conn.Upload = connection.Upload;
+                        // hashSet.Remove(connection.Id);
+                        newConns.Add(conn);
+                    }
+                    else
+                    {
+                        conn = new ConnectionExt {Connection = connection};
+                        newConns.Add(conn);
+                    }
                 }
-
+    
+                ViewModel.Connections.Clear();
+                foreach (var connectionExt in newConns)
+                {
+                    ViewModel.Connections.Add(connectionExt);
+                }
+                
                 ViewModel.DownloadTotal = connectionInfo.DownloadTotal;
                 ViewModel.UploadTotal = connectionInfo.UploadTotal;
             }

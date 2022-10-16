@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ClashGui.ViewModels"
+             xmlns:connections="clr-namespace:ClashGui.Models.Connections"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ClashGui.Controls.ConnectionsControl">
     <Design.DataContext>
@@ -13,6 +14,19 @@
             <TextBlock Text="{Binding DownloadTotal }"></TextBlock>
             <TextBlock Text="{Binding UploadTotal }"></TextBlock>
         </StackPanel>
-        <DataGrid Items="{Binding Connections}" AutoGenerateColumns="True"></DataGrid>
+        <DataGrid Name="ConnectionsGrid" Items="{Binding Connections}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Host" Binding="{Binding Host}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Network" Binding="{Binding Network}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Type" Binding="{Binding Type}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Chains" Binding="{Binding Chains}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Process" Binding="{Binding Process}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Start" Binding="{Binding Start}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Download" SortMemberPath="Download" Binding="{Binding DownloadSpeed}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Upload" SortMemberPath="Upload" Binding="{Binding UploadSpeed}">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
 </UserControl>

@@ -20,7 +20,7 @@ public class Metadata
     public string DestinationPort { get; set; }
 
 
-    public string Host { get; set; }
+    public string? Host { get; set; }
 
 
     public string DnsMode { get; set; }

@@ -11,10 +11,10 @@ public class Connection
     public Metadata Metadata { get; set; }
 
 
-    public int Upload { get; set; }
+    public long Upload { get; set; }
 
 
-    public int Download { get; set; }
+    public long Download { get; set; }
 
 
     public DateTime Start { get; set; }
