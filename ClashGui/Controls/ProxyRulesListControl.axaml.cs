@@ -68,5 +68,6 @@ public partial class ProxyRulesListControl : ReactiveUserControl<ProxyRulesListV
     public void Dispose()
     {
         _loadRulesTimer.Dispose();
+        _loadRuleProvidersTimer.Dispose();
     }
 }

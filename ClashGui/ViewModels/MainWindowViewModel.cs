@@ -4,10 +4,12 @@
     {
         public string Greeting => "Welcome to Avalonia!";
 
-        public ProxyListViewModel ProxyListViewModel => new ();
+        public ProxyListViewModel ProxyListViewModel => new();
 
         public ClashLogsViewModel ClashLogsViewModel => new();
-        
+
         public ProxyRulesListViewModel ProxyRulesListViewModel => new();
+
+        public ConnectionsViewModel ConnectionsViewModel => new();
     }
 }

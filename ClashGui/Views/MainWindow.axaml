@@ -31,6 +31,11 @@
                 <controls:ProxyRulesListControl DataContext="{Binding ProxyRulesListViewModel }" />
             </Panel>
         </TabItem>
+        <TabItem Header="Connections" FontSize="18">
+            <Panel>
+                <controls:ConnectionsControl DataContext="{Binding ConnectionsViewModel }" />
+            </Panel>
+        </TabItem>
     </TabControl>
 
 
