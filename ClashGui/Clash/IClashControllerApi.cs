@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ClashGui.Clash;
+using ClashGui.Clash.Models;
+using ClashGui.Clash.Models.Connections;
 using ClashGui.Clash.Models.Providers;
 using ClashGui.Clash.Models.Proxies;
-using ClashGui.Models;
-using ClashGui.Models.Connections;
+using ClashGui.Clash.Models.Rules;
 using Refit;
 
-namespace ClashGui;
+namespace ClashGui.Clash;
 
 public interface IClashControllerApi
 {
@@ -85,7 +84,7 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/proxies")]
-    Task<ClashData> GetProxyGroups();
+    Task<ProxyData> GetProxyGroups();
 
     /// <summary>
     /// Get specific proxy information
@@ -119,7 +118,7 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/rules")]
-    Task<ClashData> GetRules();
+    Task<RuleData> GetRules();
 
     #endregion
 
@@ -156,7 +155,7 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/providers/proxies")]
-    Task<ClashData> GetProxyProviders();
+    Task<ProviderData<ProxyProvider>> GetProxyProviders();
 
     /// <summary>
     /// Get proxies information for specific proxy-provider
@@ -180,6 +179,40 @@ public interface IClashControllerApi
     /// <returns></returns>
     [Get("/providers/proxies/{name}/healthcheck")]
     Task HealthCheckProxyProvider(string name);
+
+    #endregion
+
+    #region rules proxies
+
+    /// <summary>
+    /// Get all rules information for all rule-providers
+    /// </summary>
+    /// <returns></returns>
+    [Get("/providers/rules")]
+    Task<ProviderData<RuleProvider>> GetRuleProviders();
+
+    /// <summary>
+    /// Get rules information for specific rule-provider
+    /// </summary>
+    /// <returns></returns>
+    [Get("/providers/rules/{name}")]
+    Task<ProxyProvider> GetRuleProvider(string name);
+
+    /// <summary>
+    /// Update specific rule-provider
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    [Put("/providers/rules/{name}")]
+    Task UpdateRuleProvider(string name);
+
+    /// <summary>
+    /// HealthCheck specific rule-provider
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    [Get("/providers/rules/{name}/healthcheck")]
+    Task HealthCheckRuleProvider(string name);
 
     #endregion
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ClashGui.Models;
+namespace ClashGui.Clash.Models;
 
 public class Configs
 {

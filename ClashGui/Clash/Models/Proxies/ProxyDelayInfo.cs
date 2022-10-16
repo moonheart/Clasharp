@@ -1,6 +1,4 @@
-﻿using ClashGui.Models;
-
-namespace ClashGui.Clash.Models.Proxies;
+﻿namespace ClashGui.Clash.Models.Proxies;
 
 public class ProxyDelayInfo : ErrorInfo
 {

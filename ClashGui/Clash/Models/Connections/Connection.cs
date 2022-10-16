@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ClashGui.Models.Connections;
+namespace ClashGui.Clash.Models.Connections;
 
 public class Connection
 {

@@ -1,4 +1,4 @@
-﻿namespace ClashGui.Models;
+﻿namespace ClashGui.Clash.Models.Rules;
 
 public class RuleInfo
 {
