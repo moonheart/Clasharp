@@ -34,9 +34,9 @@ public partial class ProxiesListControl : ReactiveUserControl<ProxyListViewModel
         AvaloniaXamlLoader.Load(this);
 
         _loadProxyProvidersTimer = new Timer(_ => LoadProxyProviders().ConfigureAwait(false).GetAwaiter().GetResult(),
-            null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+            null, TimeSpan.Zero, TimeSpan.FromSeconds(100));
         _loadProxyGroupsTimer = new Timer(_ => LoadProxyGroups().ConfigureAwait(false).GetAwaiter().GetResult(),
-            null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+            null, TimeSpan.Zero, TimeSpan.FromSeconds(100));
     }
 
     private async Task LoadProxyProviders()

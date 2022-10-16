@@ -8,8 +8,9 @@
     <Design.DataContext>
         <viewModels:ProxyInfoViewModel />
     </Design.DataContext>
-    <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Vertical">
+        <TextBlock Text="{Binding ProxyGroup.Type}"></TextBlock>
         <TextBlock Text="{Binding ProxyGroup.Name}"></TextBlock>
-        <TextBlock Text="{Binding LatestHistory.Delay}"></TextBlock>
+        <TextBlock Text="{Binding LatestHistory}"></TextBlock>
     </StackPanel>
 </UserControl>

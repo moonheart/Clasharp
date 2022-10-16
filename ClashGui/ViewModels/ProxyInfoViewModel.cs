@@ -10,8 +10,16 @@ namespace ClashGui.ViewModels;
 public class ProxyInfoViewModel : ViewModelBase, IValueConverter
 {
     public ProxyGroup ProxyGroup { get; set; }
-    
-    public ProxyHistory? LatestHistory => ProxyGroup.History.LastOrDefault();
+
+    public string? LatestHistory
+    {
+        get
+        {
+            var h = ProxyGroup.History.LastOrDefault();
+            if (h == null) return "";
+            return $"{h.Delay}ms";
+        }
+    }
 
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
