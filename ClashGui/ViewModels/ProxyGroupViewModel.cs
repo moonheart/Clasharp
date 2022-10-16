@@ -4,7 +4,6 @@ using System.Linq;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using ClashGui.Clash.Models.Proxies;
-using ClashGui.Models;
 using ReactiveUI;
 
 namespace ClashGui.ViewModels;

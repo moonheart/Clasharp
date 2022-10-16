@@ -1,0 +1,32 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:ClashGui.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ClashGui.Controls.ProxyRulesListControl">
+    <Design.DataContext>
+        <viewModels:ProxyRulesListViewModel />
+    </Design.DataContext>
+    <ScrollViewer>
+        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*">
+            <Grid.Styles>
+                <Style Selector="StackPanel TextBlock.header">
+                    <Setter Property="FontSize" Value="22"></Setter>
+                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                    <Setter Property="Margin" Value="0 10"></Setter>
+                </Style>
+            </Grid.Styles>
+            <StackPanel>
+                <TextBlock Classes="header">Rules</TextBlock>
+                <DataGrid Items="{Binding Rules}" AutoGenerateColumns="True" IsReadOnly="True" Height="300" >
+                </DataGrid>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <TextBlock Classes="header">Providers</TextBlock>
+                <DataGrid Items="{Binding Providers}" AutoGenerateColumns="True" IsReadOnly="True"></DataGrid>
+            </StackPanel>
+
+        </Grid>
+    </ScrollViewer>
+</UserControl>

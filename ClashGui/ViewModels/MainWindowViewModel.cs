@@ -7,5 +7,7 @@
         public ProxyListViewModel ProxyListViewModel => new ();
 
         public ClashLogsViewModel ClashLogsViewModel => new();
+        
+        public ProxyRulesListViewModel ProxyRulesListViewModel => new();
     }
 }

@@ -12,7 +12,6 @@ using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
 using ClashGui.Clash.Models.Providers;
-using ClashGui.Models;
 using ClashGui.ViewModels;
 using ReactiveUI;
 

@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using ClashGui.Clash;
 using Refit;
 
 namespace ClashGui;

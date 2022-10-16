@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using ClashGui.Models.Logs;
+using ClashGui.Clash.Models.Logs;
 
 namespace ClashGui.ViewModels;
 

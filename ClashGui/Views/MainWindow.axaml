@@ -26,6 +26,11 @@
                 <controls:ClashLogsControl DataContext="{Binding ClashLogsViewModel}"></controls:ClashLogsControl>
             </Panel>
         </TabItem>
+        <TabItem Header="Rules" FontSize="18">
+            <Panel>
+                <controls:ProxyRulesListControl DataContext="{Binding ProxyRulesListViewModel }" />
+            </Panel>
+        </TabItem>
     </TabControl>
 
 
