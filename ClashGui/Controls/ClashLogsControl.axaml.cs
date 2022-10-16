@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
 using ClashGui.Clash.Models.Logs;
+using ClashGui.Models.Logs;
 using ClashGui.ViewModels;
 using ReactiveUI;
 
@@ -28,14 +30,19 @@ public partial class ClashLogsControl : ReactiveUserControl<ClashLogsViewModel>
     {
         if (DataContext is ClashLogsViewModel proxyListViewModel)
         {
-            Trace.WriteLine("GetRealtimeLogs");
             await foreach (var realtimeLog in GlobalConfigs.ClashControllerApi.GetRealtimeLogs())
             {
-                Trace.WriteLine(realtimeLog);
-                var logEntry = JsonSerializer.Deserialize<LogEntry>(realtimeLog, new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
+                var logEntry = JsonSerializer.Deserialize<LogEntry>(realtimeLog, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    Converters =
+                    {
+                        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                    }
+                });
                 if (logEntry != null)
                 {
-                    proxyListViewModel.Logs.Add(logEntry);
+                    proxyListViewModel.Logs.Insert(0, new LogEntryExt(logEntry));
                 }
             }
         }

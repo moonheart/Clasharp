@@ -8,18 +8,20 @@
     <Design.DataContext>
         <viewModels:ClashLogsViewModel />
     </Design.DataContext>
-    <Grid ColumnDefinitions="*" RowDefinitions="Auto">
-        <ScrollViewer Height="600">
-            <ListBox Items="{Binding Logs}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Type}"></TextBlock>
-                            <TextBlock Text="{Binding Payload}"></TextBlock>
+    <ScrollViewer>
+        <ListBox Items="{Binding Logs}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding DateTime}" Margin="0 0 5 0"></TextBlock>
+                            <TextBlock Text="{Binding Type}" Foreground="{Binding Brush}"></TextBlock>
                         </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </ScrollViewer>
-    </Grid>
+                        <TextBlock Text="{Binding Payload}" TextWrapping="Wrap"></TextBlock>
+                    </StackPanel>
+
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </ScrollViewer>
 </UserControl>
