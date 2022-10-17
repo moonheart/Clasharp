@@ -29,7 +29,7 @@
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
     </ItemGroup>
     <ItemGroup>
-      <Compile Update="Controls\ProxyGroupControl.axaml.cs">
+      <Compile Update="Controls\ProxyGroupListControl.axaml.cs">
         <DependentUpon>ProxyGroupControl.axaml</DependentUpon>
       </Compile>
       <Compile Update="Controls\ProxiesListControl.axaml.cs">

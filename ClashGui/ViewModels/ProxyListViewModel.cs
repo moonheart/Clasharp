@@ -10,12 +10,12 @@ public class ProxyListViewModel : ViewModelBase
 {
     public ProxyListViewModel()
     {
-        ProxyProviders = new ObservableCollection<ProxyProvider>();
-        ProxyGropups = new ObservableCollection<ProxyGroup>();
+        ProxyGroupListViewModel = new ();
+        ProxyProviderListViewModel = new ();
     }
 
-    public ObservableCollection<ProxyGroup> ProxyGropups { get; }
+    public ProxyGroupListViewModel ProxyGroupListViewModel { get; }
+    public ProxyProviderListViewModel ProxyProviderListViewModel { get; }
 
-    public ObservableCollection<ProxyProvider> ProxyProviders { get; }
 
 }

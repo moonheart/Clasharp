@@ -9,10 +9,6 @@
     <Design.DataContext>
         <viewModels:ProxyListViewModel />
     </Design.DataContext>
-    <UserControl.Resources>
-        <viewModels:ProxyGroupViewModel x:Key="ProxyGroupViewModelConverter" />
-        <viewModels:ProxyProviderViewModel x:Key="ProxyProviderViewModelConverter" />
-    </UserControl.Resources>
     <ScrollViewer>
         <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*">
             <Grid.Styles>
@@ -24,25 +20,11 @@
             </Grid.Styles>
             <StackPanel>
                 <TextBlock Classes="header">Policy Groups</TextBlock>
-                <ItemsControl Items="{Binding ProxyGropups}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <controls:ProxyGroupControl
-                                DataContext="{Binding  Converter={StaticResource ProxyGroupViewModelConverter}}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <controls:ProxyGroupListControl DataContext="{Binding ProxyGroupListViewModel }" />
             </StackPanel>
             <StackPanel Grid.Row="1">
                 <TextBlock Classes="header">Providers</TextBlock>
-                <ItemsControl Items="{Binding ProxyProviders }">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <controls:ProxyProviderControl
-                                DataContext="{Binding Converter={StaticResource ProxyProviderViewModelConverter}}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <controls:ProxyProviderListControl DataContext="{Binding ProxyProviderListViewModel }" />
             </StackPanel>
 
         </Grid>

@@ -26,9 +26,9 @@ public partial class ProxyRulesListControl : ReactiveUserControl<ProxyRulesListV
     {
         AvaloniaXamlLoader.Load(this);
         _loadRulesTimer = new Timer(_ => LoadRules().ConfigureAwait(false).GetAwaiter().GetResult(),
-            null, TimeSpan.Zero, TimeSpan.FromSeconds(100));
+            null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
         _loadRuleProvidersTimer = new Timer(_ => LoadRuleProviders().ConfigureAwait(false).GetAwaiter().GetResult(),
-            null, TimeSpan.Zero, TimeSpan.FromSeconds(100));
+            null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
     }
 
     private async Task LoadRules()

@@ -7,9 +7,9 @@ using ReactiveUI;
 
 namespace ClashGui.Controls;
 
-public partial class ProxyProviderControl : ReactiveUserControl<ProxyProviderViewModel>
+public partial class ProxyProviderListControl : ReactiveUserControl<ProxyProviderListViewModel>
 {
-    public ProxyProviderControl()
+    public ProxyProviderListControl()
     {
         InitializeComponent();
     }

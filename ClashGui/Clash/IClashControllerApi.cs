@@ -98,9 +98,10 @@ public interface IClashControllerApi
     /// Select specific proxy
     /// </summary>
     /// <param name="name"></param>
+    /// <param name="request"></param>
     /// <returns></returns>
     [Put("/proxies/{name}")]
-    Task SelectProxy(string name);
+    Task SelectProxy(string name, [Body]UpdateProxyRequest request);
 
     /// <summary>
     /// Get specific proxy delay test information
