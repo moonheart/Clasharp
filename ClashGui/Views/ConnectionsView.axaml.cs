@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
@@ -12,15 +11,15 @@ using Avalonia.Threading;
 using ClashGui.Models.Connections;
 using ClashGui.ViewModels;
 
-namespace ClashGui.Controls;
+namespace ClashGui.Views;
 
-public partial class ConnectionsControl : ReactiveUserControl<ConnectionsViewModel>, IDisposable
+public partial class ConnectionsView : ReactiveUserControl<ConnectionsViewModel>, IDisposable
 {
     private Timer _loadRulesTimer;
     private DataGrid _dataGrid;
     private DataGridColumn? _sortingColumn;
     private Dictionary<DataGridColumn, ListSortDirection?> _columnSortingState = new();
-    public ConnectionsControl()
+    public ConnectionsView()
     {
         InitializeComponent();
     }

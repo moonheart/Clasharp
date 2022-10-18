@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using ClashGui.Clash.Models.Providers;
+using ClashGui.Interfaces;
 using ClashGui.Models.Providers;
 using ClashGui.Models.Proxies;
 using ReactiveUI;
 
 namespace ClashGui.ViewModels;
 
-public class ProxyProviderListViewModel : ViewModelBase
+public class ProxyProviderListViewModel : ViewModelBase, IProxyProviderListViewModel
 {
     public ProxyProviderListViewModel()
     {

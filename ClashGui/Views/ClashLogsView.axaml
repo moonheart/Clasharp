@@ -3,10 +3,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ClashGui.ViewModels"
+             xmlns:designTime="clr-namespace:ClashGui.DesignTime"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ClashGui.Controls.ClashLogsControl">
+             x:Class="ClashGui.Views.ClashLogsView">
     <Design.DataContext>
-        <viewModels:ClashLogsViewModel />
+        <designTime:DesignClashLogsViewModel />
     </Design.DataContext>
     <ScrollViewer>
         <ListBox Items="{Binding Logs}">

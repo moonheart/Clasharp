@@ -1,18 +1,16 @@
 ﻿using System.Diagnostics;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using ClashGui.Clash.Models.Proxies;
 using ClashGui.Models.Proxies;
 using ClashGui.ViewModels;
 using ReactiveUI;
 
-namespace ClashGui.Controls;
+namespace ClashGui.Views;
 
-public partial class ProxyGroupListControl : ReactiveUserControl<ProxyGroupListViewModel>
+public partial class ProxyGroupListView : ReactiveUserControl<ProxyGroupListViewModel>
 {
-    public ProxyGroupListControl()
+    public ProxyGroupListView()
     {
         InitializeComponent();
     }

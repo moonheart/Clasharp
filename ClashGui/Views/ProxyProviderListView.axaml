@@ -3,11 +3,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ClashGui.ViewModels"
-             xmlns:controls="clr-namespace:ClashGui.Controls"
+             xmlns:designTime="clr-namespace:ClashGui.DesignTime"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ClashGui.Controls.ProxyProviderListControl">
+             x:Class="ClashGui.Views.ProxyProviderListView">
     <Design.DataContext>
-        <viewModels:ProxyProviderListViewModel />
+        <designTime:DesignProxyProviderListViewModel />
     </Design.DataContext>
 
     <ItemsControl Items="{Binding ProxyProviders }">

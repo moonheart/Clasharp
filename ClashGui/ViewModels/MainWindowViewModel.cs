@@ -1,15 +1,23 @@
-﻿namespace ClashGui.ViewModels
+﻿using ClashGui.Interfaces;
+
+namespace ClashGui.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
-        public string Greeting => "Welcome to Avalonia!";
+        public MainWindowViewModel()
+        {
+            ProxyListViewModel = new ProxyViewModel();
+            ClashLogsViewModel = new ClashLogsViewModel();
+            ProxyRulesListViewModel = new ProxyRulesListViewModel();
+            ConnectionsViewModel = new ConnectionsViewModel();
+        }
 
-        public ProxyListViewModel ProxyListViewModel => new();
+        public IProxyListViewModel ProxyListViewModel { get; }
 
-        public ClashLogsViewModel ClashLogsViewModel => new();
+        public IClashLogsViewModel ClashLogsViewModel { get; }
 
-        public ProxyRulesListViewModel ProxyRulesListViewModel => new();
+        public IProxyRulesListViewModel ProxyRulesListViewModel { get; }
 
-        public ConnectionsViewModel ConnectionsViewModel => new();
+        public IConnectionsViewModel ConnectionsViewModel { get; }
     }
 }

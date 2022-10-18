@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Avalonia.Markup.Xaml;
@@ -10,11 +9,11 @@ using ClashGui.Models.Logs;
 using ClashGui.ViewModels;
 using ReactiveUI;
 
-namespace ClashGui.Controls;
+namespace ClashGui.Views;
 
-public partial class ClashLogsControl : ReactiveUserControl<ClashLogsViewModel>
+public partial class ClashLogsView : ReactiveUserControl<ClashLogsViewModel>
 {
-    public ClashLogsControl()
+    public ClashLogsView()
     {
         InitializeComponent();
     }

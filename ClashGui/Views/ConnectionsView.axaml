@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ClashGui.ViewModels"
              xmlns:connections="clr-namespace:ClashGui.Models.Connections"
+             xmlns:designTime="clr-namespace:ClashGui.DesignTime"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ClashGui.Controls.ConnectionsControl">
+             x:Class="ClashGui.Views.ConnectionsView">
     <Design.DataContext>
-        <viewModels:ConnectionsViewModel />
+        <designTime:DesignConnectionsViewModel />
     </Design.DataContext>
     <StackPanel>
         <StackPanel Orientation="Horizontal">

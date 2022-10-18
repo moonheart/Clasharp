@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
-using ClashGui.Clash.Models.Providers;
 using ClashGui.ViewModels;
 
-namespace ClashGui.Controls;
+namespace ClashGui.Views;
 
-public partial class ProxyRulesListControl : ReactiveUserControl<ProxyRulesListViewModel>, IDisposable
+public partial class ProxyRulesListView : ReactiveUserControl<ProxyRulesListViewModel>, IDisposable
 {
     private Timer _loadRulesTimer;
     private Timer _loadRuleProvidersTimer;
 
-    public ProxyRulesListControl()
+    public ProxyRulesListView()
     {
         InitializeComponent();
     }

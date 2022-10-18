@@ -3,10 +3,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ClashGui.ViewModels"
+             xmlns:designTime="clr-namespace:ClashGui.DesignTime"
+             xmlns:views="clr-namespace:ClashGui.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ClashGui.Controls.ProxyRulesListControl">
+             x:Class="ClashGui.Views.ProxiesView">
     <Design.DataContext>
-        <viewModels:ProxyRulesListViewModel />
+        <designTime:DesignProxyListViewModel />
     </Design.DataContext>
     <ScrollViewer>
         <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*">
@@ -18,13 +20,12 @@
                 </Style>
             </Grid.Styles>
             <StackPanel>
-                <TextBlock Classes="header">Rules</TextBlock>
-                <DataGrid Items="{Binding Rules}" AutoGenerateColumns="True" IsReadOnly="True" Height="300" >
-                </DataGrid>
+                <TextBlock Classes="header">Policy Groups</TextBlock>
+                <views:ProxyGroupListView DataContext="{Binding ProxyGroupListViewModel }" />
             </StackPanel>
             <StackPanel Grid.Row="1">
                 <TextBlock Classes="header">Providers</TextBlock>
-                <DataGrid Items="{Binding Providers}" AutoGenerateColumns="True" IsReadOnly="True"></DataGrid>
+                <views:ProxyProviderListView DataContext="{Binding ProxyProviderListViewModel }" />
             </StackPanel>
 
         </Grid>

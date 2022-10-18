@@ -1,15 +1,13 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using ClashGui.ViewModels;
 using ReactiveUI;
 
-namespace ClashGui.Controls;
+namespace ClashGui.Views;
 
-public partial class ProxyProviderListControl : ReactiveUserControl<ProxyProviderListViewModel>
+public partial class ProxiesView : ReactiveUserControl<ProxyViewModel>
 {
-    public ProxyProviderListControl()
+    public ProxiesView()
     {
         InitializeComponent();
     }

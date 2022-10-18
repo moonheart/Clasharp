@@ -27,7 +27,7 @@ public class ConnectionExt
     public string Process => Path.GetFileName(Metadata.ProcessPath);
     public DateTime Start => Connection.Start;
 
-    public string DownloadSpeed { get; set; }
+    public string DownloadSpeed { get; private set; }
 
     public long Download
     {
@@ -39,7 +39,7 @@ public class ConnectionExt
         }
     }
 
-    public string UploadSpeed { get; set; }
+    public string UploadSpeed { get; private set; }
 
     public long Upload
     {

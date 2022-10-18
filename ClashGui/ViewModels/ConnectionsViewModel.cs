@@ -2,28 +2,23 @@
 using System.Collections.ObjectModel;
 using Avalonia.Collections;
 using ClashGui.Clash.Models.Connections;
+using ClashGui.Interfaces;
 using ClashGui.Models.Connections;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace ClashGui.ViewModels;
 
-public class ConnectionsViewModel : ViewModelBase
+public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
 {
     private long _downloadTotal;
     private long _uploadTotal;
 
-    public long DownloadTotal
-    {
-        get => _downloadTotal;
-        set => this.RaiseAndSetIfChanged(ref _downloadTotal, value);
-    }
+    [Reactive]
+    public long DownloadTotal { get; set; }
 
-
-    public long UploadTotal
-    {
-        get => _uploadTotal;
-        set => this.RaiseAndSetIfChanged(ref _uploadTotal, value);
-    }
+    [Reactive]
+    public long UploadTotal { get; set; }
 
 
     // public AvaloniaDictionary<string, ConnectionExt> Connections { get; set; } = new();

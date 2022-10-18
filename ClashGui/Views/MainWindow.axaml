@@ -3,7 +3,7 @@
         xmlns:vm="using:ClashGui.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:ClashGui.Controls"
+        xmlns:views="clr-namespace:ClashGui.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Width="800"
         Height="500"
@@ -18,22 +18,22 @@
     <TabControl TabStripPlacement="Left">
         <TabItem Header="Proxies" FontSize="18">
             <Panel>
-                <controls:ProxiesListControl DataContext="{Binding ProxyListViewModel }" />
+                <views:ProxiesView DataContext="{Binding ProxyListViewModel }" />
             </Panel>
         </TabItem>
         <TabItem Header="Logs" FontSize="18">
             <Panel>
-                <controls:ClashLogsControl DataContext="{Binding ClashLogsViewModel}"></controls:ClashLogsControl>
+                <views:ClashLogsView DataContext="{Binding ClashLogsViewModel}"></views:ClashLogsView>
             </Panel>
         </TabItem>
         <TabItem Header="Rules" FontSize="18">
             <Panel>
-                <controls:ProxyRulesListControl DataContext="{Binding ProxyRulesListViewModel }" />
+                <views:ProxyRulesListView DataContext="{Binding ProxyRulesListViewModel }" />
             </Panel>
         </TabItem>
         <TabItem Header="Connections" FontSize="18">
             <Panel>
-                <controls:ConnectionsControl DataContext="{Binding ConnectionsViewModel }" />
+                <views:ConnectionsView DataContext="{Binding ConnectionsViewModel }" />
             </Panel>
         </TabItem>
     </TabControl>
