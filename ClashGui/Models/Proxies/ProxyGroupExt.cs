@@ -10,15 +10,17 @@ public class ProxyGroupExt
     {
         ProxyGroup = proxyGroup;
         SelectProxies = proxyGroup.All.Select(p => new SelectProxy {Group = proxyGroup.Name, Proxy = p}).ToList();
-        SelectedIndex = proxyGroup.Now == null ? null : proxyGroup.All.IndexOf(proxyGroup.Now);
         LatestHistory = GetLatestHistory();
+        SelectedProxy = ProxyGroup.Now == null
+            ? null
+            : new SelectProxy() {Group = ProxyGroup.Name, Proxy = ProxyGroup.Now};
     }
 
     public ProxyGroup ProxyGroup { get; }
 
     public List<SelectProxy> SelectProxies { get; }
-
-    public int? SelectedIndex { get; }
+    
+    public SelectProxy? SelectedProxy { get; set; }
 
     private string GetLatestHistory()
     {

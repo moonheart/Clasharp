@@ -9,16 +9,8 @@ namespace ClashGui.DesignTime;
 
 public class DesignProxyGroupListViewModel : ViewModelBase, IProxyGroupListViewModel
 {
-    public List<ProxyGroupExt> ProxyGroups => new List<ProxyGroupExt>
+    public List<IProxyGroupViewModel> ProxyGroupViewModels => new()
     {
-        new ProxyGroupExt(new ProxyGroup()
-        {
-            All = new List<string>() {"asdf", "asdfasdf", "fgsdfg"},
-            History = new List<ProxyHistory>() {new ProxyHistory() {Delay = 123, Time = DateTime.Now}},
-            Name = "asdasd",
-            Now = "asdfasdf",
-            Type = "type",
-            Udp = true
-        })
+        new DesignProxyGroupViewModel()
     };
 }

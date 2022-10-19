@@ -5,5 +5,5 @@ namespace ClashGui.Interfaces;
 
 public interface IProxyGroupListViewModel
 {
-    List<ProxyGroupExt> ProxyGroups { get; }
+    List<IProxyGroupViewModel> ProxyGroupViewModels { get; }
 }

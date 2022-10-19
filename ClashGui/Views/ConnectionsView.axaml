@@ -17,6 +17,13 @@
         </StackPanel>
         <DataGrid Name="ConnectionsGrid" Items="{Binding Connections}">
             <DataGrid.Columns>
+                <!-- <DataGridTemplateColumn> -->
+                <!--     <DataGridTemplateColumn.CellTemplate> -->
+                <!--         <DataTemplate DataType="connections:ConnectionExt"> -->
+                <!--             <TextBlock Text="{Binding Host}"></TextBlock> -->
+                <!--         </DataTemplate> -->
+                <!--     </DataGridTemplateColumn.CellTemplate> -->
+                <!-- </DataGridTemplateColumn> -->
                 <DataGridTextColumn Header="Host" Binding="{Binding Host}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Network" Binding="{Binding Network}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Type" Binding="{Binding Type}"></DataGridTextColumn>
