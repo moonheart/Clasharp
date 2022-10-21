@@ -23,6 +23,11 @@
 
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.Styles>
+                <Style Selector="ListBoxItem">
+                    <Setter Property="Padding" Value="3"></Setter>
+                </Style>
+            </ListBox.Styles>
         </ListBox>
     </ScrollViewer>
 </UserControl>
