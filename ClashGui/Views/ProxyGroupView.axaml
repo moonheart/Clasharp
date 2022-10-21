@@ -15,6 +15,7 @@
         </StackPanel>
         <ListBox Background="White" Grid.Row="1" Grid.Column="0" Items="{Binding Proxies}"
                  SelectedItem="{Binding SelectedProxy, Mode=TwoWay}"
+                 IsEnabled="{Binding Enabled}"
                  SelectionMode="Single">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -46,6 +47,14 @@
                     <Setter Property="BorderThickness" Value="1"></Setter>
                     <Setter Property="BorderBrush" Value="Black"></Setter>
                     <Setter Property="Padding" Value="2"></Setter>
+                </Style>
+                <Style Selector="ListBox ListBoxItem:disabled TextBlock">
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                    <Setter Property="Background" Value="White"></Setter>
+                </Style>
+                <Style Selector="ListBox ListBoxItem:disabled:selected TextBlock">
+                    <Setter Property="Foreground" Value="White"></Setter>
+                    <Setter Property="Background" Value="Black"></Setter>
                 </Style>
             </ListBox.Styles>
         </ListBox>

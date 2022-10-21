@@ -22,30 +22,21 @@ public class ProxyGroupViewModel : ViewModelBase, IProxyGroupViewModel
         SelectedProxy = _proxyGroup.Now == null
             ? null
             : new SelectProxy {Group = _proxyGroup.Name, Proxy = _proxyGroup.Now};
+        Enabled = _proxyGroup.Type == ProxyGroupType.Selector;
 
         this.WhenAnyValue(d => d.SelectedProxy)
             .WhereNotNull()
             .Skip(1)
-            .Subscribe( d =>
+            .Subscribe(d =>
             {
-                if (Selectable)
-                {
-                    GlobalConfigs.ClashControllerApi.SelectProxy(d.Group, new UpdateProxyRequest() {Name = d.Proxy}).ConfigureAwait(false).GetAwaiter().GetResult();
-                }
-                else
-                {
-                    SelectedProxy = _proxyGroup.Now == null
-                        ? null
-                        : new SelectProxy {Group = _proxyGroup.Name, Proxy = _proxyGroup.Now};
-                }
+                GlobalConfigs.ClashControllerApi.SelectProxy(d.Group, new UpdateProxyRequest() {Name = d.Proxy})
+                    .ConfigureAwait(false).GetAwaiter().GetResult();
             });
-
     }
 
     public string Name => _proxyGroup.Name;
-    public string Type => _proxyGroup.Type;
+    public ProxyGroupType Type => _proxyGroup.Type;
 
-    public bool Selectable => _proxyGroup.Type == "Selector";
 
     public IEnumerable<SelectProxy> Proxies =>
         _proxyGroup.All.Select(p => new SelectProxy {Group = _proxyGroup.Name, Proxy = p}).ToList();
@@ -53,6 +44,8 @@ public class ProxyGroupViewModel : ViewModelBase, IProxyGroupViewModel
     [Reactive]
     public SelectProxy? SelectedProxy { get; set; }
 
+    public bool Enabled { get; }
+    
     public override bool Equals(object? obj)
     {
         if (obj is ProxyGroupViewModel other)
@@ -62,6 +55,7 @@ public class ProxyGroupViewModel : ViewModelBase, IProxyGroupViewModel
                    && Equals(_proxyGroup.Type, other._proxyGroup.Type)
                    && Equals(_proxyGroup.Now, other._proxyGroup.Now);
         }
+
         return false;
     }
 }

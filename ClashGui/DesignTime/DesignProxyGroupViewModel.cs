@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Avalonia.Controls.Selection;
+using Avalonia.Input;
 using ClashGui.Interfaces;
 using ClashGui.Models.Proxies;
 using ClashGui.ViewModels;
@@ -13,7 +15,7 @@ public class DesignProxyGroupViewModel : ViewModelBase, IProxyGroupViewModel
     }
 
     public string Name => "ssg";
-    public string Type => "HTTP";
+    public ProxyGroupType Type => ProxyGroupType.Http;
 
     public IEnumerable<SelectProxy> Proxies => new[]
     {
@@ -23,4 +25,6 @@ public class DesignProxyGroupViewModel : ViewModelBase, IProxyGroupViewModel
     };
 
     public SelectProxy? SelectedProxy { get; set; }
+
+    public bool Enabled => false;
 }

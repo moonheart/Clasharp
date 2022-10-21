@@ -7,7 +7,7 @@ public interface IProxyGroupViewModel
 {
     string Name { get; }
     
-    string Type { get;  }
+    ProxyGroupType Type { get;  }
     
     IEnumerable<SelectProxy> Proxies { get; }
     
