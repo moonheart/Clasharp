@@ -17,7 +17,6 @@ public partial class ProxyGroupListView : ReactiveUserControl<ProxyGroupListView
 
     private void InitializeComponent()
     {
-        this.WhenActivated(disposable => { });
         AvaloniaXamlLoader.Load(this);
     }
 }

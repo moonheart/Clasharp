@@ -5,6 +5,6 @@ namespace ClashGui.Interfaces;
 
 public interface IClashLogsViewModel
 {
-    ObservableCollection<LogEntryExt> Logs { get; }
+    ReadOnlyObservableCollection<LogEntryExt> Logs { get; }
 
 }

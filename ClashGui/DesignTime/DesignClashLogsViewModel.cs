@@ -10,15 +10,15 @@ public class DesignClashLogsViewModel : ViewModelBase, IClashLogsViewModel
 {
     public DesignClashLogsViewModel()
     {
-        Logs = new ObservableCollection<LogEntryExt>(new []
+        Logs = new ReadOnlyObservableCollection<LogEntryExt>(new(new[]
         {
-            new LogEntryExt(new LogEntry(){Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
-            new LogEntryExt(new LogEntry(){Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
-            new LogEntryExt(new LogEntry(){Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
-            new LogEntryExt(new LogEntry(){Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
-            new LogEntryExt(new LogEntry(){Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
-        });
+            new LogEntryExt(new LogEntry() {Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
+            new LogEntryExt(new LogEntry() {Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
+            new LogEntryExt(new LogEntry() {Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
+            new LogEntryExt(new LogEntry() {Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
+            new LogEntryExt(new LogEntry() {Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
+        }));
     }
 
-    public ObservableCollection<LogEntryExt> Logs { get; set; }
+    public ReadOnlyObservableCollection<LogEntryExt> Logs { get; set; }
 }
