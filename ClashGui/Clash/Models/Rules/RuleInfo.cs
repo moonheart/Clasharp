@@ -1,4 +1,6 @@
-﻿namespace ClashGui.Clash.Models.Rules;
+﻿using System;
+
+namespace ClashGui.Clash.Models.Rules;
 
 public class RuleInfo
 {
@@ -9,4 +11,22 @@ public class RuleInfo
 
 
     public string Proxy { get; set; }
+
+    protected bool Equals(RuleInfo other)
+    {
+        return Type == other.Type && Payload == other.Payload && Proxy == other.Proxy;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((RuleInfo) obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Type, Payload, Proxy);
+    }
 }

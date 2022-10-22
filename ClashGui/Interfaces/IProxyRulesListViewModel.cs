@@ -6,6 +6,6 @@ namespace ClashGui.Interfaces;
 
 public interface IProxyRulesListViewModel
 {
-    ObservableCollection<RuleInfo> Rules { get; }
-    ObservableCollection<RuleProvider> Providers { get; }
+    ReadOnlyObservableCollection<RuleInfo> Rules { get; }
+    ReadOnlyObservableCollection<RuleProvider> Providers { get; }
 }

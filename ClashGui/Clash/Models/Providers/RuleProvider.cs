@@ -10,4 +10,22 @@ public class RuleProvider
     public string Type { get; set; }
     public DateTime UpdatedAt { get; set; }
     public VehicleType VehicleType { get; set; }
+
+    protected bool Equals(RuleProvider other)
+    {
+        return Behavior == other.Behavior && Name == other.Name && RuleCount == other.RuleCount && Type == other.Type && UpdatedAt.Equals(other.UpdatedAt) && VehicleType == other.VehicleType;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((RuleProvider) obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Behavior, Name, RuleCount, Type, UpdatedAt, (int) VehicleType);
+    }
 }

@@ -8,11 +8,8 @@ using ClashGui.ViewModels;
 
 namespace ClashGui.Views;
 
-public partial class ProxyRulesListView : ReactiveUserControl<ProxyRulesListViewModel>, IDisposable
+public partial class ProxyRulesListView : ReactiveUserControl<ProxyRulesListViewModel>
 {
-    private Timer _loadRulesTimer;
-    private Timer _loadRuleProvidersTimer;
-
     public ProxyRulesListView()
     {
         InitializeComponent();
@@ -21,49 +18,5 @@ public partial class ProxyRulesListView : ReactiveUserControl<ProxyRulesListView
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
-        _loadRulesTimer = new Timer(_ => LoadRules().ConfigureAwait(false).GetAwaiter().GetResult(),
-            null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
-        _loadRuleProvidersTimer = new Timer(_ => LoadRuleProviders().ConfigureAwait(false).GetAwaiter().GetResult(),
-            null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
-    }
-
-    private async Task LoadRules()
-    {
-        var data = await GlobalConfigs.ClashControllerApi.GetRules();
-        var rules = data.Rules;
-        await Dispatcher.UIThread.InvokeAsync(() =>
-        {
-            if (ViewModel != null && rules != null)
-            {
-                ViewModel.Rules.Clear();
-                foreach (var rule in rules)
-                {
-                    ViewModel.Rules.Add(rule);
-                }
-            }
-        }, DispatcherPriority.Background);
-    }
-
-    private async Task LoadRuleProviders()
-    {
-        var data = await GlobalConfigs.ClashControllerApi.GetRuleProviders();
-        var providers = data.Providers?.Values;
-        await Dispatcher.UIThread.InvokeAsync(() =>
-        {
-            if (ViewModel != null && providers != null)
-            {
-                ViewModel.Providers.Clear();
-                foreach (var provider in providers)
-                {
-                    ViewModel.Providers.Add(provider);
-                }
-            }
-        }, DispatcherPriority.Background);
-    }
-
-    public void Dispose()
-    {
-        _loadRulesTimer.Dispose();
-        _loadRuleProvidersTimer.Dispose();
     }
 }
