@@ -12,28 +12,22 @@
     </Design.DataContext>
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding DownloadTotal }"></TextBlock>
+            <TextBlock Margin="0 0  5 0" Text="{Binding DownloadTotal }"></TextBlock>
             <TextBlock Text="{Binding UploadTotal }"></TextBlock>
         </StackPanel>
-        <DataGrid Name="ConnectionsGrid" Items="{Binding Connections}">
+        <DataGrid Name="ConnectionsGrid" Items="{Binding Connections}"
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <DataGrid.Columns>
-                <!-- <DataGridTemplateColumn> -->
-                <!--     <DataGridTemplateColumn.CellTemplate> -->
-                <!--         <DataTemplate DataType="connections:ConnectionExt"> -->
-                <!--             <TextBlock Text="{Binding Host}"></TextBlock> -->
-                <!--         </DataTemplate> -->
-                <!--     </DataGridTemplateColumn.CellTemplate> -->
-                <!-- </DataGridTemplateColumn> -->
                 <DataGridTextColumn Header="Host" Binding="{Binding Host}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Network" Binding="{Binding Network}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Type" Binding="{Binding Type}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Chains" Binding="{Binding Chains}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Process" Binding="{Binding Process}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Start" Binding="{Binding Start}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Download" SortMemberPath="Download" Binding="{Binding DownloadSpeed}">
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Upload" SortMemberPath="Upload" Binding="{Binding UploadSpeed}">
-                </DataGridTextColumn>
+                <DataGridTextColumn Header="Download" SortMemberPath="DownloadSpeed" Binding="{Binding DownloadSpeed}" />
+                <DataGridTextColumn Header="Upload" SortMemberPath="UploadSpeed" Binding="{Binding UploadSpeed}" />
+                <DataGridTextColumn Header="Download" SortMemberPath="DownloadSpeed" Binding="{Binding DownloadTotal}" />
+                <DataGridTextColumn Header="Upload" SortMemberPath="UploadSpeed" Binding="{Binding UploadTotal}" />
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>
