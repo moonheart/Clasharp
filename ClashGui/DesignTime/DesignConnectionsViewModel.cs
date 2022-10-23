@@ -11,6 +11,7 @@ namespace ClashGui.DesignTime;
 
 public class DesignConnectionsViewModel : ViewModelBase, IConnectionsViewModel
 {
+    public override string Name => "Connections";
     public string DownloadTotal { get; set; } = "↓ 123124KB";
 
     public string UploadTotal { get; set; } = "↑ 123124KB";

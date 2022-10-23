@@ -9,6 +9,7 @@ namespace ClashGui.ViewModels;
 
 public class ProxiesViewModel : ViewModelBase, IProxiesViewModel
 {
+    public override string Name => "Proxies";
     public ProxiesViewModel()
     {
         ProxyGroupListViewModel = new ProxyGroupListViewModel();

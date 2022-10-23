@@ -17,6 +17,7 @@ namespace ClashGui.ViewModels;
 
 public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
 {
+    public override string Name => "Connections";
     public ConnectionsViewModel()
     {
         var connectionInfo = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))

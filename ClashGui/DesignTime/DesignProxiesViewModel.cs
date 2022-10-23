@@ -5,6 +5,8 @@ namespace ClashGui.DesignTime;
 
 public class DesignProxiesViewModel : ViewModelBase, IProxiesViewModel
 {
+    public override string Name => "Proxies";
+
     public DesignProxiesViewModel()
     {
         ProxyGroupListViewModel = new DesignProxyGroupListViewModel();

@@ -2,5 +2,5 @@
 
 public interface IViewModelBase
 {
-    string Name { get; set; }
+    string Name { get; }
 }

@@ -14,6 +14,7 @@ namespace ClashGui.ViewModels;
 
 public class ClashLogsViewModel : ViewModelBase, IClashLogsViewModel
 {
+    public override string Name => "Logs";
     public ClashLogsViewModel()
     {
         LogsSource = new ObservableCollectionExtended<LogEntryExt>();

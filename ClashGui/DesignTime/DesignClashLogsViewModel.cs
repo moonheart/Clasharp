@@ -8,6 +8,7 @@ namespace ClashGui.DesignTime;
 
 public class DesignClashLogsViewModel : ViewModelBase, IClashLogsViewModel
 {
+    public override string Name => "Logs";
     public DesignClashLogsViewModel()
     {
         Logs = new ReadOnlyObservableCollection<LogEntryExt>(new(new[]

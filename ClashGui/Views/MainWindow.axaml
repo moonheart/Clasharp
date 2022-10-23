@@ -3,9 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:designTime="clr-namespace:ClashGui.DesignTime"
-        xmlns:interfaces="clr-namespace:ClashGui.Interfaces"
         xmlns:views="clr-namespace:ClashGui.Views"
-        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Width="800"
         Height="500"
@@ -19,7 +17,7 @@
 
     <Grid
         ColumnDefinitions="Auto,*">
-        <Grid RowDefinitions="*,Auto">
+        <Grid RowDefinitions="*,Auto" Background="#fff2f2f2" Width="120">
                 <ListBox Items="{Binding Selections}" SelectedItem="{Binding CurrentViewModel}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -28,6 +26,11 @@
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                            <Setter Property="Background" Value="White"></Setter>
+                        </Style>
+                    </ListBox.Styles>
                 </ListBox>
                 <views:ClashInfoView Grid.Row="1" DataContext="{Binding ClashInfoViewModel}"/>
         </Grid>

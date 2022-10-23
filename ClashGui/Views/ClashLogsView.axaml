@@ -10,7 +10,7 @@
         <designTime:DesignClashLogsViewModel />
     </Design.DataContext>
     <ScrollViewer>
-        <ListBox Items="{Binding Logs}">
+        <ListBox Items="{Binding Logs}" Background="White">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -20,7 +20,6 @@
                         </StackPanel>
                         <TextBlock Text="{Binding Payload}" TextWrapping="Wrap"></TextBlock>
                     </StackPanel>
-
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.Styles>

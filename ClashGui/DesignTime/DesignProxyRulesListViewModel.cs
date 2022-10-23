@@ -9,6 +9,7 @@ namespace ClashGui.DesignTime;
 
 public class DesignProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
 {
+    public override string Name => "Rules";
     public ReadOnlyObservableCollection<RuleInfo> Rules { get; } = new(new(new[]
         {new RuleInfo() {Type = "type", Payload = "paylaod", Proxy = "ssdfsdf"}}));
 

@@ -14,6 +14,7 @@ namespace ClashGui.ViewModels;
 
 public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
 {
+    public override string Name => "Rules";
     public ProxyRulesListViewModel()
     {
         RuleInfoSource = new ObservableCollectionExtended<RuleInfo>();

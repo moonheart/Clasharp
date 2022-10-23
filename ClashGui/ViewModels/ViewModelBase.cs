@@ -5,11 +5,7 @@ namespace ClashGui.ViewModels
 {
     public class ViewModelBase : ReactiveObject, IViewModelBase
     {
-        public string Name { get; set; }
+        public virtual string Name { get; }
 
-        public ViewModelBase()
-        {
-            Name = this.GetType().Name.Replace("ViewModel", "");
-        }
     }
 }
