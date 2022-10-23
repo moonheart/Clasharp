@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using ClashGui.Clash.Models.Providers;
 using ClashGui.Interfaces;
 using ClashGui.Models.Proxies;
@@ -16,14 +17,14 @@ public class ProxyProviderViewModel : ViewModelBase, IProxyProviderViewModel
     public ProxyProviderViewModel(ProxyProvider proxyProvider)
     {
         _proxyProvider = proxyProvider;
-        
+
         CheckCommand = ReactiveCommand.CreateFromTask<string>(async name =>
             await GlobalConfigs.ClashControllerApi.HealthCheckProxyProvider(name));
         UpdateCommand = ReactiveCommand.CreateFromTask<string>(async name =>
             await GlobalConfigs.ClashControllerApi.UpdateProxyProvider(name));
-        
-        CheckCommand.IsExecuting.ToPropertyEx(this, d => d.IsLoading);
-        UpdateCommand.IsExecuting.ToPropertyEx(this, d => d.IsLoading);
+
+        CheckCommand.IsExecuting.Merge(UpdateCommand.IsExecuting)
+            .ToPropertyEx(this, d => d.IsLoading);
     }
 
     public bool IsLoading { [ObservableAsProperty] get; }
