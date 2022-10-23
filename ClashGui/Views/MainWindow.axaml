@@ -19,16 +19,7 @@
 
     <Grid
         ColumnDefinitions="Auto,*">
-        <Panel>
-            <StackPanel>
-                <StackPanel.Styles>
-                    <Style Selector="RadioButton>Border>Grid>Grid">
-                        <Setter Property="IsVisible" Value="False"></Setter>
-                    </Style>
-                    <Style Selector="RadioButton>Border>Grid>ContentPresenter">
-                        <Setter Property="Margin" Value="-20 0 0 0"></Setter>
-                    </Style>
-                </StackPanel.Styles>
+        <Grid RowDefinitions="*,Auto">
                 <ListBox Items="{Binding Selections}" SelectedItem="{Binding CurrentViewModel}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -38,10 +29,10 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </StackPanel>
-        </Panel>
+                <views:ClashInfoView Grid.Row="1" DataContext="{Binding ClashInfoViewModel}"/>
+        </Grid>
         <Panel Grid.Column="1" DataContext="{Binding CurrentViewModel}">
-            <ContentControl Margin="10 0 0 0" Content="{Binding}"></ContentControl>
+            <ContentControl Padding="10 0 10 0" Content="{Binding}"></ContentControl>
         </Panel>
     </Grid>
 </Window>

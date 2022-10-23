@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Reactive.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ClashGui.Clash.Models.Logs;
 using ClashGui.Interfaces;
 using ClashGui.Models.Logs;
-using ClashGui.Utils;
 using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;

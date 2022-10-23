@@ -15,6 +15,7 @@ namespace ClashGui.DesignTime
             ClashLogsViewModel = new DesignClashLogsViewModel();
             ProxyRulesListViewModel = new DesignProxyRulesListViewModel();
             ConnectionsViewModel = new DesignConnectionsViewModel();
+            ClashInfoViewModel = new DesignClashInfoViewModel();
 
             Selections = new ObservableCollection<IViewModelBase>();
             Selections.AddRange(new IViewModelBase[]
@@ -36,6 +37,7 @@ namespace ClashGui.DesignTime
         public IProxyRulesListViewModel ProxyRulesListViewModel { get; }
 
         public IConnectionsViewModel ConnectionsViewModel { get; }
+        public IClashInfoViewModel ClashInfoViewModel { get; }
         public ObservableCollection<IViewModelBase> Selections { get; }
     }
 }

@@ -13,6 +13,7 @@ public interface IMainWindowViewModel: IViewModelBase
     IProxyRulesListViewModel ProxyRulesListViewModel { get; }
 
     IConnectionsViewModel ConnectionsViewModel { get; }
+    IClashInfoViewModel ClashInfoViewModel { get; }
     
     ObservableCollection<IViewModelBase> Selections { get; }
 }
