@@ -1,6 +1,6 @@
 ﻿namespace ClashGui.Interfaces;
 
-public interface IProxyListViewModel
+public interface IProxiesViewModel: IViewModelBase
 {
     IProxyGroupListViewModel ProxyGroupListViewModel { get; }
     IProxyProviderListViewModel ProxyProviderListViewModel { get; }

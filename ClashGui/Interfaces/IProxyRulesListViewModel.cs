@@ -4,7 +4,7 @@ using ClashGui.Clash.Models.Rules;
 
 namespace ClashGui.Interfaces;
 
-public interface IProxyRulesListViewModel
+public interface IProxyRulesListViewModel: IViewModelBase
 {
     ReadOnlyObservableCollection<RuleInfo> Rules { get; }
     ReadOnlyObservableCollection<RuleProvider> Providers { get; }

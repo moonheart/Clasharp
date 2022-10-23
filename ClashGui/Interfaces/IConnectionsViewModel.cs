@@ -5,7 +5,7 @@ using ClashGui.Models.Connections;
 
 namespace ClashGui.Interfaces;
 
-public interface IConnectionsViewModel
+public interface IConnectionsViewModel: IViewModelBase
 {
     public string DownloadTotal { get; }
     public string UploadTotal { get; }

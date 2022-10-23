@@ -3,7 +3,7 @@ using ClashGui.Models.Proxies;
 
 namespace ClashGui.Interfaces;
 
-public interface IProxyGroupViewModel
+public interface IProxyGroupViewModel: IViewModelBase
 {
     string Name { get; }
     

@@ -3,7 +3,7 @@ using ClashGui.Models.Providers;
 
 namespace ClashGui.Interfaces;
 
-public interface IProxyProviderListViewModel
+public interface IProxyProviderListViewModel: IViewModelBase
 {
     List<ProxyProviderExt> ProxyProviders { get; }
 }

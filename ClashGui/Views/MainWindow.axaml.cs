@@ -8,5 +8,7 @@ namespace ClashGui.Views
         {
             InitializeComponent();
         }
+
+    
     }
 }

@@ -3,7 +3,7 @@ using ClashGui.Models.Logs;
 
 namespace ClashGui.Interfaces;
 
-public interface IClashLogsViewModel
+public interface IClashLogsViewModel: IViewModelBase
 {
     ReadOnlyObservableCollection<LogEntryExt> Logs { get; }
 

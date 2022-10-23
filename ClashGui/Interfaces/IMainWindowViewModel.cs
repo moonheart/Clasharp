@@ -1,12 +1,18 @@
-﻿namespace ClashGui.Interfaces;
+﻿using System.Collections.ObjectModel;
 
-public interface IMainWindowViewModel
+namespace ClashGui.Interfaces;
+
+public interface IMainWindowViewModel: IViewModelBase
 {
-    public IProxyListViewModel ProxyListViewModel { get; }
+    IViewModelBase CurrentViewModel { get; set; }
+    
+    IProxiesViewModel ProxiesViewModel { get; }
 
-    public IClashLogsViewModel ClashLogsViewModel { get; }
+    IClashLogsViewModel ClashLogsViewModel { get; }
 
-    public IProxyRulesListViewModel ProxyRulesListViewModel { get; }
+    IProxyRulesListViewModel ProxyRulesListViewModel { get; }
 
-    public IConnectionsViewModel ConnectionsViewModel { get; }
+    IConnectionsViewModel ConnectionsViewModel { get; }
+    
+    ObservableCollection<IViewModelBase> Selections { get; }
 }

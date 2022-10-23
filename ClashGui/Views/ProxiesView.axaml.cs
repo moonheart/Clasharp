@@ -5,7 +5,7 @@ using ReactiveUI;
 
 namespace ClashGui.Views;
 
-public partial class ProxiesView : ReactiveUserControl<ProxyViewModel>
+public partial class ProxiesView : ReactiveUserControl<ProxiesViewModel>
 {
     public ProxiesView()
     {

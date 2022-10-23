@@ -1,9 +1,11 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:ClashGui.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:designTime="clr-namespace:ClashGui.DesignTime"
+        xmlns:interfaces="clr-namespace:ClashGui.Interfaces"
         xmlns:views="clr-namespace:ClashGui.Views"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Width="800"
         Height="500"
@@ -12,31 +14,34 @@
         Title="ClashGui">
 
     <Design.DataContext>
-        <vm:MainWindowViewModel />
+        <designTime:DesignMainWindowViewModel />
     </Design.DataContext>
 
-    <TabControl TabStripPlacement="Left">
-        <TabItem Header="Proxies" FontSize="18">
-            <Panel>
-                <views:ProxiesView DataContext="{Binding ProxyListViewModel }" />
-            </Panel>
-        </TabItem>
-        <TabItem Header="Logs" FontSize="18">
-            <Panel>
-                <views:ClashLogsView DataContext="{Binding ClashLogsViewModel}"></views:ClashLogsView>
-            </Panel>
-        </TabItem>
-        <TabItem Header="Rules" FontSize="18">
-            <Panel>
-                <views:ProxyRulesListView DataContext="{Binding ProxyRulesListViewModel }" />
-            </Panel>
-        </TabItem>
-        <TabItem Header="Connections" FontSize="18">
-            <Panel>
-                <views:ConnectionsView DataContext="{Binding ConnectionsViewModel }" />
-            </Panel>
-        </TabItem>
-    </TabControl>
-
-
+    <Grid
+        ColumnDefinitions="Auto,*">
+        <Panel>
+            <StackPanel>
+                <StackPanel.Styles>
+                    <Style Selector="RadioButton>Border>Grid>Grid">
+                        <Setter Property="IsVisible" Value="False"></Setter>
+                    </Style>
+                    <Style Selector="RadioButton>Border>Grid>ContentPresenter">
+                        <Setter Property="Margin" Value="-20 0 0 0"></Setter>
+                    </Style>
+                </StackPanel.Styles>
+                <ListBox Items="{Binding Selections}" SelectedItem="{Binding CurrentViewModel}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border>
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Panel>
+        <Panel Grid.Column="1" DataContext="{Binding CurrentViewModel}">
+            <ContentControl Margin="10 0 0 0" Content="{Binding}"></ContentControl>
+        </Panel>
+    </Grid>
 </Window>

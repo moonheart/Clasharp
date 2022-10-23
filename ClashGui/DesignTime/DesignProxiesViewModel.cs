@@ -3,9 +3,9 @@ using ClashGui.ViewModels;
 
 namespace ClashGui.DesignTime;
 
-public class DesignProxyListViewModel : ViewModelBase, IProxyListViewModel
+public class DesignProxiesViewModel : ViewModelBase, IProxiesViewModel
 {
-    public DesignProxyListViewModel()
+    public DesignProxiesViewModel()
     {
         ProxyGroupListViewModel = new DesignProxyGroupListViewModel();
         ProxyProviderListViewModel = new DesignProxyProviderListViewModel();
@@ -13,6 +13,4 @@ public class DesignProxyListViewModel : ViewModelBase, IProxyListViewModel
 
     public IProxyGroupListViewModel ProxyGroupListViewModel { get; }
     public IProxyProviderListViewModel ProxyProviderListViewModel { get; }
-
-
 }

@@ -7,9 +7,9 @@ using ReactiveUI;
 
 namespace ClashGui.ViewModels;
 
-public class ProxyViewModel : ViewModelBase, IProxyListViewModel
+public class ProxiesViewModel : ViewModelBase, IProxiesViewModel
 {
-    public ProxyViewModel()
+    public ProxiesViewModel()
     {
         ProxyGroupListViewModel = new ProxyGroupListViewModel();
         ProxyProviderListViewModel = new ProxyProviderListViewModel();
