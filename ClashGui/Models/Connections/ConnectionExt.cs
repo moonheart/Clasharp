@@ -8,7 +8,7 @@ using ReactiveUI;
 
 namespace ClashGui.Models.Connections;
 
-public class ConnectionExt
+public class ConnectionExt: ViewModelBase
 {
     private readonly Connection _connection;
     public Connection Connection => _connection;
@@ -30,7 +30,8 @@ public class ConnectionExt
     public string Process => Path.GetFileName(Metadata.ProcessPath);
     public DateTime Start => _connection.Start;
 
-    public string DownloadSpeed { get; private set; }
+    public string DownloadSpeedDesc { get; private set; }
+    public long DownloadSpeed { get; private set; }
     public string DownloadTotal { get; private set; }
 
     public long Download
@@ -38,13 +39,18 @@ public class ConnectionExt
         get => _connection.Download;
         set
         {
-            DownloadSpeed = $"↓ {(value - _connection.Download).ToHumanSize()}/s";
+            DownloadSpeed = value - _connection.Download;
+            DownloadSpeedDesc = $"↓ {DownloadSpeed.ToHumanSize()}/s";
             _connection.Download = value;
             DownloadTotal = $"↓ {_connection.Download.ToHumanSize()}";
+            this.RaisePropertyChanged(nameof(DownloadSpeedDesc));
+            this.RaisePropertyChanged(nameof(DownloadSpeed));
+            this.RaisePropertyChanged(nameof(DownloadTotal));
         }
     }
 
-    public string UploadSpeed { get; private set; }
+    public string UploadSpeedDesc { get; private set; }
+    public long UploadSpeed { get; private set; }
     public string UploadTotal { get; private set; }
 
     public long Upload
@@ -52,9 +58,13 @@ public class ConnectionExt
         get => _connection.Upload;
         set
         {
-            UploadSpeed = $"↑ {(value - _connection.Upload).ToHumanSize()}/s";
+            UploadSpeed = value - _connection.Upload;
+            UploadSpeedDesc = $"↑ {UploadSpeed.ToHumanSize()}/s";
             _connection.Upload = value;
             UploadTotal = $"↓ {_connection.Upload.ToHumanSize()}";
+            this.RaisePropertyChanged(nameof(UploadSpeedDesc));
+            this.RaisePropertyChanged(nameof(UploadSpeed));
+            this.RaisePropertyChanged(nameof(UploadTotal));
         }
     }
 
