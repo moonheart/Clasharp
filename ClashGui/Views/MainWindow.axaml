@@ -17,12 +17,16 @@
 
     <Grid
         ColumnDefinitions="Auto,*">
-        <Grid RowDefinitions="*,Auto" Background="#fff2f2f2" Width="120">
+        <Grid RowDefinitions="*,Auto" Background="#fff2f2f2" Width="135">
                 <ListBox Items="{Binding Selections}" SelectedItem="{Binding CurrentViewModel}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border>
-                                <TextBlock Text="{Binding Name}"></TextBlock>
+                                <TextBlock
+                                    Text="{Binding Name}"
+                                    FontSize="18"
+                                    FontWeight="DemiBold"
+                                    ></TextBlock>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
