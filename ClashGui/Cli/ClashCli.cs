@@ -8,7 +8,7 @@ namespace ClashGui.Cli;
 
 public interface IClashCli
 {
-    IObservable<RunningState> Running { get; }
+    RunningState Running { get; }
 
     Task Start();
 }
@@ -30,18 +30,18 @@ public class ClashCli: IClashCli
     private static string _mainConfig = Path.Combine(_programHome, "config.yaml");
     private static string _clashExe = Path.Combine(_programHome, "clash-windows-amd64.exe");
 
-    public IObservable<RunningState> Running => _isRunning;
+    public RunningState Running => _isRunning;
 
-    private readonly ISubject<RunningState> _isRunning = new ReplaySubject<RunningState>();
+    private RunningState _isRunning;
 
     public ClashCli()
     {
-        _isRunning.OnNext(RunningState.Stopped);
+        _isRunning = RunningState.Stopped;
     }
 
     public async Task Start()
     {
-        _isRunning.OnNext(RunningState.Starting);
+        _isRunning = RunningState.Starting;
 
         await EnsureConfig();
 
@@ -56,7 +56,7 @@ public class ClashCli: IClashCli
             }
         };
         _process.Start();
-        _isRunning.OnNext(RunningState.Started);
+        _isRunning = RunningState.Started;
     }
 
     private async Task EnsureConfig()

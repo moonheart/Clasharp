@@ -14,7 +14,7 @@ public interface IClashControllerApi
     #region Hello
 
     [Get("/")]
-    Task<ClashHello> Hello();
+    Task<ClashHello?> Hello();
 
     #endregion
 
@@ -45,7 +45,7 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/version")]
-    Task<VersionInfo> GetClashVersion();
+    Task<VersionInfo?> GetClashVersion();
 
     #endregion
 
@@ -56,7 +56,7 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/configs")]
-    Task<Configs> GetBaseConfigs();
+    Task<Configs?> GetBaseConfigs();
 
     /// <summary>
     /// Update base configs
@@ -84,7 +84,7 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/proxies")]
-    Task<ProxyData> GetProxyGroups();
+    Task<ProxyData?> GetProxyGroups();
 
     /// <summary>
     /// Get specific proxy information
@@ -92,7 +92,7 @@ public interface IClashControllerApi
     /// <param name="name"></param>
     /// <returns></returns>
     [Get("/proxies/{name}")]
-    Task<ProxyGroup> GetProxyInfo(string name);
+    Task<ProxyGroup?> GetProxyInfo(string name);
 
     /// <summary>
     /// Select specific proxy
@@ -108,7 +108,7 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/proxies/{name}/delay")]
-    Task<ProxyDelayInfo> GetProxyDelay(string name, [AliasAs("timeout")] int timeoutMillisecond = 1000);
+    Task<ProxyDelayInfo?> GetProxyDelay(string name, [AliasAs("timeout")] int timeoutMillisecond = 1000);
 
     #endregion
 
@@ -119,7 +119,7 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/rules")]
-    Task<RuleData> GetRules();
+    Task<RuleData?> GetRules();
 
     #endregion
 
@@ -130,7 +130,7 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/connections")]
-    Task<ConnectionInfo> GetConnections();
+    Task<ConnectionInfo?> GetConnections();
 
     /// <summary>
     /// Close all connections
@@ -156,14 +156,14 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/providers/proxies")]
-    Task<ProviderData<ProxyProvider>> GetProxyProviders();
+    Task<ProviderData<ProxyProvider>?> GetProxyProviders();
 
     /// <summary>
     /// Get proxies information for specific proxy-provider
     /// </summary>
     /// <returns></returns>
     [Get("/providers/proxies/{name}")]
-    Task<ProxyProvider> GetProxyProvider(string name);
+    Task<ProxyProvider?> GetProxyProvider(string name);
 
     /// <summary>
     /// Update specific proxy-provider
@@ -190,14 +190,14 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/providers/rules")]
-    Task<ProviderData<RuleProvider>> GetRuleProviders();
+    Task<ProviderData<RuleProvider>?> GetRuleProviders();
 
     /// <summary>
     /// Get rules information for specific rule-provider
     /// </summary>
     /// <returns></returns>
     [Get("/providers/rules/{name}")]
-    Task<ProxyProvider> GetRuleProvider(string name);
+    Task<ProxyProvider?> GetRuleProvider(string name);
 
     /// <summary>
     /// Update specific rule-provider

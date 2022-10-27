@@ -45,7 +45,7 @@ public class ProxyGroupListViewModel : ViewModelBase, IProxyGroupListViewModel
     private async Task<List<ProxyGroup>> GetProxyGroups(long _)
     {
         var proxyData = await GlobalConfigs.ClashControllerApi.GetProxyGroups();
-        return proxyData.Proxies?.Values.Where(d => !NotShownProxyGroups.Contains(d.Name)).ToList() ??
+        return proxyData?.Proxies?.Values.Where(d => !NotShownProxyGroups.Contains(d.Name)).ToList() ??
                new List<ProxyGroup>();
     }
 

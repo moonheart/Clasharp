@@ -29,7 +29,7 @@ public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
 
         Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
             .SelectMany(async _ => await GlobalConfigs.ClashControllerApi.GetRules())
-            .Select(d=>d.Rules ?? new List<RuleInfo>())
+            .Select(d=>d?.Rules ?? new List<RuleInfo>())
             .Where(d=> !RuleInfoSource.SequenceEqual(d))
             .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(d =>
@@ -40,7 +40,7 @@ public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
 
         Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
             .SelectMany(async _ => await GlobalConfigs.ClashControllerApi.GetRuleProviders())
-            .Select(d=>d.Providers?.Values.ToList() ?? new List<RuleProvider>())
+            .Select(d=>d?.Providers?.Values.ToList() ?? new List<RuleProvider>())
             .Where(d=> !RuleProviderSource.SequenceEqual(d))
             .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(d =>

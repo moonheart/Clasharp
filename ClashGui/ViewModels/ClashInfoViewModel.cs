@@ -18,6 +18,7 @@ namespace ClashGui.ViewModels;
 public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
 {
     private IClashCli _clashCli;
+
     public ClashInfoViewModel(IClashCli clashCli)
     {
         _clashCli = clashCli;
@@ -28,6 +29,7 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
 
         _version = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
             .SelectMany(async _ => await GlobalConfigs.ClashControllerApi.GetClashVersion())
+            .WhereNotNull()
             .Select(d => $"{d.Version}\n{(d.Premium ? "Premium" : "")}")
             .ToProperty(this, d => d.Version);
 

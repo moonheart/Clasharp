@@ -21,7 +21,8 @@ public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
     public ConnectionsViewModel()
     {
         var connectionInfo = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
-            .SelectMany(async _ => await GlobalConfigs.ClashControllerApi.GetConnections());
+            .SelectMany(async _ => await GlobalConfigs.ClashControllerApi.GetConnections())
+            .Select(d=>d ?? new ConnectionInfo {Connections = new List<Connection>()});
 
         _downloadTotal = connectionInfo.Select(d => $"↓ {d.DownloadTotal.ToHumanSize()}")
             .ToProperty(this, d => d.DownloadTotal);

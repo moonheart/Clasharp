@@ -33,7 +33,7 @@ public class ProxyProviderListViewModel : ViewModelBase, IProxyProviderListViewM
     private async Task<List<ProxyProvider>?> GetProxyGroups(long _)
     {
         var providerData = await GlobalConfigs.ClashControllerApi.GetProxyProviders();
-        return providerData.Providers?.Values.Where(d =>
+        return providerData?.Providers?.Values.Where(d =>
             d.VehicleType != VehicleType.Compatible && d.VehicleType != VehicleType.Unknown).ToList();
     }
 }
