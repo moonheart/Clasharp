@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ClashGui.Clash.Models;
+using ClashGui.Cli;
 using ClashGui.Interfaces;
 using ClashGui.Utils;
 using DynamicData;
@@ -16,8 +17,10 @@ namespace ClashGui.ViewModels;
 
 public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
 {
-    public ClashInfoViewModel()
+    private IClashCli _clashCli;
+    public ClashInfoViewModel(IClashCli clashCli)
     {
+        _clashCli = clashCli;
         MessageBus.Current.Listen<TrafficEntry>().Subscribe(d =>
         {
             RealtimeSpeed = $"↑ {d.Up.ToHumanSize()}/s\n↓ {d.Down.ToHumanSize()}/s";

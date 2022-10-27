@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Linq;
+using ClashGui.Cli;
 using ClashGui.Interfaces;
 using DynamicData;
 using ReactiveUI;
@@ -10,14 +11,22 @@ namespace ClashGui.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
-        public MainWindowViewModel()
+        private IClashCli _clashCli;
+        public MainWindowViewModel(
+            IProxiesViewModel proxiesViewModel,
+            IClashLogsViewModel clashLogsViewModel,
+            IProxyRulesListViewModel proxyRulesListViewModel,
+            IConnectionsViewModel connectionsViewModel,
+            IClashInfoViewModel clashInfoViewModel, 
+            IClashCli clashCli)
         {
-            ProxiesViewModel = new ProxiesViewModel();
-            ClashLogsViewModel = new ClashLogsViewModel();
-            ProxyRulesListViewModel = new ProxyRulesListViewModel();
-            ConnectionsViewModel = new ConnectionsViewModel();
-            ClashInfoViewModel = new ClashInfoViewModel();
-            
+            ProxiesViewModel = proxiesViewModel;
+            ClashLogsViewModel = clashLogsViewModel;
+            ProxyRulesListViewModel = proxyRulesListViewModel;
+            ConnectionsViewModel = connectionsViewModel;
+            ClashInfoViewModel = clashInfoViewModel;
+            _clashCli = clashCli;
+
             Selections = new ObservableCollection<IViewModelBase>();
             Selections.AddRange(new IViewModelBase[]
             {
@@ -27,6 +36,7 @@ namespace ClashGui.ViewModels
                 ConnectionsViewModel
             });
             CurrentViewModel = ProxiesViewModel;
+            // _ = _clashCli.Start();
         }
 
         [Reactive]

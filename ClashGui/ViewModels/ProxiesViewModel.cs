@@ -10,10 +10,10 @@ namespace ClashGui.ViewModels;
 public class ProxiesViewModel : ViewModelBase, IProxiesViewModel
 {
     public override string Name => "Proxies";
-    public ProxiesViewModel()
+    public ProxiesViewModel(IProxyGroupListViewModel proxyGroupListViewModel, IProxyProviderListViewModel proxyProviderListViewModel)
     {
-        ProxyGroupListViewModel = new ProxyGroupListViewModel();
-        ProxyProviderListViewModel = new ProxyProviderListViewModel();
+        ProxyGroupListViewModel = proxyGroupListViewModel;
+        ProxyProviderListViewModel = proxyProviderListViewModel;
     }
 
     public IProxyGroupListViewModel ProxyGroupListViewModel { get; }

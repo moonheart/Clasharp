@@ -1,8 +1,11 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using ClashGui.Cli;
+using ClashGui.Interfaces;
 using ClashGui.ViewModels;
 using ClashGui.Views;
+using Splat;
 
 namespace ClashGui
 {
@@ -15,11 +18,22 @@ namespace ClashGui
 
         public override void OnFrameworkInitializationCompleted()
         {
+            SplatRegistrations.RegisterLazySingleton<IClashCli, ClashCli>();
+            SplatRegistrations.RegisterLazySingleton<IMainWindowViewModel, MainWindowViewModel>();
+            SplatRegistrations.RegisterLazySingleton<IProxiesViewModel, ProxiesViewModel>();
+            SplatRegistrations.RegisterLazySingleton<IClashLogsViewModel, ClashLogsViewModel>();
+            SplatRegistrations.RegisterLazySingleton<IProxyRulesListViewModel, ProxyRulesListViewModel>();
+            SplatRegistrations.RegisterLazySingleton<IConnectionsViewModel, ConnectionsViewModel>();
+            SplatRegistrations.RegisterLazySingleton<IClashInfoViewModel, ClashInfoViewModel>();
+            SplatRegistrations.RegisterLazySingleton<IProxyGroupListViewModel, ProxyGroupListViewModel>();
+            SplatRegistrations.RegisterLazySingleton<IProxyProviderListViewModel, ProxyProviderListViewModel>();
+            SplatRegistrations.SetupIOC();
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = Locator.Current.GetService<IMainWindowViewModel>()
                 };
             }
 
