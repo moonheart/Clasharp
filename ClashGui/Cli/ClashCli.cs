@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using ClashGui.Cli.ClashConfigs;
+using YamlDotNet.Serialization;
 
 namespace ClashGui.Cli;
 
@@ -10,7 +12,7 @@ public interface IClashCli
 {
     RunningState Running { get; }
 
-    Task Start();
+    Task<RawConfig> Start();
 }
 
 public enum RunningState
@@ -39,7 +41,7 @@ public class ClashCli: IClashCli
         _isRunning = RunningState.Stopped;
     }
 
-    public async Task Start()
+    public async Task<RawConfig> Start()
     {
         _isRunning = RunningState.Starting;
 
@@ -57,6 +59,8 @@ public class ClashCli: IClashCli
         };
         _process.Start();
         _isRunning = RunningState.Started;
+        var configYaml = File.ReadAllText(_mainConfig);
+        return new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
     }
 
     private async Task EnsureConfig()
