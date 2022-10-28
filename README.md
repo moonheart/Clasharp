@@ -1,0 +1,38 @@
+﻿# A clash GUI written in C# 
+This is a WIP project.
+
+- [x] Clash API
+- [ ] Clash CLI
+  - [ ] Start
+  - [ ] Stop
+- [ ] User Interface
+  - [ ] Dashboard
+    - [ ] Traffic Stats
+    - [ ] Connections Stats
+    - [ ] Traffic Chart
+  - [x] Proxy Groups
+    - [x] Select Proxy
+  - [x] Proxy Providers
+      - [x] HealthCheck Proxy Provider
+      - [x] Update Proxy Provider
+  - [x] Rules
+  - [x] Rules Providers
+      - [ ] HealthCheck Rules Provider
+      - [ ] Update Rules Provider
+  - [x] Connections
+    - [x] Sorting
+    - [ ] Close Connection
+  - [x] Realtime Logs
+  - [ ] Clash Process Status
+  - [ ] Settings
+    - [ ] System Proxy
+    - [ ] TUN Mode
+    - [ ] Start With System
+  - [ ] Subscriptions
+    - [ ] Update
+- [ ] Builtin SubConverter
+- [ ] Connect To Remote Backend
+- [ ] Dark Theme
+- [ ] Update Clash Core
+- [ ] Self Update
+- [ ] Tray Icon
