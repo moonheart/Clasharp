@@ -24,10 +24,10 @@ public class RawDNS
     public RawFallbackFilter FallbackFilter { get; set; }
 
     [YamlMember(Alias = "listen")]
-    public bool Listen { get; set; }
+    public string Listen { get; set; }
 
     [YamlMember(Alias = "enhanced-mode")]
-    public DNSMode EnhancedMode { get; set; }
+    public string EnhancedMode { get; set; }
 
     [YamlMember(Alias = "fake-ip-range")]
     public bool FakeIPRange { get; set; }

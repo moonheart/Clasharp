@@ -56,6 +56,12 @@ public class RawConfig
     [YamlMember(Alias = "proxy-providers")]
     public Dictionary<string, Dictionary<string, object>> ProxyProvider { get; set; }
 
+    [YamlMember(Alias = "rule-providers")]
+    public Dictionary<string, Dictionary<string, object>> RuleProvider { get; set; }
+
+    [YamlMember(Alias = "tun")]
+    public Tun Tun { get; set; }
+
     [YamlMember(Alias = "hosts")]
     public Dictionary<string, string> Hosts { get; set; }
 

@@ -1,4 +1,6 @@
-﻿namespace ClashGui.Cli.ClashConfigs;
+﻿using YamlDotNet.Serialization;
+
+namespace ClashGui.Cli.ClashConfigs;
 
 public enum DNSMode
 {

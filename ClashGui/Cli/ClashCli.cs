@@ -3,11 +3,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive.Subjects;
+using System.Text;
 using System.Threading.Tasks;
 using ClashGui.Clash;
+using ClashGui.Clash.Models.Logs;
 using ClashGui.Cli.ClashConfigs;
+using ReactiveUI;
 using Refit;
 using YamlDotNet.Serialization;
+using LogLevel = ClashGui.Clash.Models.Logs.LogLevel;
 
 namespace ClashGui.Cli;
 
@@ -55,6 +59,8 @@ public class ClashCli : IClashCli
         _runningState.OnNext(RunningState.Starting);
 
         await EnsureConfig();
+        var configYaml = File.ReadAllText(_mainConfig);
+        var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
 
         _process = new Process()
         {
@@ -62,18 +68,41 @@ public class ClashCli : IClashCli
             {
                 FileName = _clashExe,
                 Arguments = $"-d {_programHome}",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 WorkingDirectory = _programHome,
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                StandardOutputEncoding = Encoding.UTF8,
                 // Verb = "runas",
             }
         };
+        _process.OutputDataReceived += (sender, args) =>
+        {
+            MessageBus.Current.SendMessage(new LogEntry()
+            {
+                Payload = args.Data,
+                Type = LogLevel.INFO
+            });
+            // args.Data
+        };
         _process.Start();
-        var configYaml = File.ReadAllText(_mainConfig);
-        var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
+        _process.BeginOutputReadLine();
+        var port = rawConfig.ExternalController.Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
 
-        GlobalConfigs.ClashControllerApi = RestService.For<IClashControllerApi>($"http://localhost:{rawConfig.ExternalController.Split(':', StringSplitOptions.RemoveEmptyEntries).Last()}", new RefitSettings()
+        GlobalConfigs.ClashControllerApi = RestService.For<IClashControllerApi>($"http://localhost:{port}", new RefitSettings()
         {
             ExceptionFactory = message => Task.FromResult<Exception?>(null)
         });
+
+        while (!_process.StandardOutput.EndOfStream)
+        {
+            var lineAsync = await _process.StandardOutput.ReadLineAsync();
+            if (lineAsync?.Contains(port) ?? false)
+            {
+                break;
+            }
+        }
         
         _isRunning = RunningState.Started;
         _runningState.OnNext(RunningState.Started);
