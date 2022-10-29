@@ -11,4 +11,9 @@ public interface IDashboardViewModel : IViewModelBase
     ReactiveCommand<Unit, Unit> StopClash { get; }
 
     RunningState RunningState { get; }
+    
+    bool IsStartingOrStopping { get; }
+    
+    bool IsStarted { get; }
+    bool IsStopped { get; }
 }

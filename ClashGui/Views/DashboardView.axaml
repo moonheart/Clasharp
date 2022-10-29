@@ -14,8 +14,14 @@
             <TextBlock Text="{Binding RunningState}" />
         </StackPanel>
         <StackPanel Grid.Row="1">
-            <Button Command="{Binding StartClash}" Content="Start Clash"></Button>
-            <Button Command="{Binding StopClash}" Content="Stop Clash"></Button>
+            <Button 
+                IsEnabled="{Binding !IsStartingOrStopping}"
+                IsVisible="{Binding IsStopped}"
+                Command="{Binding StartClash}" Content="Start Clash" />
+            <Button
+                IsEnabled="{Binding !IsStartingOrStopping}"
+                IsVisible="{Binding IsStarted}"
+                Command="{Binding StopClash}" Content="Stop Clash"></Button>
         </StackPanel>
     </Grid>
 </UserControl>

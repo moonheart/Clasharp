@@ -13,4 +13,7 @@ public class DesignDashboardViewModel:ViewModelBase, IDashboardViewModel
     public ReactiveCommand<Unit, Unit> StartClash { get; }
     public ReactiveCommand<Unit, Unit> StopClash { get; }
     public RunningState RunningState { get; }
+    public bool IsStartingOrStopping { get; } = false;
+    public bool IsStarted { get; } = true;
+    public bool IsStopped { get; } = true;
 }

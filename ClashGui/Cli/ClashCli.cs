@@ -51,6 +51,7 @@ public class ClashCli : IClashCli
     public ClashCli()
     {
         _isRunning = RunningState.Stopped;
+        _runningState.OnNext(RunningState.Stopped);
     }
 
     public async Task<RawConfig> Start()
@@ -77,6 +78,10 @@ public class ClashCli : IClashCli
                 // Verb = "runas",
             }
         };
+        if (rawConfig.Tun?.Enable ?? false)
+        {
+            _process.StartInfo.Verb = "runas";
+        }
         _process.OutputDataReceived += (sender, args) =>
         {
             MessageBus.Current.SendMessage(new LogEntry()
@@ -88,22 +93,17 @@ public class ClashCli : IClashCli
         };
         _process.Start();
         _process.BeginOutputReadLine();
-        var port = rawConfig.ExternalController.Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
+        var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
 
         GlobalConfigs.ClashControllerApi = RestService.For<IClashControllerApi>($"http://localhost:{port}", new RefitSettings()
         {
             ExceptionFactory = message => Task.FromResult<Exception?>(null)
         });
 
-        while (!_process.StandardOutput.EndOfStream)
+        if (_process.WaitForExit(1000))
         {
-            var lineAsync = await _process.StandardOutput.ReadLineAsync();
-            if (lineAsync?.Contains(port) ?? false)
-            {
-                break;
-            }
+            throw new Exception(_process.StandardError.ReadToEnd());
         }
-        
         _isRunning = RunningState.Started;
         _runningState.OnNext(RunningState.Started);
         return rawConfig;

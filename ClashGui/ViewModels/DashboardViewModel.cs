@@ -1,4 +1,5 @@
-﻿using System.Reactive;
+﻿using System;
+using System.Reactive;
 using System.Threading.Tasks;
 using ClashGui.Cli;
 using ClashGui.Cli.ClashConfigs;
@@ -28,6 +29,13 @@ public class DashboardViewModel:ViewModelBase, IDashboardViewModel
         });
 
         _clashCli.RunningObservable.BindTo(this, d => d.RunningState);
+
+        _clashCli.RunningObservable.Subscribe(d =>
+        {
+            IsStartingOrStopping = d == RunningState.Starting || d == RunningState.Stopping;
+            IsStarted = d == RunningState.Started;
+            IsStopped = d == RunningState.Stopped;
+        });
     }
     
     [Reactive]
@@ -39,4 +47,11 @@ public class DashboardViewModel:ViewModelBase, IDashboardViewModel
     
     [Reactive]
     public RunningState RunningState { get; set; }
+
+    [Reactive]
+    public bool IsStartingOrStopping { get; set; }
+    [Reactive]
+    public bool IsStarted { get; set; }
+    [Reactive]
+    public bool IsStopped  { get; set; }
 }
