@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using ClashGui.Clash.Models.Providers;
 using ClashGui.Clash.Models.Rules;
+using ClashGui.Cli;
 using ClashGui.Interfaces;
 using DynamicData;
 using DynamicData.Binding;
@@ -15,8 +16,10 @@ namespace ClashGui.ViewModels;
 public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
 {
     public override string Name => "Rules";
-    public ProxyRulesListViewModel()
+    private IClashCli _clashCli;
+    public ProxyRulesListViewModel(IClashCli clashCli)
     {
+        _clashCli = clashCli;
         RuleInfoSource = new ObservableCollectionExtended<RuleInfo>();
         RuleInfoSource.ToObservableChangeSet()
             .Bind(out _rules)
@@ -28,6 +31,7 @@ public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
             .Subscribe();
 
         Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
+            .Where(d=>_clashCli.Running == RunningState.Started)
             .SelectMany(async _ => await GlobalConfigs.ClashControllerApi.GetRules())
             .Select(d=>d?.Rules ?? new List<RuleInfo>())
             .Where(d=> !RuleInfoSource.SequenceEqual(d))
@@ -39,6 +43,7 @@ public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
             });
 
         Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
+            .Where(d=>_clashCli.Running == RunningState.Started)
             .SelectMany(async _ => await GlobalConfigs.ClashControllerApi.GetRuleProviders())
             .Select(d=>d?.Providers?.Values.ToList() ?? new List<RuleProvider>())
             .Where(d=> !RuleProviderSource.SequenceEqual(d))

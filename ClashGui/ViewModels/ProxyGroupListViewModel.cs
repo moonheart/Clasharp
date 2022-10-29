@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using ClashGui.Clash.Models.Proxies;
+using ClashGui.Cli;
 using ClashGui.Interfaces;
 using ClashGui.Models.Proxies;
 using ReactiveUI;
@@ -21,9 +22,12 @@ public class ProxyGroupListViewModel : ViewModelBase, IProxyGroupListViewModel
 {
     private static readonly string[] NotShownProxyGroups = {"DIRECT", "GLOBAL", "REJECT"};
 
-    public ProxyGroupListViewModel()
+    private IClashCli _clashCli;
+    public ProxyGroupListViewModel(IClashCli clashCli)
     {
+        _clashCli = clashCli;
         var newData = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
+            .Where(d=>_clashCli.Running == RunningState.Started)
             .SelectMany(GetProxyGroups)
             .Where(items => ProxyGroups == null || !items.SequenceEqual(ProxyGroups, _proxyGroupComparer));
         

@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using Avalonia.Collections;
 using Avalonia.Threading;
 using ClashGui.Clash.Models.Connections;
+using ClashGui.Cli;
 using ClashGui.Interfaces;
 using ClashGui.Models.Connections;
 using ClashGui.Utils;
@@ -18,9 +19,12 @@ namespace ClashGui.ViewModels;
 public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
 {
     public override string Name => "Connections";
-    public ConnectionsViewModel()
+    private IClashCli _clashCli;
+    public ConnectionsViewModel(IClashCli clashCli)
     {
+        _clashCli = clashCli;
         var connectionInfo = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
+            .Where(d=>_clashCli.Running == RunningState.Started)
             .SelectMany(async _ => await GlobalConfigs.ClashControllerApi.GetConnections())
             .Select(d=>d ?? new ConnectionInfo {Connections = new List<Connection>()});
 

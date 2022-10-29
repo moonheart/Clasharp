@@ -28,6 +28,7 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
         });
 
         _version = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
+            .Where(d=>_clashCli.Running == RunningState.Started)
             .SelectMany(async _ => await GlobalConfigs.ClashControllerApi.GetClashVersion())
             .WhereNotNull()
             .Select(d => $"{d.Version}\n{(d.Premium ? "Premium" : "")}")

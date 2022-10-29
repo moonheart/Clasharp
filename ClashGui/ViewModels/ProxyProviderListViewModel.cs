@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ClashGui.Clash.Models.Providers;
+using ClashGui.Cli;
 using ClashGui.Interfaces;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -12,9 +13,12 @@ namespace ClashGui.ViewModels;
 
 public class ProxyProviderListViewModel : ViewModelBase, IProxyProviderListViewModel
 {
-    public ProxyProviderListViewModel()
+    private IClashCli _clashCli;
+    public ProxyProviderListViewModel(IClashCli clashCli)
     {
+        _clashCli = clashCli;
         var raw = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
+            .Where(d=>_clashCli.Running == RunningState.Started)
             .SelectMany(GetProxyGroups)
             .Where(d => RawProxyProviders == null || !d.SequenceEqual(RawProxyProviders))
             .ToPropertyEx(this, d => d.RawProxyProviders);
