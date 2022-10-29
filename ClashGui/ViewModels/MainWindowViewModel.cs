@@ -18,24 +18,27 @@ namespace ClashGui.ViewModels
             IProxyRulesListViewModel proxyRulesListViewModel,
             IConnectionsViewModel connectionsViewModel,
             IClashInfoViewModel clashInfoViewModel, 
+            IDashboardViewModel dashboardViewModel, 
             IClashCli clashCli)
         {
+            _clashCli = clashCli;
             ProxiesViewModel = proxiesViewModel;
             ClashLogsViewModel = clashLogsViewModel;
             ProxyRulesListViewModel = proxyRulesListViewModel;
             ConnectionsViewModel = connectionsViewModel;
             ClashInfoViewModel = clashInfoViewModel;
-            _clashCli = clashCli;
+            DashboardViewModel = dashboardViewModel;
 
             Selections = new ObservableCollection<IViewModelBase>();
             Selections.AddRange(new IViewModelBase[]
             {
+                DashboardViewModel,
                 ProxiesViewModel,
                 ClashLogsViewModel,
                 ProxyRulesListViewModel,
                 ConnectionsViewModel
             });
-            CurrentViewModel = ProxiesViewModel;
+            CurrentViewModel = DashboardViewModel;
             // _ = _clashCli.Start();
         }
 
@@ -50,6 +53,7 @@ namespace ClashGui.ViewModels
 
         public IConnectionsViewModel ConnectionsViewModel { get; }
         public IClashInfoViewModel ClashInfoViewModel { get; }
+        public IDashboardViewModel DashboardViewModel { get; }
         public ObservableCollection<IViewModelBase> Selections { get; }
     }
 }

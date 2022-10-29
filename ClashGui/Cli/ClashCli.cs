@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using ClashGui.Clash;
 using ClashGui.Cli.ClashConfigs;
+using Refit;
 using YamlDotNet.Serialization;
 
 namespace ClashGui.Cli;
@@ -11,8 +14,11 @@ namespace ClashGui.Cli;
 public interface IClashCli
 {
     RunningState Running { get; }
+    
+    IObservable<RunningState> RunningObservable { get; }
 
     Task<RawConfig> Start();
+    Task Stop();
 }
 
 public enum RunningState
@@ -23,7 +29,7 @@ public enum RunningState
     Stopping
 }
 
-public class ClashCli: IClashCli
+public class ClashCli : IClashCli
 {
     private Process? _process;
 
@@ -33,8 +39,10 @@ public class ClashCli: IClashCli
     private static string _clashExe = Path.Combine(_programHome, "clash-windows-amd64.exe");
 
     public RunningState Running => _isRunning;
+    public IObservable<RunningState> RunningObservable => _runningState;
 
     private RunningState _isRunning;
+    private ReplaySubject<RunningState> _runningState = new ReplaySubject<RunningState>(1);
 
     public ClashCli()
     {
@@ -44,6 +52,7 @@ public class ClashCli: IClashCli
     public async Task<RawConfig> Start()
     {
         _isRunning = RunningState.Starting;
+        _runningState.OnNext(RunningState.Starting);
 
         await EnsureConfig();
 
@@ -54,13 +63,31 @@ public class ClashCli: IClashCli
                 FileName = _clashExe,
                 Arguments = $"-d {_programHome}",
                 WorkingDirectory = _programHome,
-                Verb = "runas",
+                // Verb = "runas",
             }
         };
         _process.Start();
-        _isRunning = RunningState.Started;
         var configYaml = File.ReadAllText(_mainConfig);
-        return new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
+        var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
+
+        GlobalConfigs.ClashControllerApi = RestService.For<IClashControllerApi>($"http://localhost:{rawConfig.ExternalController.Split(':', StringSplitOptions.RemoveEmptyEntries).Last()}", new RefitSettings()
+        {
+            ExceptionFactory = message => Task.FromResult<Exception?>(null)
+        });
+        
+        _isRunning = RunningState.Started;
+        _runningState.OnNext(RunningState.Started);
+        return rawConfig;
+    }
+
+    public Task Stop()
+    {
+        _isRunning = RunningState.Stopping;
+        _runningState.OnNext(RunningState.Stopping);
+        _process?.Kill(true);
+        _isRunning = RunningState.Stopped;
+        _runningState.OnNext(RunningState.Stopped);
+        return Task.CompletedTask;
     }
 
     private async Task EnsureConfig()

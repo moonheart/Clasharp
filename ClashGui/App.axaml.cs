@@ -27,13 +27,15 @@ namespace ClashGui
             SplatRegistrations.RegisterLazySingleton<IClashInfoViewModel, ClashInfoViewModel>();
             SplatRegistrations.RegisterLazySingleton<IProxyGroupListViewModel, ProxyGroupListViewModel>();
             SplatRegistrations.RegisterLazySingleton<IProxyProviderListViewModel, ProxyProviderListViewModel>();
+            SplatRegistrations.RegisterLazySingleton<IDashboardViewModel, DashboardViewModel>();
             SplatRegistrations.SetupIOC();
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow
+                desktop.MainWindow = new MainWindow()
                 {
-                    DataContext = Locator.Current.GetService<IMainWindowViewModel>()
+                    DataContext = Locator.Current.GetService<IMainWindowViewModel>(),
+                    ClashCli =  Locator.Current.GetService<IClashCli>()
                 };
             }
 
