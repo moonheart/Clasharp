@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive.Subjects;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ClashGui.Clash;
 using ClashGui.Clash.Models.Logs;
@@ -54,6 +56,17 @@ public class ClashCli : IClashCli
         _runningState.OnNext(RunningState.Stopped);
     }
 
+    private Regex _logRegex = new Regex(@"\d{2}\:\d{2}\:\d{2}\s+(?<level>\S+)\s*(?<module>\[.+?\])?\s*(?<payload>.+)");
+
+    private Dictionary<string, LogLevel> _levelsMap = new Dictionary<string, LogLevel>()
+    {
+        ["DBG"] = LogLevel.DEBUG,
+        ["INF"] = LogLevel.INFO,
+        ["WRN"] = LogLevel.WARNING,
+        ["ERR"] = LogLevel.ERROR,
+        ["SLT"] = LogLevel.SILENT,
+    };
+
     public async Task<RawConfig> Start()
     {
         _isRunning = RunningState.Starting;
@@ -84,10 +97,13 @@ public class ClashCli : IClashCli
         }
         _process.OutputDataReceived += (sender, args) =>
         {
+            if (string.IsNullOrEmpty(args.Data)) return;
+            var match = _logRegex.Match(args.Data);
+            var level = _levelsMap[match.Groups["level"].Value];
             MessageBus.Current.SendMessage(new LogEntry()
             {
-                Payload = args.Data,
-                Type = LogLevel.INFO
+                Payload = match.Groups["payload"].Value,
+                Type = level
             });
             // args.Data
         };
