@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using ClashGui.Clash.Models.Providers;
 using ClashGui.Clash.Models.Rules;
@@ -29,6 +30,11 @@ public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
         RuleProviderSource.ToObservableChangeSet()
             .Bind(out _providers)
             .Subscribe();
+
+        UpdateCommand = ReactiveCommand.CreateFromTask<string>(async name =>
+        {
+            await GlobalConfigs.ClashControllerApi.UpdateRuleProvider(name);
+        });
 
         Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
             .Where(d=>_clashCli.Running == RunningState.Started)
@@ -62,5 +68,6 @@ public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
 
     private ReadOnlyObservableCollection<RuleProvider> _providers;
     public ReadOnlyObservableCollection<RuleProvider> Providers => _providers;
+    public ReactiveCommand<string, Unit> UpdateCommand { get; }
     public ObservableCollectionExtended<RuleProvider> RuleProviderSource { get; }
 }

@@ -6,7 +6,7 @@ This is a WIP project.
   - [ ] Start
   - [ ] Stop
 - [ ] User Interface
-  - [ ] Dashboard
+  - [x] Dashboard
     - [ ] Traffic Stats
     - [ ] Connections Stats
     - [ ] Traffic Chart
@@ -17,8 +17,7 @@ This is a WIP project.
       - [x] Update Proxy Provider
   - [x] Rules
   - [x] Rules Providers
-      - [ ] HealthCheck Rules Provider
-      - [ ] Update Rules Provider
+      - [x] Update Rules Provider
   - [x] Connections
     - [x] Sorting
     - [ ] Close Connection

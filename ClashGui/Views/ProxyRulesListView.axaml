@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ClashGui.ViewModels"
              xmlns:designTime="clr-namespace:ClashGui.DesignTime"
+             xmlns:providers="clr-namespace:ClashGui.Clash.Models.Providers"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ClashGui.Views.ProxyRulesListView">
     <Design.DataContext>
@@ -20,12 +21,26 @@
             </Grid.Styles>
             <StackPanel>
                 <TextBlock Classes="header">Rules</TextBlock>
-                <DataGrid Items="{Binding Rules}" AutoGenerateColumns="True" IsReadOnly="True" Height="300" >
+                <DataGrid Items="{Binding Rules}" AutoGenerateColumns="True" IsReadOnly="True" Height="300">
                 </DataGrid>
             </StackPanel>
             <StackPanel Grid.Row="1">
                 <TextBlock Classes="header">Providers</TextBlock>
-                <DataGrid Items="{Binding Providers}" AutoGenerateColumns="True" IsReadOnly="True"></DataGrid>
+                <DataGrid Items="{Binding Providers}" AutoGenerateColumns="True" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataTemplate DataType="providers:RuleProvider">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Update"
+                                            Padding="3"
+                                            Command="{Binding $parent[DataGrid].DataContext.UpdateCommand}"
+                                            CommandParameter="{Binding Name}"
+                                            ></Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
 
         </Grid>
