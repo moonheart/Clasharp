@@ -35,3 +35,6 @@ This is a WIP project.
 - [ ] Update Clash Core
 - [ ] Self Update
 - [ ] Tray Icon
+- [ ] Set System Proxy
+  - [x] Windows
+  - [ ] Linux
