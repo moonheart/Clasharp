@@ -20,7 +20,7 @@ This is a WIP project.
       - [x] Update Rules Provider
   - [x] Connections
     - [x] Sorting
-    - [ ] Close Connection
+    - [x] Close Connection
   - [x] Realtime Logs
   - [ ] Clash Process Status
   - [ ] Settings

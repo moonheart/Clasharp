@@ -15,6 +15,10 @@
             <TextBlock Margin="0 0  5 0" Text="Total Traffics:"></TextBlock>
             <TextBlock Margin="0 0  5 0" Text="{Binding DownloadTotal }"></TextBlock>
             <TextBlock Text="{Binding UploadTotal }"></TextBlock>
+            <Button Content="Close All"
+                    Padding="3"
+                    Command="{Binding CloseAllConnection}"
+            ></Button>
         </StackPanel>
         <DataGrid Grid.Row="1" Name="ConnectionsGrid" Items="{Binding Connections}"
                   VerticalAlignment="Stretch"
@@ -30,6 +34,17 @@
                 <DataGridTextColumn Header="Upload" SortMemberPath="UploadSpeed" Binding="{Binding UploadSpeedDesc}" />
                 <DataGridTextColumn Header="DownloadTotal" SortMemberPath="Connection.Download" Binding="{Binding DownloadTotal}" />
                 <DataGridTextColumn Header="UploadTotal" SortMemberPath="Connection.Upload" Binding="{Binding UploadTotal}" />
+                <DataGridTemplateColumn>
+                    <DataTemplate DataType="connections:ConnectionExt">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Close"
+                                    Padding="3"
+                                    Command="{Binding $parent[DataGrid].DataContext.CloseConnection}"
+                                    CommandParameter="{Binding Id}"
+                            ></Button>
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

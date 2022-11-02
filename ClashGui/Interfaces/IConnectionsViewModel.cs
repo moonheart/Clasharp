@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Avalonia.Collections;
+﻿using System.Collections.ObjectModel;
+using System.Reactive;
 using ClashGui.Models.Connections;
+using ReactiveUI;
 
 namespace ClashGui.Interfaces;
 
@@ -15,4 +15,7 @@ public interface IConnectionsViewModel: IViewModelBase
     public ReadOnlyObservableCollection<ConnectionExt> Connections { get; }
 
     public ConnectionExt? SelectedItem { get; set; }
+    
+    ReactiveCommand<string, Unit> CloseConnection { get; }
+    ReactiveCommand<Unit, Unit> CloseAllConnection { get; }
 }

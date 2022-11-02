@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reactive;
 using Avalonia.Collections;
 using ClashGui.Clash.Models.Connections;
 using ClashGui.Interfaces;
 using ClashGui.Models.Connections;
 using ClashGui.ViewModels;
+using ReactiveUI;
 
 namespace ClashGui.DesignTime;
 
@@ -44,4 +46,6 @@ public class DesignConnectionsViewModel : ViewModelBase, IConnectionsViewModel
         }));
 
     public ConnectionExt? SelectedItem { get; set; }
+    public ReactiveCommand<string, Unit> CloseConnection { get; }
+    public ReactiveCommand<Unit, Unit> CloseAllConnection { get; }
 }

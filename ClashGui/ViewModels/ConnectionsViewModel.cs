@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
-using Avalonia.Collections;
-using Avalonia.Threading;
 using ClashGui.Clash.Models.Connections;
 using ClashGui.Cli;
 using ClashGui.Interfaces;
@@ -63,6 +62,11 @@ public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
             .ObserveOn(RxApp.MainThreadScheduler)
             .Bind(out _connections)
             .Subscribe();
+
+        CloseConnection = ReactiveCommand.CreateFromTask<string>(async id => 
+            await GlobalConfigs.ClashControllerApi.CloeseConnection(id));
+        CloseAllConnection = ReactiveCommand.CreateFromTask(async () =>
+            await GlobalConfigs.ClashControllerApi.CloseAllConnections());
     }
 
     private readonly ObservableAsPropertyHelper<string> _downloadTotal;
@@ -75,6 +79,9 @@ public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
 
     [Reactive]
     public ConnectionExt? SelectedItem { get; set; }
+
+    public ReactiveCommand<string, Unit> CloseConnection { get; }
+    public ReactiveCommand<Unit, Unit> CloseAllConnection { get; }
 
     private readonly SourceCache<ConnectionExt, string> _connectionsSource = new(d => d.Id);
 
