@@ -10,10 +10,17 @@ public class Streamer : IAsyncEnumerable<string>
 {
     private readonly string _uri;
 
-    public Streamer(string path)
+    public Streamer(string url, string path)
     {
-        var wsUrl = GlobalConfigs.ControllerApi.Replace("http://", "ws://").Replace("https://", "wss://");
-        _uri = $"{wsUrl}{path}";
+        if (url.StartsWith("http://"))
+        {
+            var wsUrl = url.Replace("http://", "ws://");
+            _uri = $"{wsUrl}{path}";
+        }
+        else
+        {
+            _uri = $"ws://{url}{path}";
+        }
     }
 
     public async IAsyncEnumerator<string> GetAsyncEnumerator(CancellationToken cancellationToken = new())

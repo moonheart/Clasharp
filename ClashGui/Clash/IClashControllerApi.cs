@@ -24,7 +24,7 @@ public interface IClashControllerApi
     /// Get real-time logs
     /// </summary>
     /// <returns></returns>
-    IAsyncEnumerable<string> GetRealtimeLogs() => new Streamer("/logs");
+    IAsyncEnumerable<string> GetRealtimeLogs(string uri) => new Streamer(uri, "/logs");
 
     #endregion
 
@@ -34,7 +34,7 @@ public interface IClashControllerApi
     /// Get real-time traffic data
     /// </summary>
     /// <returns></returns>
-    IAsyncEnumerable<string> GetRealtimeTraffic() => new Streamer("/traffic");
+    IAsyncEnumerable<string> GetRealtimeTraffic(string uri) => new Streamer(uri, "/traffic");
 
     #endregion
 

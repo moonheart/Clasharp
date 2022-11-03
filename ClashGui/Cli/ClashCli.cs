@@ -19,6 +19,8 @@ namespace ClashGui.Cli;
 
 public interface IClashCli
 {
+    RawConfig Config { get; } 
+    
     RunningState Running { get; }
     
     IObservable<RunningState> RunningObservable { get; }
@@ -44,6 +46,7 @@ public class ClashCli : IClashCli
     private static string _mainConfig = Path.Combine(_programHome, "config.yaml");
     private static string _clashExe = Path.Combine(_programHome, "clash-windows-amd64.exe");
 
+    public RawConfig Config { get; private set; }
     public RunningState Running => _isRunning;
     public IObservable<RunningState> RunningObservable => _runningState;
 
@@ -120,6 +123,7 @@ public class ClashCli : IClashCli
         {
             throw new Exception(_process.StandardError.ReadToEnd());
         }
+        Config = rawConfig;
         _isRunning = RunningState.Started;
         _runningState.OnNext(RunningState.Started);
         return rawConfig;
