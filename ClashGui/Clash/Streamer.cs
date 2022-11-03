@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -12,15 +13,8 @@ public class Streamer : IAsyncEnumerable<string>
 
     public Streamer(string url, string path)
     {
-        if (url.StartsWith("http://"))
-        {
-            var wsUrl = url.Replace("http://", "ws://");
-            _uri = $"{wsUrl}{path}";
-        }
-        else
-        {
-            _uri = $"ws://{url}{path}";
-        }
+        var port = url.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Last();
+        _uri = $"ws://localhost:{port}{path}";
     }
 
     public async IAsyncEnumerator<string> GetAsyncEnumerator(CancellationToken cancellationToken = new())
