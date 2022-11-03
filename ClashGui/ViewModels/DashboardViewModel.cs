@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
-using System.Threading.Tasks;
+using ClashGui.Clash.Models;
 using ClashGui.Cli;
 using ClashGui.Cli.ClashConfigs;
 using ClashGui.Interfaces;
 using ClashGui.Utils;
+using DynamicData;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -39,10 +44,47 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
             IsStarted = d == RunningState.Started;
             IsStopped = d == RunningState.Stopped;
         });
+
+        _downSpeeds.AddRange(Enumerable.Repeat<long>(0, 60));
+        _upSpeeds.AddRange(Enumerable.Repeat<long>(0, 60));
+        Series = new ISeries[]
+        {
+            new LineSeries<long>()
+            {
+                Values = _downSpeeds,
+                Name = "Download",
+                GeometryFill = null,
+                GeometryStroke = null,
+                TooltipLabelFormatter = point => point.Model.ToHumanSize(),
+            },
+            new LineSeries<long>()
+            {
+                Values = _upSpeeds,
+                Name = "Upload",
+                TooltipLabelFormatter = point => point.Model.ToHumanSize(),
+                GeometryFill = null,
+                GeometryStroke = null,
+            }
+        };
+
+        this.WhenAnyValue(d => d._rawConfig)
+            .WhereNotNull()
+            .Subscribe(d => ExternalController = d.ExternalController);
+
+        MessageBus.Current.Listen<TrafficEntry>().Subscribe(d =>
+        {
+            if (_downSpeeds.Count >= 60) _downSpeeds.RemoveAt(0);
+            _downSpeeds.Add(d.Down);
+            if (_upSpeeds.Count >= 60) _upSpeeds.RemoveAt(0);
+            _upSpeeds.Add(d.Up);
+        });
     }
 
     [Reactive]
     private RawConfig _rawConfig { get; set; }
+
+    [Reactive]
+    public string? ExternalController { get; set; }
 
     public override string Name => "Dashboard";
     public ReactiveCommand<Unit, Unit> StartClash { get; }
@@ -59,4 +101,19 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
 
     [Reactive]
     public bool IsStopped { get; set; }
+
+    private ObservableCollection<long> _upSpeeds = new ObservableCollection<long>();
+    private ObservableCollection<long> _downSpeeds = new ObservableCollection<long>();
+
+    [Reactive]
+    public ISeries[] Series { get; set; }
+
+    public Axis[] YAxes { get; set; } = new Axis[]
+    {
+        new()
+        {
+            MinLimit = 0,
+            Labeler = d => ((long) d).ToHumanSize() 
+        }
+    };
 }

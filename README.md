@@ -2,14 +2,14 @@
 This is a WIP project.
 
 - [x] Clash API
-- [ ] Clash CLI
-  - [ ] Start
-  - [ ] Stop
+- [x] Clash CLI
+  - [x] Start
+  - [x] Stop
 - [ ] User Interface
   - [x] Dashboard
     - [ ] Traffic Stats
     - [ ] Connections Stats
-    - [ ] Traffic Chart
+    - [x] Traffic Chart
   - [x] Proxy Groups
     - [x] Select Proxy
   - [x] Proxy Providers
@@ -22,7 +22,7 @@ This is a WIP project.
     - [x] Sorting
     - [x] Close Connection
   - [x] Realtime Logs
-  - [ ] Clash Process Status
+  - [x] Clash Process Status
   - [ ] Settings
     - [ ] System Proxy
     - [ ] TUN Mode
