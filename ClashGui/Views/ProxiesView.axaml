@@ -20,11 +20,11 @@
                 </Style>
             </Grid.Styles>
             <StackPanel>
-                <TextBlock Classes="header">Policy Groups</TextBlock>
+                <TextBlock Classes="header" Text="Policy Groups"></TextBlock>
                 <views:ProxyGroupListView DataContext="{Binding ProxyGroupListViewModel }" />
             </StackPanel>
             <StackPanel Grid.Row="1">
-                <TextBlock Classes="header">Providers</TextBlock>
+                <TextBlock Classes="header" Text="Providers"></TextBlock>
                 <views:ProxyProviderListView DataContext="{Binding ProxyProviderListViewModel }" />
             </StackPanel>
 

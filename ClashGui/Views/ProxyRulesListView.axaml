@@ -20,12 +20,12 @@
                 </Style>
             </Grid.Styles>
             <StackPanel>
-                <TextBlock Classes="header">Rules</TextBlock>
+                <TextBlock Classes="header" Text="Rules"></TextBlock>
                 <DataGrid Items="{Binding Rules}" AutoGenerateColumns="True" IsReadOnly="True" Height="300">
                 </DataGrid>
             </StackPanel>
             <StackPanel Grid.Row="1">
-                <TextBlock Classes="header">Providers</TextBlock>
+                <TextBlock Classes="header" Text="Providers"></TextBlock>
                 <DataGrid Items="{Binding Providers}" AutoGenerateColumns="True" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn>
