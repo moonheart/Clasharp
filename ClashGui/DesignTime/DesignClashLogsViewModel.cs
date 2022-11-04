@@ -13,11 +13,11 @@ public class DesignClashLogsViewModel : ViewModelBase, IClashLogsViewModel
     {
         Logs = new ReadOnlyObservableCollection<LogEntryExt>(new(new[]
         {
-            new LogEntryExt(new LogEntry() {Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
-            new LogEntryExt(new LogEntry() {Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
-            new LogEntryExt(new LogEntry() {Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
-            new LogEntryExt(new LogEntry() {Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
-            new LogEntryExt(new LogEntry() {Type = LogLevel.INFO, Payload = "contenlkjsalfjaslkdjfl"}),
+            new LogEntryExt(new LogEntry(LogLevel.INFO, "contenlkjsalfjaslkdjfl")),
+            new LogEntryExt(new LogEntry(LogLevel.INFO, "contenlkjsalfjaslkdjfl")),
+            new LogEntryExt(new LogEntry(LogLevel.INFO, "contenlkjsalfjaslkdjfl")),
+            new LogEntryExt(new LogEntry(LogLevel.INFO, "contenlkjsalfjaslkdjfl")),
+            new LogEntryExt(new LogEntry(LogLevel.INFO, "contenlkjsalfjaslkdjfl")),
         }));
     }
 

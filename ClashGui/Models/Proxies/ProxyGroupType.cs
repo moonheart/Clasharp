@@ -4,7 +4,7 @@ public enum ProxyGroupType
 {
     Direct,
     Reject,
-    
+
     Shadowsocks,
     ShadowsocksR,
     Snell,
@@ -12,10 +12,13 @@ public enum ProxyGroupType
     Http,
     Vmess,
     Trojan,
-    
+
     Relay,
     Selector,
     Fallback,
     URLTest,
     LoadBalance,
+
+    Compatible,
+    Pass,
 }

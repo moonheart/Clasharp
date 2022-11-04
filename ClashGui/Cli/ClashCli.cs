@@ -44,7 +44,8 @@ public class ClashCli : IClashCli
     private static string _userhome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
     private static string _programHome = Path.Combine(_userhome, ".config", "clashgui");
     private static string _mainConfig = Path.Combine(_programHome, "config.yaml");
-    private static string _clashExe = Path.Combine(_programHome, "clash-windows-amd64.exe");
+    // private static string _clashExe = Path.Combine(_programHome, "clash-windows-amd64.exe");
+    private static string _clashExe = Path.Combine(_programHome, "Clash.Meta-windows-amd64.exe");
 
     public RawConfig Config { get; private set; }
     public RunningState Running => _isRunning;
@@ -60,6 +61,7 @@ public class ClashCli : IClashCli
     }
 
     private Regex _logRegex = new Regex(@"\d{2}\:\d{2}\:\d{2}\s+(?<level>\S+)\s*(?<module>\[.+?\])?\s*(?<payload>.+)");
+    private Regex _logMetaRegex = new Regex(@"time=""(.+?) level=(?<level>.+?) msg=""(?<payload>.+)""");
 
     private Dictionary<string, LogLevel> _levelsMap = new Dictionary<string, LogLevel>()
     {
@@ -68,6 +70,11 @@ public class ClashCli : IClashCli
         ["WRN"] = LogLevel.WARNING,
         ["ERR"] = LogLevel.ERROR,
         ["SLT"] = LogLevel.SILENT,
+        ["debug"] = LogLevel.DEBUG,
+        ["info"] = LogLevel.INFO,
+        ["warning"] = LogLevel.WARNING,
+        ["error"] = LogLevel.ERROR,
+        ["silent"] = LogLevel.SILENT,
     };
 
     public async Task<RawConfig> Start()
@@ -84,7 +91,7 @@ public class ClashCli : IClashCli
             StartInfo = new ProcessStartInfo()
             {
                 FileName = _clashExe,
-                Arguments = $"-d {_programHome}",
+                Arguments = $"-f config.yaml -d {_programHome}",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 WorkingDirectory = _programHome,
@@ -98,19 +105,17 @@ public class ClashCli : IClashCli
         {
             _process.StartInfo.Verb = "runas";
         }
-        _process.OutputDataReceived += (sender, args) =>
+        _process.OutputDataReceived += (_, args) =>
         {
             if (string.IsNullOrEmpty(args.Data)) return;
             var match = _logRegex.Match(args.Data);
-            var level = _levelsMap[match.Groups["level"].Value];
-            MessageBus.Current.SendMessage(new LogEntry()
-            {
-                Payload = match.Groups["payload"].Value,
-                Type = level
-            });
-            // args.Data
+            if (!match.Success) match = _logMetaRegex.Match(args.Data);
+            MessageBus.Current.SendMessage(match.Success
+                ? new LogEntry(_levelsMap[match.Groups["level"].Value], match.Groups["payload"].Value)
+                : new LogEntry(LogLevel.INFO, args.Data));
         };
         _process.Start();
+        _process.PriorityClass = ProcessPriorityClass.High;
         _process.BeginOutputReadLine();
         var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
 
@@ -121,7 +126,8 @@ public class ClashCli : IClashCli
 
         if (_process.WaitForExit(1000))
         {
-            throw new Exception(_process.StandardError.ReadToEnd());
+            var readToEnd = _process.StandardError.ReadToEnd();
+            throw new Exception(readToEnd);
         }
         Config = rawConfig;
         _isRunning = RunningState.Started;
