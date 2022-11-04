@@ -30,6 +30,7 @@
                 Series="{Binding Series}"
                 YAxes="{Binding YAxes}"
                 EasingFunction="{x:Null}"
+                LegendPosition="Top"
                 MinHeight="400"/>
         </StackPanel>
     </Grid>

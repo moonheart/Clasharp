@@ -10,8 +10,10 @@ using ClashGui.Utils;
 using DynamicData;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using SkiaSharp;
 
 namespace ClashGui.ViewModels;
 
@@ -56,6 +58,8 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
                 GeometryFill = null,
                 GeometryStroke = null,
                 TooltipLabelFormatter = point => point.Model.ToHumanSize(),
+                Stroke = new SolidColorPaint(SKColors.Green){StrokeThickness = 1},
+                GeometrySize = 0
             },
             new LineSeries<long>()
             {
@@ -64,6 +68,8 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
                 TooltipLabelFormatter = point => point.Model.ToHumanSize(),
                 GeometryFill = null,
                 GeometryStroke = null,
+                Stroke = new SolidColorPaint(SKColors.Red){StrokeThickness = 1},
+                GeometrySize = 0
             }
         };
 
