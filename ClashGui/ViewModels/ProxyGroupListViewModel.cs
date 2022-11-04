@@ -20,7 +20,7 @@ namespace ClashGui.ViewModels;
 
 public class ProxyGroupListViewModel : ViewModelBase, IProxyGroupListViewModel
 {
-    private static readonly string[] NotShownProxyGroups = {"DIRECT", "GLOBAL", "REJECT"};
+    private static readonly string[] NotShownProxyGroups = {"DIRECT", "GLOBAL", "REJECT", "COMPATIBLE", "PASS"};
 
     private IClashCli _clashCli;
     public ProxyGroupListViewModel(IClashCli clashCli)
