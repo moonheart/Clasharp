@@ -41,12 +41,6 @@ public class ClashCli : IClashCli
 {
     private Process? _process;
 
-    private static string _userhome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-    private static string _programHome = Path.Combine(_userhome, ".config", "clashgui");
-    private static string _mainConfig = Path.Combine(_programHome, "config.yaml");
-    // private static string _clashExe = Path.Combine(_programHome, "clash-windows-amd64.exe");
-    private static string _clashExe = Path.Combine(_programHome, "Clash.Meta-windows-amd64.exe");
-
     public RawConfig Config { get; private set; }
     public RunningState Running => _isRunning;
     public IObservable<RunningState> RunningObservable => _runningState;
@@ -83,18 +77,18 @@ public class ClashCli : IClashCli
         _runningState.OnNext(RunningState.Starting);
 
         await EnsureConfig();
-        var configYaml = File.ReadAllText(_mainConfig);
+        var configYaml = File.ReadAllText(GlobalConfigs.ClashConfig);
         var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
 
         _process = new Process()
         {
             StartInfo = new ProcessStartInfo()
             {
-                FileName = _clashExe,
-                Arguments = $"-f config.yaml -d {_programHome}",
+                FileName = GlobalConfigs.ClashExe,
+                Arguments = $"-f config.yaml -d {GlobalConfigs.ProgramHome}",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                WorkingDirectory = _programHome,
+                WorkingDirectory = GlobalConfigs.ProgramHome,
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 StandardOutputEncoding = Encoding.UTF8,
@@ -147,10 +141,10 @@ public class ClashCli : IClashCli
 
     private async Task EnsureConfig()
     {
-        Directory.CreateDirectory(_programHome);
-        if (!File.Exists(_mainConfig))
+        Directory.CreateDirectory(GlobalConfigs.ProgramHome);
+        if (!File.Exists(GlobalConfigs.ClashConfig))
         {
-            await File.WriteAllTextAsync(_mainConfig,
+            await File.WriteAllTextAsync(GlobalConfigs.ClashConfig,
                 @"mixed-port: 17890
 allow-lan: false
 external-controller: 0.0.0.0:62708");

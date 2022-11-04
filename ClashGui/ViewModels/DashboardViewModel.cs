@@ -6,6 +6,7 @@ using ClashGui.Clash.Models;
 using ClashGui.Cli;
 using ClashGui.Cli.ClashConfigs;
 using ClashGui.Interfaces;
+using ClashGui.Models.Settings;
 using ClashGui.Utils;
 using DynamicData;
 using LiveChartsCore;
@@ -20,22 +21,48 @@ namespace ClashGui.ViewModels;
 public class DashboardViewModel : ViewModelBase, IDashboardViewModel
 {
     private IClashCli _clashCli;
+    private SettingsViewModel _settingsViewModel;
 
-    public DashboardViewModel(IClashCli clashCli)
+    public DashboardViewModel(IClashCli clashCli, SettingsViewModel settingsViewModel)
     {
         _clashCli = clashCli;
+        _settingsViewModel = settingsViewModel;
 
         StartClash = ReactiveCommand.CreateFromTask(async () =>
         {
             var rawConfig = await _clashCli.Start();
-            ProxyUtils.SetSystemProxy($"http://127.0.0.1:{rawConfig.MixedPort ?? rawConfig.Port}", "");
+            switch (_settingsViewModel.SystemProxyMode)
+            {
+                case SystemProxyMode.Unchange:
+                    break;
+                case SystemProxyMode.Clear:
+                    ProxyUtils.UnsetSystemProxy();
+                    break;
+                case SystemProxyMode.SetProxy:
+                    ProxyUtils.SetSystemProxy($"http://127.0.0.1:{rawConfig.MixedPort ?? rawConfig.Port}", "");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             _rawConfig = rawConfig;
         });
 
         StopClash = ReactiveCommand.CreateFromTask(async () =>
         {
             await _clashCli.Stop();
-            ProxyUtils.UnsetSystemProxy();
+            switch (_settingsViewModel.SystemProxyMode)
+            {
+                case SystemProxyMode.Unchange:
+                    break;
+                case SystemProxyMode.Clear:
+                    
+                    break;
+                case SystemProxyMode.SetProxy:
+                    ProxyUtils.UnsetSystemProxy();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         });
 
         _clashCli.RunningObservable.BindTo(this, d => d.RunningState);

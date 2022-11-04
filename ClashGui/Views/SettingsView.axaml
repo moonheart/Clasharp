@@ -8,9 +8,37 @@
     <Design.DataContext>
         <designTime:DesignSettingsViewModel />
     </Design.DataContext>
-    <Grid ColumnDefinitions="*,Auto" RowDefinitions="*">
-        <TextBlock Text="Clash Api Address"></TextBlock>
-        <TextBox Grid.Column="1" Text="{Binding ClashApiAddress, Mode=TwoWay}"></TextBox>
-        <Button Grid.Column="1" Content="Save" Command="{Binding SaveCommand}"></Button>
-    </Grid>
+    <Border Padding="10">
+        <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
+            <TextBlock Text="System Proxy"></TextBlock>
+            <ListBox Grid.Row="0" Grid.Column="1"
+                     Items="{Binding SystemProxyModes}"
+                     SelectedItem="{Binding SystemProxyMode, Mode=TwoWay}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.Styles>
+                    <Style Selector="ListBox ListBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Border Background="Transparent">
+                                        <RadioButton
+                                            Content="{TemplateBinding ContentPresenter.Content}"
+                                            IsChecked="{Binding Path=IsSelected,RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent"></Setter>
+                    </Style>
+                </ListBox.Styles>
+            </ListBox>
+            <Button Grid.Row="1" Grid.Column="0" Content="Save" Command="{Binding SaveCommand}"></Button>
+        </Grid>
+    </Border>
 </UserControl>
