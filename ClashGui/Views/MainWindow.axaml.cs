@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using Avalonia.Controls;
 using ClashGui.Cli;
+using ClashGui.Utils;
 
 namespace ClashGui.Views
 {
@@ -15,6 +16,7 @@ namespace ClashGui.Views
         protected override void OnClosing(CancelEventArgs e)
         {
             ClashCli?.Stop();
+            ProxyUtils.UnsetSystemProxy();
             base.OnClosing(e);
         }
     }
