@@ -18,11 +18,8 @@ namespace ClashGui.ViewModels;
 public class ClashLogsViewModel : ViewModelBase, IClashLogsViewModel
 {
     public override string Name => "Logs";
-    private LogWatcher _logWatcher = new();
-    private IClashCli _clashCli;
-    public ClashLogsViewModel(IClashCli clashCli)
+    public ClashLogsViewModel()
     {
-        _clashCli = clashCli;
         LogsSource = new ObservableCollectionExtended<LogEntryExt>();
         LogsSource.ToObservableChangeSet()
             .Bind(out _logs)
@@ -37,43 +34,9 @@ public class ClashLogsViewModel : ViewModelBase, IClashLogsViewModel
 
             LogsSource.Insert(0, new LogEntryExt(d));
         });
-
-        _clashCli.RunningObservable.Subscribe(d =>
-        {
-            if (d == RunningState.Started)
-            {
-                if (!string.IsNullOrWhiteSpace(_clashCli.Config.ExternalController))
-                {
-                    _logWatcher.Start(_clashCli.Config.ExternalController);
-                }
-            }
-            else
-            {
-                _logWatcher.Stop();
-            }
-        });
     }
 
     public ObservableCollectionExtended<LogEntryExt> LogsSource { get; }
     private readonly ReadOnlyObservableCollection<LogEntryExt> _logs;
     public ReadOnlyObservableCollection<LogEntryExt> Logs => _logs;
-
-    private class LogWatcher: Watcher
-    {
-        protected override async Task Watch(string uri, CancellationToken cancellationToken)
-        {
-            await foreach (var realtimeLog in GlobalConfigs.ClashControllerApi.GetRealtimeLogs(uri).WithCancellation(cancellationToken))
-            {
-                var logEntry = JsonSerializer.Deserialize<LogEntry>(realtimeLog, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                    Converters =
-                    {
-                        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                    }
-                });
-                MessageBus.Current.SendMessage(logEntry);
-            }
-        }
-    }
 }
