@@ -29,11 +29,11 @@ public class NewtonsoftJsonSuspensionDriver : ISuspensionDriver
     {
         if (!File.Exists(_file))
         {
-            return Observable.Return((SettingsViewModel)null);
+            return Observable.Return(new SettingsViewModel());
         }
         var lines = File.ReadAllText(_file);
         var state = JsonSerializer.Deserialize<SettingsViewModel>(lines, _settings);
-        return Observable.Return(state!);
+        return Observable.Return(state ?? new SettingsViewModel());
     }
 
     public IObservable<Unit> SaveState(object state)

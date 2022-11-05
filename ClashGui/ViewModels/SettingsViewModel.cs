@@ -13,7 +13,6 @@ namespace ClashGui.ViewModels;
 
 public class SettingsViewModel: ViewModelBase, ISettingsViewModel
 {
-    [JsonIgnore]
     public override string Name => "Settings";
 
     public SettingsViewModel()

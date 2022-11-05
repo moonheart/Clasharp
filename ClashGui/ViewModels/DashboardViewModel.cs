@@ -21,9 +21,9 @@ namespace ClashGui.ViewModels;
 public class DashboardViewModel : ViewModelBase, IDashboardViewModel
 {
     private IClashCli _clashCli;
-    private SettingsViewModel _settingsViewModel;
+    private ISettingsViewModel _settingsViewModel;
 
-    public DashboardViewModel(IClashCli clashCli, SettingsViewModel settingsViewModel)
+    public DashboardViewModel(IClashCli clashCli, ISettingsViewModel settingsViewModel)
     {
         _clashCli = clashCli;
         _settingsViewModel = settingsViewModel;
