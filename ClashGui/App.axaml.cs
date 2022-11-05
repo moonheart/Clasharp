@@ -68,6 +68,7 @@ namespace ClashGui
             builder.RegisterType<ProxyRuleService>().As<IProxyRuleService>().SingleInstance();
             builder.RegisterType<ProxyRuleProviderService>().As<IProxyRuleProviderService>().SingleInstance();
             builder.RegisterType<ConnectionService>().As<IConnectionService>().SingleInstance();
+            builder.RegisterType<RealtimeTrafficService>().As<IRealtimeTrafficService>().SingleInstance();
 
             var autofacDependencyResolver = builder.UseAutofacDependencyResolver();
             builder.RegisterInstance(autofacDependencyResolver);

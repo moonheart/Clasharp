@@ -1,11 +1,19 @@
-﻿using System.Threading;
+﻿using System.Reactive.Subjects;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ClashGui.Utils;
 
-public abstract class Watcher
+public abstract class Watcher<T>
 {
+    protected readonly ReplaySubject<T> ReplaySubject;
     private CancellationTokenSource? _cancellationTokenSource;
+
+    protected Watcher(ReplaySubject<T> replaySubject)
+    {
+        ReplaySubject = replaySubject;
+    }
+
     public void Start(string uri)
     {
         _cancellationTokenSource = new CancellationTokenSource();
