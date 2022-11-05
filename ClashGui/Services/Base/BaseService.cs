@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ClashGui.Cli;
@@ -29,5 +31,20 @@ public abstract class BaseService<T>: IAutoFreshable, IObservalbeObjService<T>
 
     protected abstract Task<T> GetObj();
 
-    protected abstract bool ObjEquals(T oldObj, T newObj);
+    protected virtual bool ObjEquals(T oldObj, T newObj)
+    {
+        return Equals(oldObj, newObj);
+    }
+}
+
+public abstract class BaseListService<T> : BaseService<List<T>>
+{
+    protected BaseListService(IClashCli clashCli) : base(clashCli)
+    {
+    }
+
+    protected override bool ObjEquals(List<T> oldObj, List<T> newObj)
+    {
+        return oldObj.SequenceEqual(newObj);
+    }
 }

@@ -7,7 +7,7 @@ using ClashGui.Services.Base;
 
 namespace ClashGui.Services;
 
-public class ProxyRuleProviderService: BaseService<List<RuleProvider>>,IProxyRuleProviderService
+public class ProxyRuleProviderService: BaseListService<RuleProvider>,IProxyRuleProviderService
 {
     public ProxyRuleProviderService(IClashCli clashCli) : base(clashCli)
     {
@@ -19,8 +19,4 @@ public class ProxyRuleProviderService: BaseService<List<RuleProvider>>,IProxyRul
                new List<RuleProvider>();
     }
 
-    protected override bool ObjEquals(List<RuleProvider> oldObj, List<RuleProvider> newObj)
-    {
-        return oldObj.SequenceEqual(newObj);
-    }
 }

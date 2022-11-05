@@ -8,7 +8,7 @@ using ClashGui.Services.Base;
 
 namespace ClashGui.Services;
 
-public class ProxyGroupService : BaseService<List<ProxyGroup>>, IProxyGroupService
+public class ProxyGroupService : BaseListService<ProxyGroup>, IProxyGroupService
 {
     private static readonly string[] NotShownProxyGroups = {"DIRECT", "GLOBAL", "REJECT", "COMPATIBLE", "PASS"};
     private static ProxyGroupComparer _proxyGroupComparer = new();

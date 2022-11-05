@@ -62,7 +62,6 @@ namespace ClashGui
             builder.RegisterType<DashboardViewModel>().As<IDashboardViewModel>().SingleInstance();
             builder.RegisterInstance(RxApp.SuspensionHost.GetAppState<SettingsViewModel>()).As<ISettingsViewModel>().SingleInstance();
 
-            builder.RegisterType<ClashService>().As<IClashService>().SingleInstance();
             builder.RegisterType<ProxyGroupService>().As<IProxyGroupService>().SingleInstance();
             builder.RegisterType<ProxyProviderService>().As<IProxyProviderService>().SingleInstance();
             builder.RegisterType<ProxyRuleService>().As<IProxyRuleService>().SingleInstance();
