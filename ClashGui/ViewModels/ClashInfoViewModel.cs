@@ -1,38 +1,25 @@
-﻿using System;
-using System.Reactive.Linq;
-using ClashGui.Cli;
+﻿using System.Reactive.Linq;
 using ClashGui.Interfaces;
 using ClashGui.Services;
 using ClashGui.Utils;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace ClashGui.ViewModels;
 
 public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
 {
-    private IClashCli _clashCli;
-
-    public ClashInfoViewModel(IClashCli clashCli, IRealtimeTrafficService realtimeTrafficService)
+    public ClashInfoViewModel(IRealtimeTrafficService realtimeTrafficService, IVersionService versionService)
     {
-        _clashCli = clashCli;
-        realtimeTrafficService.Obj.Subscribe(d =>
-        {
-            RealtimeSpeed = $"↑ {d.Up.ToHumanSize()}/s\n↓ {d.Down.ToHumanSize()}/s";
-        });
+        realtimeTrafficService.Obj.Select(d => $"↑ {d.Up.ToHumanSize()}/s\n↓ {d.Down.ToHumanSize()}/s")
+            .ToPropertyEx(this, d => d.RealtimeSpeed);
 
-        Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
-            .Where(d => _clashCli.Running == RunningState.Started)
-            .SelectMany(async _ => await GlobalConfigs.ClashControllerApi.GetClashVersion())
-            .WhereNotNull()
-            .Select(d => $"{d.Version}\n{(d.Premium ? "Premium" : "")}")
-            .ToProperty(this, d => d.Version);
+        versionService.Obj.Select(d => $"{d.Version}\n{(d.Premium ? "Premium" : "")}")
+            .ToPropertyEx(this, d => d.Version);
     }
 
     [ObservableAsProperty]
     public string Version { get; }
 
-    [Reactive]
-    public string RealtimeSpeed { get; set; }
-
+    [ObservableAsProperty]
+    public string RealtimeSpeed { get; }
 }
