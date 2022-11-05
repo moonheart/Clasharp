@@ -65,11 +65,11 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
             }
         });
 
-        _clashCli.RunningObservable.BindTo(this, d => d.RunningState);
+        _clashCli.RunningState.BindTo(this, d => d.RunningState);
 
-        _clashCli.RunningObservable.Subscribe(d =>
+        _clashCli.RunningState.Subscribe(d =>
         {
-            IsStartingOrStopping = d == RunningState.Starting || d == RunningState.Stopping;
+            IsStartingOrStopping = d is RunningState.Starting or RunningState.Stopping;
             IsStarted = d == RunningState.Started;
             IsStopped = d == RunningState.Stopped;
         });

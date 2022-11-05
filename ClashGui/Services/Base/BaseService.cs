@@ -18,7 +18,7 @@ public abstract class BaseService<T>: IAutoFreshable, IObservalbeObjService<T>
     protected BaseService(IClashCli clashCli)
     {
         Obj = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
-            .CombineLatest(clashCli.RunningObservable)
+            .CombineLatest(clashCli.RunningState)
             .Where(tuple => tuple.Second == RunningState.Started && EnableAutoFresh)
             .SelectMany(_=>GetObj())
             .Where(items =>

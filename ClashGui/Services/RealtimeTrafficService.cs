@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -20,11 +21,13 @@ public class RealtimeTrafficService : IRealtimeTrafficService
     public RealtimeTrafficService(IClashCli clashCli)
     {
         var trafficWatcher = new TrafficWatcher(_trafficEntry);
-        clashCli.RunningObservable.Subscribe(d =>
+        clashCli.RunningState
+            .CombineLatest(clashCli.Config)
+            .Subscribe(d =>
         {
-            if (d == RunningState.Started && !string.IsNullOrWhiteSpace(clashCli.Config.ExternalController))
+            if (d.First == RunningState.Started && !string.IsNullOrWhiteSpace(d.Second.ExternalController))
             {
-                trafficWatcher.Start(clashCli.Config.ExternalController);
+                trafficWatcher.Start(d.Second.ExternalController);
             }
             else
             {

@@ -19,12 +19,10 @@ namespace ClashGui.Cli;
 
 public interface IClashCli
 {
-    RawConfig Config { get; } 
-    
-    RunningState Running { get; }
-    
-    IObservable<RunningState> RunningObservable { get; }
-    
+    IObservable<RawConfig> Config { get; }
+
+    IObservable<RunningState> RunningState { get; }
+
     IObservable<LogEntry> ConsoleLog { get; }
 
     Task<RawConfig> Start();
@@ -43,19 +41,17 @@ public class ClashCli : IClashCli
 {
     private Process? _process;
 
-    public RawConfig Config { get; private set; }
-    public RunningState Running => _isRunning;
-    public IObservable<RunningState> RunningObservable => _runningState;
+    public IObservable<RawConfig> Config => _config;
+    public IObservable<RunningState> RunningState => _runningState;
     public IObservable<LogEntry> ConsoleLog => _consoleLog;
 
-    private RunningState _isRunning;
     private ReplaySubject<RunningState> _runningState = new(1);
     private ReplaySubject<LogEntry> _consoleLog = new(1);
+    private ReplaySubject<RawConfig> _config = new(1);
 
     public ClashCli()
     {
-        _isRunning = RunningState.Stopped;
-        _runningState.OnNext(RunningState.Stopped);
+        _runningState.OnNext(Cli.RunningState.Stopped);
     }
 
     private Regex _logRegex = new Regex(@"\d{2}\:\d{2}\:\d{2}\s+(?<level>\S+)\s*(?<module>\[.+?\])?\s*(?<payload>.+)");
@@ -77,8 +73,7 @@ public class ClashCli : IClashCli
 
     public async Task<RawConfig> Start()
     {
-        _isRunning = RunningState.Starting;
-        _runningState.OnNext(RunningState.Starting);
+        _runningState.OnNext(Cli.RunningState.Starting);
 
         await EnsureConfig();
         var configYaml = File.ReadAllText(GlobalConfigs.ClashConfig);
@@ -103,6 +98,7 @@ public class ClashCli : IClashCli
         {
             _process.StartInfo.Verb = "runas";
         }
+
         _process.OutputDataReceived += (_, args) =>
         {
             if (string.IsNullOrEmpty(args.Data)) return;
@@ -117,29 +113,28 @@ public class ClashCli : IClashCli
         _process.BeginOutputReadLine();
         var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
 
-        GlobalConfigs.ClashControllerApi = RestService.For<IClashControllerApi>($"http://localhost:{port}", new RefitSettings()
-        {
-            ExceptionFactory = message => Task.FromResult<Exception?>(null)
-        });
+        GlobalConfigs.ClashControllerApi = RestService.For<IClashControllerApi>($"http://localhost:{port}",
+            new RefitSettings()
+            {
+                ExceptionFactory = message => Task.FromResult<Exception?>(null)
+            });
 
-        if (_process.WaitForExit(1000))
+        if (_process.WaitForExit(500))
         {
             var readToEnd = _process.StandardError.ReadToEnd();
             throw new Exception(readToEnd);
         }
-        Config = rawConfig;
-        _isRunning = RunningState.Started;
-        _runningState.OnNext(RunningState.Started);
+
+        _config.OnNext(rawConfig);
+        _runningState.OnNext(Cli.RunningState.Started);
         return rawConfig;
     }
 
     public Task Stop()
     {
-        _isRunning = RunningState.Stopping;
-        _runningState.OnNext(RunningState.Stopping);
+        _runningState.OnNext(Cli.RunningState.Stopping);
         _process?.Kill(true);
-        _isRunning = RunningState.Stopped;
-        _runningState.OnNext(RunningState.Stopped);
+        _runningState.OnNext(Cli.RunningState.Stopped);
         return Task.CompletedTask;
     }
 
