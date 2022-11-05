@@ -18,14 +18,14 @@ namespace ClashGui.ViewModels;
 public class ClashLogsViewModel : ViewModelBase, IClashLogsViewModel
 {
     public override string Name => "Logs";
-    public ClashLogsViewModel()
+    public ClashLogsViewModel(IClashCli clashCli)
     {
         LogsSource = new ObservableCollectionExtended<LogEntryExt>();
         LogsSource.ToObservableChangeSet()
             .Bind(out _logs)
             .Subscribe();
 
-        MessageBus.Current.Listen<LogEntry>().Subscribe(d =>
+        clashCli.ConsoleLog.Subscribe(d =>
         {
             if (LogsSource.Count >= 1000)
             {

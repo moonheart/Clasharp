@@ -24,6 +24,8 @@ public interface IClashCli
     RunningState Running { get; }
     
     IObservable<RunningState> RunningObservable { get; }
+    
+    IObservable<LogEntry> ConsoleLog { get; }
 
     Task<RawConfig> Start();
     Task Stop();
@@ -44,9 +46,11 @@ public class ClashCli : IClashCli
     public RawConfig Config { get; private set; }
     public RunningState Running => _isRunning;
     public IObservable<RunningState> RunningObservable => _runningState;
+    public IObservable<LogEntry> ConsoleLog => _consoleLog;
 
     private RunningState _isRunning;
-    private ReplaySubject<RunningState> _runningState = new ReplaySubject<RunningState>(1);
+    private ReplaySubject<RunningState> _runningState = new(1);
+    private ReplaySubject<LogEntry> _consoleLog = new(1);
 
     public ClashCli()
     {
@@ -104,7 +108,7 @@ public class ClashCli : IClashCli
             if (string.IsNullOrEmpty(args.Data)) return;
             var match = _logRegex.Match(args.Data);
             if (!match.Success) match = _logMetaRegex.Match(args.Data);
-            MessageBus.Current.SendMessage(match.Success
+            _consoleLog.OnNext(match.Success
                 ? new LogEntry(_levelsMap[match.Groups["level"].Value], match.Groups["payload"].Value)
                 : new LogEntry(LogLevel.INFO, args.Data));
         };
