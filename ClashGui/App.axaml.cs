@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+using Avalonia.Threading;
 using ClashGui.Cli;
 using ClashGui.Interfaces;
 using ClashGui.Utils;
@@ -35,21 +36,26 @@ namespace ClashGui
 
             // https://www.reactiveui.net/docs/handbook/dependency-inversion/custom-dependency-inversion
             var builder = new ContainerBuilder();
-            builder.RegisterType<ClashCli>().As<IClashCli>();
-            builder.RegisterType<MainWindowViewModel>().As<IMainWindowViewModel>();
-            builder.RegisterType<ProxiesViewModel>().As<IProxiesViewModel>();
-            builder.RegisterType<ClashLogsViewModel>().As<IClashLogsViewModel>();
-            builder.RegisterType<ProxyRulesListViewModel>().As<IProxyRulesListViewModel>();
-            builder.RegisterType<ConnectionsViewModel>().As<IConnectionsViewModel>();
-            builder.RegisterType<ClashInfoViewModel>().As<IClashInfoViewModel>();
-            builder.RegisterType<ProxyGroupListViewModel>().As<IProxyGroupListViewModel>();
-            builder.RegisterType<ProxyProviderListViewModel>().As<IProxyProviderListViewModel>();
-            builder.RegisterType<DashboardViewModel>().As<IDashboardViewModel>();
-            builder.RegisterInstance(state).As<ISettingsViewModel>();
+            builder.RegisterType<ClashCli>().As<IClashCli>().SingleInstance();
+            builder.RegisterType<MainWindowViewModel>().As<IMainWindowViewModel>().SingleInstance();
+            builder.RegisterType<ProxiesViewModel>().As<IProxiesViewModel>().SingleInstance();
+            builder.RegisterType<ClashLogsViewModel>().As<IClashLogsViewModel>().SingleInstance();
+            builder.RegisterType<ProxyRulesListViewModel>().As<IProxyRulesListViewModel>().SingleInstance();
+            builder.RegisterType<ConnectionsViewModel>().As<IConnectionsViewModel>().SingleInstance();
+            builder.RegisterType<ClashInfoViewModel>().As<IClashInfoViewModel>().SingleInstance();
+            builder.RegisterType<ProxyGroupListViewModel>().As<IProxyGroupListViewModel>().SingleInstance();
+            builder.RegisterType<ProxyProviderListViewModel>().As<IProxyProviderListViewModel>().SingleInstance();
+            builder.RegisterType<DashboardViewModel>().As<IDashboardViewModel>().SingleInstance();
+            builder.RegisterInstance(state).As<ISettingsViewModel>().SingleInstance();
 
             var autofacDependencyResolver = builder.UseAutofacDependencyResolver();
             builder.RegisterInstance(autofacDependencyResolver);
             autofacDependencyResolver.InitializeReactiveUI();
+            
+            // https://github.com/reactiveui/splat/issues/882
+            RxApp.MainThreadScheduler = AvaloniaScheduler.Instance;
+            Locator.CurrentMutable.RegisterConstant(new AvaloniaActivationForViewFetcher(), typeof(IActivationForViewFetcher));
+            Locator.CurrentMutable.RegisterConstant(new AutoDataTemplateBindingHook(), typeof(IPropertyBindingHook));
 
             var container = builder.Build();
             var autofacResolver = container.Resolve<AutofacDependencyResolver>();
