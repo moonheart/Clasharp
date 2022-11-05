@@ -29,5 +29,10 @@ public class DesignDashboardViewModel : ViewModelBase, IDashboardViewModel
         }
     };
 
-    public string? ExternalController { get; }
+    public string? ExternalController { get; } = "127.0.0.1:8908";
+    public string? Upload { get; } = "12KB/s";
+    public string? Download { get; } = "12KB/s";
+    public string? UploadTotal { get; } = "12KB";
+    public string? DownloadTotal { get; } = "12KB";
+    public int ConnectionsCount { get; } = 10;
 }

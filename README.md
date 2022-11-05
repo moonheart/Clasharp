@@ -7,8 +7,8 @@ This is a WIP project.
   - [x] Stop
 - [ ] User Interface
   - [x] Dashboard
-    - [ ] Traffic Stats
-    - [ ] Connections Stats
+    - [x] Traffic Stats
+    - [x] Connections Stats
     - [x] Traffic Chart
   - [x] Proxy Groups
     - [x] Select Proxy

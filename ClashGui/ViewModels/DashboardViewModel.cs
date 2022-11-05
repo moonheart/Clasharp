@@ -20,9 +20,16 @@ namespace ClashGui.ViewModels;
 
 public class DashboardViewModel : ViewModelBase, IDashboardViewModel
 {
-    public DashboardViewModel(IClashCli clashCli, ISettingsViewModel settingsViewModel,
-        IRealtimeTrafficService realtimeTrafficService)
+    public DashboardViewModel(IClashCli clashCli,
+        ISettingsViewModel settingsViewModel,
+        IRealtimeTrafficService realtimeTrafficService,
+        IConnectionService connectionService)
     {
+        Upload = "0 KB/s";
+        Download = "0 KB/s";
+        UploadTotal = "0 KB";
+        DownloadTotal = "0 KB";
+        
         StartClash = ReactiveCommand.CreateFromTask(async () => await clashCli.Start());
         StopClash = ReactiveCommand.CreateFromTask(async () => await clashCli.Stop());
 
@@ -55,6 +62,13 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
             IsStartingOrStopping = d is RunningState.Starting or RunningState.Stopping;
             IsStarted = d == RunningState.Started;
             IsStopped = d == RunningState.Stopped;
+        });
+
+        connectionService.Obj.Subscribe(d =>
+        {
+            DownloadTotal = d.DownloadTotal.ToHumanSize();
+            UploadTotal = d.UploadTotal.ToHumanSize();
+            ConnectionsCount = d.Connections.Count;
         });
 
         _downSpeeds.AddRange(Enumerable.Repeat<long>(0, 60));
@@ -91,11 +105,28 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
             _downSpeeds.Add(d.Down);
             if (_upSpeeds.Count >= 60) _upSpeeds.RemoveAt(0);
             _upSpeeds.Add(d.Up);
+            Download = $"{d.Down.ToHumanSize()}/s";
+            Upload = $"{d.Up.ToHumanSize()}/s";
         });
     }
 
     [Reactive]
     public string? ExternalController { get; set; }
+
+    [Reactive]
+    public string? Upload { get; set; }
+
+    [Reactive]
+    public string? Download { get; set; }
+
+    [Reactive]
+    public string? UploadTotal { get; set; }
+
+    [Reactive]
+    public string? DownloadTotal { get; set; }
+
+    [Reactive]
+    public int ConnectionsCount { get; set; }
 
     public override string Name => "Dashboard";
     public ReactiveCommand<Unit, Unit> StartClash { get; }

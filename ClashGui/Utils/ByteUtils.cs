@@ -14,6 +14,6 @@ public static class ByteUtils
             len /= 1024.0;
         }
 
-        return $"{len:0.###} {_sizes[order]}";
+        return $"{len:0.##} {_sizes[order]}";
     }
 }

@@ -9,29 +9,79 @@
     <Design.DataContext>
         <designTime:DesignDashboardViewModel />
     </Design.DataContext>
-    <Grid RowDefinitions="Auto,Auto,Auto">
+    <UserControl.Styles>
+        <Style Selector="Border.Card">
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="MinWidth" Value="120" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="3" />
+            <Setter Property="Margin" Value="0 0 3 0" />
+        </Style>
+        <Style Selector="Border.Card TextBlock.Title">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="Gray" />
+        </Style>
+        <Style Selector="Border.Card TextBlock.Content">
+            <Setter Property="FontSize" Value="22" />
+        </Style>
+    </UserControl.Styles>
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto">
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <TextBlock Text="Clash State:" Padding="0 0 5 0" />
             <TextBlock Text="{Binding RunningState}" Padding="0 0 5 0" />
             <TextBlock Text="{Binding ExternalController}"></TextBlock>
         </StackPanel>
-        <StackPanel Grid.Row="1">
-            <Button 
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Border Classes="Card">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Classes="Title" Text="Upload"></TextBlock>
+                    <TextBlock Classes="Content" Text="{Binding Upload}"></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Classes="Card">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Classes="Title" Text="Download"></TextBlock>
+                    <TextBlock Classes="Content" Text="{Binding Download}"></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Classes="Card">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Classes="Title" Text="Upload Total"></TextBlock>
+                    <TextBlock Classes="Content" Text="{Binding UploadTotal}"></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Classes="Card">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Classes="Title" Text="Download Total"></TextBlock>
+                    <TextBlock Classes="Content" Text="{Binding DownloadTotal}"></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Classes="Card">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Classes="Title" Text="Active Connections"></TextBlock>
+                    <TextBlock Classes="Content" Text="{Binding ConnectionsCount}"></TextBlock>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        <StackPanel Grid.Row="2">
+            <Button
                 IsEnabled="{Binding !IsStartingOrStopping}"
                 IsVisible="{Binding IsStopped}"
                 Command="{Binding StartClash}" Content="Start Clash" />
             <Button
                 IsEnabled="{Binding !IsStartingOrStopping}"
                 IsVisible="{Binding IsStarted}"
-                Command="{Binding StopClash}" Content="Stop Clash"></Button>
+                Command="{Binding StopClash}" Content="Stop Clash">
+            </Button>
         </StackPanel>
-        <StackPanel Grid.Row="2" >
-            <lvc:CartesianChart 
+        <StackPanel Grid.Row="3">
+            <lvc:CartesianChart
                 Series="{Binding Series}"
                 YAxes="{Binding YAxes}"
                 EasingFunction="{x:Null}"
                 LegendPosition="Top"
-                MinHeight="400"/>
+                MinHeight="400" />
         </StackPanel>
     </Grid>
 </UserControl>
