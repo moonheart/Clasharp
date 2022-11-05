@@ -2,11 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
-using ClashGui.Clash.Models;
+using System.Reactive.Linq;
 using ClashGui.Cli;
-using ClashGui.Cli.ClashConfigs;
 using ClashGui.Interfaces;
 using ClashGui.Models.Settings;
+using ClashGui.Services;
 using ClashGui.Utils;
 using DynamicData;
 using LiveChartsCore;
@@ -20,55 +20,38 @@ namespace ClashGui.ViewModels;
 
 public class DashboardViewModel : ViewModelBase, IDashboardViewModel
 {
-    private IClashCli _clashCli;
-    private ISettingsViewModel _settingsViewModel;
-
-    public DashboardViewModel(IClashCli clashCli, ISettingsViewModel settingsViewModel)
+    public DashboardViewModel(IClashCli clashCli, ISettingsViewModel settingsViewModel,
+        IRealtimeTrafficService realtimeTrafficService)
     {
-        _clashCli = clashCli;
-        _settingsViewModel = settingsViewModel;
+        StartClash = ReactiveCommand.CreateFromTask(async () => await clashCli.Start());
+        StopClash = ReactiveCommand.CreateFromTask(async () => await clashCli.Stop());
 
-        StartClash = ReactiveCommand.CreateFromTask(async () =>
-        {
-            var rawConfig = await _clashCli.Start();
-            switch (_settingsViewModel.SystemProxyMode)
+        clashCli.RunningState
+            .CombineLatest(clashCli.Config)
+            .Subscribe(d =>
             {
-                case SystemProxyMode.Unchange:
-                    break;
-                case SystemProxyMode.Clear:
-                    ProxyUtils.UnsetSystemProxy();
-                    break;
-                case SystemProxyMode.SetProxy:
-                    ProxyUtils.SetSystemProxy($"http://127.0.0.1:{rawConfig.MixedPort ?? rawConfig.Port}", "");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            _rawConfig = rawConfig;
-        });
+                switch (settingsViewModel.SystemProxyMode)
+                {
+                    case SystemProxyMode.Clear:
+                        ProxyUtils.UnsetSystemProxy();
+                        break;
+                    case SystemProxyMode.SetProxy:
+                        if (d.First == RunningState.Started)
+                        {
+                            ProxyUtils.SetSystemProxy($"http://127.0.0.1:{d.Second.MixedPort ?? d.Second.Port}", "");
+                        }
+                        else if (d.First == RunningState.Stopped)
+                        {
+                            ProxyUtils.UnsetSystemProxy();
+                        }
 
-        StopClash = ReactiveCommand.CreateFromTask(async () =>
+                        break;
+                }
+            });
+
+        clashCli.RunningState.Subscribe(d =>
         {
-            await _clashCli.Stop();
-            switch (_settingsViewModel.SystemProxyMode)
-            {
-                case SystemProxyMode.Unchange:
-                    break;
-                case SystemProxyMode.Clear:
-                    
-                    break;
-                case SystemProxyMode.SetProxy:
-                    ProxyUtils.UnsetSystemProxy();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        });
-
-        _clashCli.RunningState.BindTo(this, d => d.RunningState);
-
-        _clashCli.RunningState.Subscribe(d =>
-        {
+            RunningState = d;
             IsStartingOrStopping = d is RunningState.Starting or RunningState.Stopping;
             IsStarted = d == RunningState.Started;
             IsStopped = d == RunningState.Stopped;
@@ -85,7 +68,7 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
                 GeometryFill = null,
                 GeometryStroke = null,
                 TooltipLabelFormatter = point => point.Model.ToHumanSize(),
-                Stroke = new SolidColorPaint(SKColors.Green){StrokeThickness = 1},
+                Stroke = new SolidColorPaint(SKColors.Green) {StrokeThickness = 1},
                 GeometrySize = 0
             },
             new LineSeries<long>()
@@ -95,16 +78,14 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
                 TooltipLabelFormatter = point => point.Model.ToHumanSize(),
                 GeometryFill = null,
                 GeometryStroke = null,
-                Stroke = new SolidColorPaint(SKColors.Red){StrokeThickness = 1},
+                Stroke = new SolidColorPaint(SKColors.Red) {StrokeThickness = 1},
                 GeometrySize = 0
             }
         };
 
-        this.WhenAnyValue(d => d._rawConfig)
-            .WhereNotNull()
-            .Subscribe(d => ExternalController = d.ExternalController);
+        clashCli.Config.Subscribe(d => ExternalController = d.ExternalController);
 
-        MessageBus.Current.Listen<TrafficEntry>().Subscribe(d =>
+        realtimeTrafficService.Obj.Subscribe(d =>
         {
             if (_downSpeeds.Count >= 60) _downSpeeds.RemoveAt(0);
             _downSpeeds.Add(d.Down);
@@ -112,9 +93,6 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
             _upSpeeds.Add(d.Up);
         });
     }
-
-    [Reactive]
-    private RawConfig _rawConfig { get; set; }
 
     [Reactive]
     public string? ExternalController { get; set; }
@@ -135,18 +113,18 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
     [Reactive]
     public bool IsStopped { get; set; }
 
-    private ObservableCollection<long> _upSpeeds = new ObservableCollection<long>();
-    private ObservableCollection<long> _downSpeeds = new ObservableCollection<long>();
+    private ObservableCollection<long> _upSpeeds = new();
+    private ObservableCollection<long> _downSpeeds = new();
 
     [Reactive]
     public ISeries[] Series { get; set; }
 
-    public Axis[] YAxes { get; set; } = new Axis[]
+    public Axis[] YAxes { get; set; } =
     {
         new()
         {
             MinLimit = 0,
-            Labeler = d => ((long) d).ToHumanSize() 
+            Labeler = d => ((long) d).ToHumanSize()
         }
     };
 }

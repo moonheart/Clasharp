@@ -25,7 +25,7 @@ public interface IClashCli
 
     IObservable<LogEntry> ConsoleLog { get; }
 
-    Task<RawConfig> Start();
+    Task Start();
     Task Stop();
 }
 
@@ -71,7 +71,7 @@ public class ClashCli : IClashCli
         ["silent"] = LogLevel.SILENT,
     };
 
-    public async Task<RawConfig> Start()
+    public async Task Start()
     {
         _runningState.OnNext(Cli.RunningState.Starting);
 
@@ -127,7 +127,6 @@ public class ClashCli : IClashCli
 
         _config.OnNext(rawConfig);
         _runningState.OnNext(Cli.RunningState.Started);
-        return rawConfig;
     }
 
     public Task Stop()

@@ -13,7 +13,7 @@ namespace ClashGui.Services;
 
 public class RealtimeTrafficService : IRealtimeTrafficService
 {
-    public IObservable<TrafficEntry> Obj { get; }
+    public IObservable<TrafficEntry> Obj => _trafficEntry;
     public bool EnableAutoFresh { get; set; }
 
     private ReplaySubject<TrafficEntry> _trafficEntry = new();
