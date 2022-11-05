@@ -10,7 +10,7 @@ public class ProxyHistory
 
     protected bool Equals(ProxyHistory other)
     {
-        return Time.Equals(other.Time) && Delay == other.Delay;
+        return Time.ToString("s").Equals(other.Time.ToString("s")) && Delay == other.Delay;
     }
 
     public override bool Equals(object? obj)

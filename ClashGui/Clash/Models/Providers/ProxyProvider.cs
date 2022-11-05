@@ -15,7 +15,7 @@ public class ProxyProvider
 
     protected bool Equals(ProxyProvider other)
     {
-        return Name == other.Name && Proxies.SequenceEqual(other.Proxies) && Type == other.Type && UpdatedAt.Equals(other.UpdatedAt) && VehicleType == other.VehicleType;
+        return Name == other.Name && Proxies.SequenceEqual(other.Proxies) && Type == other.Type && UpdatedAt.ToString("s").Equals(other.UpdatedAt.ToString("s")) && VehicleType == other.VehicleType;
     }
 
     public override bool Equals(object? obj)

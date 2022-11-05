@@ -13,7 +13,7 @@ public class RuleProvider
 
     protected bool Equals(RuleProvider other)
     {
-        return Behavior == other.Behavior && Name == other.Name && RuleCount == other.RuleCount && Type == other.Type && UpdatedAt.Equals(other.UpdatedAt) && VehicleType == other.VehicleType;
+        return Behavior == other.Behavior && Name == other.Name && RuleCount == other.RuleCount && Type == other.Type && UpdatedAt.ToString("s").Equals(other.UpdatedAt.ToString("s")) && VehicleType == other.VehicleType;
     }
 
     public override bool Equals(object? obj)
