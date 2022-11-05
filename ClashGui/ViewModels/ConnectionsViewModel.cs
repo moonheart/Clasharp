@@ -5,9 +5,9 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using ClashGui.Clash.Models.Connections;
-using ClashGui.Cli;
 using ClashGui.Interfaces;
 using ClashGui.Models.Connections;
+using ClashGui.Services;
 using ClashGui.Utils;
 using DynamicData;
 using ReactiveUI;
@@ -18,21 +18,15 @@ namespace ClashGui.ViewModels;
 public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
 {
     public override string Name => "Connections";
-    private IClashCli _clashCli;
-    public ConnectionsViewModel(IClashCli clashCli)
-    {
-        _clashCli = clashCli;
-        var connectionInfo = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
-            .Where(d=>_clashCli.Running == RunningState.Started)
-            .SelectMany(async _ => await GlobalConfigs.ClashControllerApi.GetConnections())
-            .Select(d=>d ?? new ConnectionInfo {Connections = new List<Connection>()});
 
-        _downloadTotal = connectionInfo.Select(d => $"↓ {d.DownloadTotal.ToHumanSize()}")
+    public ConnectionsViewModel(IConnectionService connectionService)
+    {
+        _downloadTotal = connectionService.Obj.Select(d => $"↓ {d.DownloadTotal.ToHumanSize()}")
             .ToProperty(this, d => d.DownloadTotal);
-        _uploadTotal = connectionInfo.Select(d => $"↑ {d.UploadTotal.ToHumanSize()}")
+        _uploadTotal = connectionService.Obj.Select(d => $"↑ {d.UploadTotal.ToHumanSize()}")
             .ToProperty(this, d => d.UploadTotal);
 
-        connectionInfo.Subscribe(d =>
+        connectionService.Obj.Subscribe(d =>
         {
             var previousKeys = _connectionsSource.Keys.ToHashSet();
             foreach (var connection in d.Connections)
