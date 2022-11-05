@@ -10,7 +10,7 @@ public abstract class BaseService<T>: IAutoFreshable, IObservalbeObjService<T>
     public bool EnableAutoFresh { get; set; } = true;
 
     public IObservable<T> Obj { get; }
-    private readonly T? _obj = default;
+    private T? _obj;
 
 
     protected BaseService(IClashCli clashCli)
@@ -19,7 +19,12 @@ public abstract class BaseService<T>: IAutoFreshable, IObservalbeObjService<T>
             .CombineLatest(clashCli.RunningObservable)
             .Where(tuple => tuple.Second == RunningState.Started && EnableAutoFresh)
             .SelectMany(_=>GetObj())
-            .Where(items => _obj == null || !ObjEquals(_obj, items));
+            .Where(items =>
+            {
+                if (_obj != null && ObjEquals(_obj, items)) return false;
+                _obj = items;
+                return true;
+            });
     }
 
     protected abstract Task<T> GetObj();
