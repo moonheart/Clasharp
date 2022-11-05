@@ -24,7 +24,7 @@ This is a WIP project.
   - [x] Realtime Logs
   - [x] Clash Process Status
   - [ ] Settings
-    - [ ] System Proxy
+    - [x] System Proxy
     - [ ] TUN Mode
     - [ ] Start With System
   - [ ] Subscriptions
