@@ -24,16 +24,6 @@
                   VerticalAlignment="Stretch"
                   SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Host" Binding="{Binding Host}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Network" Binding="{Binding Network}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Type" Binding="{Binding Type}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Chains" Binding="{Binding Chains}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Process" Binding="{Binding Process}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Start" Binding="{Binding Start}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Download" SortMemberPath="DownloadSpeed" Binding="{Binding DownloadSpeedDesc}" />
-                <DataGridTextColumn Header="Upload" SortMemberPath="UploadSpeed" Binding="{Binding UploadSpeedDesc}" />
-                <DataGridTextColumn Header="DownloadTotal" SortMemberPath="Connection.Download" Binding="{Binding DownloadTotal}" />
-                <DataGridTextColumn Header="UploadTotal" SortMemberPath="Connection.Upload" Binding="{Binding UploadTotal}" />
                 <DataGridTemplateColumn>
                     <DataTemplate DataType="connections:ConnectionExt">
                         <StackPanel Orientation="Horizontal">
@@ -45,6 +35,16 @@
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Host" Binding="{Binding Host}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Chains" Binding="{Binding Chains}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Download" SortMemberPath="DownloadSpeed" Binding="{Binding DownloadSpeedDesc}" />
+                <DataGridTextColumn Header="Upload" SortMemberPath="UploadSpeed" Binding="{Binding UploadSpeedDesc}" />
+                <DataGridTextColumn Header="Network" Binding="{Binding Network}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Type" Binding="{Binding Type}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Process" Binding="{Binding Process}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Start" Binding="{Binding Start}"></DataGridTextColumn>
+                <DataGridTextColumn Header="DownloadTotal" SortMemberPath="Connection.Download" Binding="{Binding DownloadTotal}" />
+                <DataGridTextColumn Header="UploadTotal" SortMemberPath="Connection.Upload" Binding="{Binding UploadTotal}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
