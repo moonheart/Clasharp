@@ -8,7 +8,6 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
-using ClashGui.Clash.Models.Proxies;
 using ClashGui.Interfaces;
 using ClashGui.Models.Proxies;
 using ClashGui.Services;

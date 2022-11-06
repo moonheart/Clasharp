@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ClashGui.Common.ApiModels.Proxies;
 using ClashGui.Models.Proxies;
 
 namespace ClashGui.Interfaces;

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClashGui.Clash.Models.Rules;
 using ClashGui.Cli;
+using ClashGui.Common.ApiModels.Rules;
 using ClashGui.Services.Base;
 
 namespace ClashGui.Services;

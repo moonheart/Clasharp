@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using ClashGui.Clash.Models.Proxies;
 using ClashGui.Interfaces;
 using ClashGui.Models.Proxies;
 using ClashGui.ViewModels;

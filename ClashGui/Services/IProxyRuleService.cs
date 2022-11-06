@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ClashGui.Clash.Models.Rules;
+using ClashGui.Common.ApiModels.Rules;
 using ClashGui.Services.Base;
 
 namespace ClashGui.Services;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ClashGui.Clash.Models.Proxies;
+using ClashGui.Common.ApiModels.Proxies;
 
 namespace ClashGui.Models.Proxies;
 

@@ -1,4 +1,4 @@
-﻿namespace ClashGui.Clash.Models;
+﻿namespace ClashGui.Common.ApiModels;
 
 public class ErrorInfo
 {

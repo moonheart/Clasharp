@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ClashGui.Models.Proxies;
-
-namespace ClashGui.Clash.Models.Proxies;
+﻿namespace ClashGui.Common.ApiModels.Proxies;
 
 public class ProxyGroup
 {

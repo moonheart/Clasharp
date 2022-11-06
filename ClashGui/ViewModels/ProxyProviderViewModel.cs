@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using ClashGui.Clash.Models.Providers;
+using ClashGui.Common.ApiModels.Providers;
 using ClashGui.Interfaces;
 using ClashGui.Models.Proxies;
 using ReactiveUI;

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
-using ClashGui.Clash.Models.Providers;
-using ClashGui.Clash.Models.Proxies;
+using ClashGui.Common.ApiModels.Providers;
+using ClashGui.Common.ApiModels.Proxies;
 using ClashGui.Interfaces;
 using ClashGui.Models.Proxies;
 using ClashGui.ViewModels;

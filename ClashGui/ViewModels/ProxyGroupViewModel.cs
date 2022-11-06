@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ClashGui.Clash.Models.Proxies;
 using ClashGui.Interfaces;
 using ClashGui.Models.Proxies;
 using ReactiveUI;
 using System.Reactive;
 using System.Reactive.Linq;
+using ClashGui.Common.ApiModels.Proxies;
 using ReactiveUI.Fody.Helpers;
 
 namespace ClashGui.ViewModels;

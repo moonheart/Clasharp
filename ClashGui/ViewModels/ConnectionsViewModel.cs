@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using ClashGui.Clash.Models.Connections;
 using ClashGui.Interfaces;
 using ClashGui.Models.Connections;
 using ClashGui.Services;

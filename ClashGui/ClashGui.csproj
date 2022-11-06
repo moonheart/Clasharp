@@ -22,6 +22,7 @@
         <DefineConstants>Linux</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
+        <Folder Include="Clash\Models" />
         <Folder Include="Models\" />
         <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
@@ -90,5 +91,8 @@
       <Content Include="app.manifest">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\ClashGui.Common\ClashGui.Common.csproj" />
     </ItemGroup>
 </Project>

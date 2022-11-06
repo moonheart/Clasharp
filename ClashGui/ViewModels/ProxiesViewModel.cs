@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using ClashGui.Clash.Models.Providers;
-using ClashGui.Clash.Models.Proxies;
 using ClashGui.Interfaces;
 using ReactiveUI;
 

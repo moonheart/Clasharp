@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ClashGui.Clash.Models.Rules;
+﻿namespace ClashGui.Common.ApiModels.Rules;
 
 public class RuleInfo
 {

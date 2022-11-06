@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
-using ClashGui.Clash.Models.Logs;
 using ClashGui.Models.Logs;
 using ClashGui.ViewModels;
 using ReactiveUI;

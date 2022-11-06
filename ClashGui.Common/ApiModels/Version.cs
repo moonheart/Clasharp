@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ClashGui.Clash.Models;
+﻿namespace ClashGui.Common.ApiModels;
 
 public class VersionInfo
 {

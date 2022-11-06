@@ -1,4 +1,4 @@
-﻿namespace ClashGui.Clash.Models.Providers;
+﻿namespace ClashGui.Common.ApiModels.Providers;
 
 public enum VehicleType
 {

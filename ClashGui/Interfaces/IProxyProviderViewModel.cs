@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reactive;
-using ClashGui.Clash.Models.Providers;
+using ClashGui.Common.ApiModels.Providers;
 using ClashGui.Models.Proxies;
 using ReactiveUI;
 

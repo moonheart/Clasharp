@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ClashGui.Clash.Models;
-using ClashGui.Clash.Models.Connections;
-using ClashGui.Clash.Models.Providers;
-using ClashGui.Clash.Models.Proxies;
-using ClashGui.Clash.Models.Rules;
+using ClashGui.Common.ApiModels;
+using ClashGui.Common.ApiModels.Connections;
+using ClashGui.Common.ApiModels.Providers;
+using ClashGui.Common.ApiModels.Proxies;
+using ClashGui.Common.ApiModels.Rules;
 using Refit;
 
 namespace ClashGui.Clash;
