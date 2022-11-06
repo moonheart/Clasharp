@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reactive;
-using ClashGui.Common.ApiModels.Providers;
-using ClashGui.Common.ApiModels.Rules;
+using ClashGui.Clash.Models.Providers;
+using ClashGui.Clash.Models.Rules;
 using ReactiveUI;
 
 namespace ClashGui.Interfaces;

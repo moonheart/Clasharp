@@ -1,4 +1,6 @@
-﻿namespace ClashGui.Common.ApiModels.Proxies;
+﻿using System;
+
+namespace ClashGui.Clash.Models.Proxies;
 
 public class ProxyHistory
 {

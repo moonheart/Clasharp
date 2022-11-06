@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Avalonia.Metadata;
-using ClashGui.Common.ApiModels.Connections;
+using ClashGui.Clash.Models.Connections;
 using ClashGui.Utils;
 using ClashGui.ViewModels;
 using ReactiveUI;

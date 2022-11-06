@@ -1,4 +1,6 @@
-﻿namespace ClashGui.Common.ApiModels.Providers;
+﻿using System;
+
+namespace ClashGui.Clash.Models.Providers;
 
 public class RuleProvider
 {

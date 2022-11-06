@@ -1,4 +1,4 @@
-﻿namespace ClashGui.Common.ApiModels.Proxies;
+﻿namespace ClashGui.Clash.Models.Proxies;
 
 public enum ProxyGroupType
 {

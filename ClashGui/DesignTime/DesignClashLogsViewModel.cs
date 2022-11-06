@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using ClashGui.Common.ApiModels.Logs;
+using ClashGui.Clash.Models.Logs;
 using ClashGui.Interfaces;
 using ClashGui.Models.Logs;
 using ClashGui.ViewModels;

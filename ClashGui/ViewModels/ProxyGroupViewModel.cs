@@ -8,7 +8,7 @@ using ReactiveUI;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using ClashGui.Common.ApiModels.Proxies;
+using ClashGui.Clash.Models.Proxies;
 using ReactiveUI.Fody.Helpers;
 
 namespace ClashGui.ViewModels;

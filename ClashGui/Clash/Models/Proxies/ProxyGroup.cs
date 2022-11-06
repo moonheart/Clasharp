@@ -1,4 +1,8 @@
-﻿namespace ClashGui.Common.ApiModels.Proxies;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ClashGui.Clash.Models.Proxies;
 
 public class ProxyGroup
 {

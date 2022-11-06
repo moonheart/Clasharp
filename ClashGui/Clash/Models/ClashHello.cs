@@ -1,4 +1,4 @@
-﻿namespace ClashGui.Common.ApiModels;
+﻿namespace ClashGui.Clash.Models;
 
 public class ClashHello
 {

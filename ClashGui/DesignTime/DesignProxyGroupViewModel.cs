@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Avalonia.Controls.Selection;
 using Avalonia.Input;
-using ClashGui.Common.ApiModels.Proxies;
+using ClashGui.Clash.Models.Proxies;
 using ClashGui.Interfaces;
 using ClashGui.Models.Proxies;
 using ClashGui.ViewModels;

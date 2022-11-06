@@ -1,6 +1,6 @@
 ﻿using System;
 using Avalonia.Media;
-using ClashGui.Common.ApiModels.Logs;
+using ClashGui.Clash.Models.Logs;
 
 namespace ClashGui.Models.Logs;
 

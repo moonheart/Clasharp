@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
 using Avalonia.Collections;
-using ClashGui.Common.ApiModels.Connections;
+using ClashGui.Clash.Models.Connections;
 using ClashGui.Interfaces;
 using ClashGui.Models.Connections;
 using ClashGui.ViewModels;

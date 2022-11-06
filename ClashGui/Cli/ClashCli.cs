@@ -8,12 +8,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ClashGui.Clash;
+using ClashGui.Clash.Models.Logs;
 using ClashGui.Cli.ClashConfigs;
-using ClashGui.Common.ApiModels.Logs;
 using ClashGui.Services;
 using Refit;
 using YamlDotNet.Serialization;
-using LogLevel = ClashGui.Common.ApiModels.Logs.LogLevel;
+using LogLevel = ClashGui.Clash.Models.Logs.LogLevel;
 
 namespace ClashGui.Cli;
 

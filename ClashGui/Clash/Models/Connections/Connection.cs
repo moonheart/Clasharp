@@ -1,4 +1,7 @@
-﻿namespace ClashGui.Common.ApiModels.Connections;
+﻿using System;
+using System.Collections.Generic;
+
+namespace ClashGui.Clash.Models.Connections;
 
 public class Connection
 {

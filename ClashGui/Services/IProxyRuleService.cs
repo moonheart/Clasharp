@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ClashGui.Common.ApiModels.Rules;
+using ClashGui.Clash.Models.Rules;
 using ClashGui.Services.Base;
 
 namespace ClashGui.Services;

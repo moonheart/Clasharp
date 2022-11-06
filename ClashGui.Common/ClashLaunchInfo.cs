@@ -1,6 +1,4 @@
-﻿using ClashGui.Common.ApiModels.Logs;
-
-namespace ClashGui.Common;
+﻿namespace ClashGui.Common;
 
 public class ClashLaunchInfo
 {

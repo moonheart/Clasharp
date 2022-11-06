@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using ClashGui.Common.ApiModels.Connections;
+using ClashGui.Clash.Models.Connections;
 using ClashGui.Services.Base;
 
 namespace ClashGui.Services;

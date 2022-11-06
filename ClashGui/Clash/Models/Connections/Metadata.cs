@@ -1,4 +1,4 @@
-﻿namespace ClashGui.Common.ApiModels.Connections;
+﻿namespace ClashGui.Clash.Models.Connections;
 
 public class Metadata
 {

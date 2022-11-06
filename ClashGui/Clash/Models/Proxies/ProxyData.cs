@@ -1,4 +1,6 @@
-﻿namespace ClashGui.Common.ApiModels.Proxies;
+﻿using System.Collections.Generic;
+
+namespace ClashGui.Clash.Models.Proxies;
 
 
 public class ProxyData 

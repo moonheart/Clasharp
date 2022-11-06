@@ -1,4 +1,6 @@
-﻿namespace ClashGui.Common.ApiModels;
+﻿using System.Collections.Generic;
+
+namespace ClashGui.Clash.Models;
 
 public class Configs
 {

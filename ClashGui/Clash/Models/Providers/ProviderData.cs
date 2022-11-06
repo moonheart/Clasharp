@@ -1,4 +1,6 @@
-﻿namespace ClashGui.Common.ApiModels.Providers;
+﻿using System.Collections.Generic;
+
+namespace ClashGui.Clash.Models.Providers;
 
 public class ProviderData<T>
 {
