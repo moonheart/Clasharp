@@ -11,9 +11,6 @@ public class ClashWrapper
     
     public Action<string>? OnNewLog { get; set; }
 
-    private Regex _logRegex = new Regex(@"\d{2}\:\d{2}\:\d{2}\s+(?<level>\S+)\s*(?<module>\[.+?\])?\s*(?<payload>.+)");
-    private Regex _logMetaRegex = new Regex(@"time=""(.+?) level=(?<level>.+?) msg=""(?<payload>.+)""");
-
     public ClashWrapper(ClashLaunchInfo clashLaunchInfo)
     {
         _clashLaunchInfo = clashLaunchInfo;
@@ -51,5 +48,10 @@ public class ClashWrapper
             var readToEnd = _process.StandardError.ReadToEnd();
             throw new Exception(readToEnd);
         }
+    }
+
+    public void Stop()
+    {
+        _process?.Kill(true);
     }
 }

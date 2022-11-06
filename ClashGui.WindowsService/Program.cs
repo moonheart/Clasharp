@@ -1,23 +1,18 @@
-﻿using System.Net;
-using ClashGui.WindowsService;
+﻿namespace ClashGui.WindowsService;
 
 class Program
 {
     public static async Task Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        IHost host = Host.CreateDefaultBuilder(args)
+            .ConfigureServices(services =>
+            {
+                services.AddHostedService<Worker>();
+                services.AddSingleton<HttpListenerWrapper>();
+            })
+            .Build();
 
-        var httpListenerWrapper = new HttpListenerWrapper("http://localhost:62134");
-        httpListenerWrapper.AddRoute("/start_clash", HandlerStart);
-        var cancellationTokenSource = new CancellationTokenSource();
-        var t = httpListenerWrapper.Start(cancellationTokenSource.Token);
+        await host.RunAsync();
     }
 
-
-    private static async Task HandlerStart(HttpListenerContext context)
-    {
-        
-    }
 }
-
-

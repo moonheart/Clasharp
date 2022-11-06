@@ -4,36 +4,29 @@ namespace ClashGui.WindowsService;
 
 public class HttpListenerWrapper
 {
-    private HttpListener _httpListener;
-    private string _listenUrl;
-    private Dictionary<string, Func<HttpListenerContext, Task>> _routes = new();
+    private readonly Dictionary<string, Func<HttpListenerContext, CancellationToken, Task>> _routes = new();
 
-    public HttpListenerWrapper(string listenUrl)
+    public void AddRoute(string route, Func<HttpListenerContext, CancellationToken, Task> handler) =>
+        _routes[route] = handler;
+
+    public async Task Listen(string listenUrl, CancellationToken cancellationToken)
     {
-        _listenUrl = listenUrl;
-    }
+        var httpListener = new HttpListener();
+        httpListener.Prefixes.Add(listenUrl);
+        httpListener.Start();
 
-    public void AddRoute(string route, Func<HttpListenerContext, Task> handler) => _routes[route] = handler;
-
-    public async Task Start( CancellationToken cancellationToken)
-    {
         while (!cancellationToken.IsCancellationRequested)
         {
-            _httpListener = new HttpListener();
-            _httpListener.Prefixes.Add(_listenUrl);
-            _httpListener.Start();
-
-            var httpListenerContext = await _httpListener.GetContextAsync();
+            var httpListenerContext = await httpListener.GetContextAsync();
             var handler = _routes.Keys.FirstOrDefault(d =>
                 httpListenerContext.Request.Url?.AbsolutePath.StartsWith(d) ?? false);
             if (handler != null)
             {
-                _ = _routes[handler](httpListenerContext);
+                _ = _routes[handler](httpListenerContext, cancellationToken);
             }
             else
             {
-                httpListenerContext.Response.StatusCode = 404;
-                httpListenerContext.Response.Close();
+                httpListenerContext.Return(404);
             }
         }
     }
