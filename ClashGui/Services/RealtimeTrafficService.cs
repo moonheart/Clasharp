@@ -18,9 +18,9 @@ public class RealtimeTrafficService : IRealtimeTrafficService
 
     private ReplaySubject<TrafficEntry> _trafficEntry = new();
 
-    public RealtimeTrafficService(IClashCli clashCli)
+    public RealtimeTrafficService(IClashCli clashCli, IClashApiFactory clashApiFactory)
     {
-        var trafficWatcher = new TrafficWatcher(_trafficEntry);
+        var trafficWatcher = new TrafficWatcher(_trafficEntry, clashApiFactory);
         clashCli.RunningState
             .CombineLatest(clashCli.Config)
             .Subscribe(d =>
@@ -38,13 +38,15 @@ public class RealtimeTrafficService : IRealtimeTrafficService
 
     private class TrafficWatcher : Watcher<TrafficEntry>
     {
-        public TrafficWatcher(ReplaySubject<TrafficEntry> replaySubject) : base(replaySubject)
+        private IClashApiFactory _clashApiFactory;
+        public TrafficWatcher(ReplaySubject<TrafficEntry> replaySubject, IClashApiFactory clashApiFactory) : base(replaySubject)
         {
+            _clashApiFactory = clashApiFactory;
         }
 
         protected override async Task Watch(string uri, CancellationToken cancellationToken)
         {
-            await foreach (var realtimeTraffic in GlobalConfigs.ClashControllerApi.GetRealtimeTraffic(uri)
+            await foreach (var realtimeTraffic in _clashApiFactory.Get().GetRealtimeTraffic(uri)
                                .WithCancellation(cancellationToken))
             {
                 var trafficEntry = JsonSerializer.Deserialize<TrafficEntry>(realtimeTraffic, new JsonSerializerOptions

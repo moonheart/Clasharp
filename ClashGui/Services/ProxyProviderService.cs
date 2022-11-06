@@ -9,15 +9,25 @@ namespace ClashGui.Services;
 
 public class ProxyProviderService : BaseListService<ProxyProvider>, IProxyProviderService
 {
-    public ProxyProviderService(IClashCli clashCli) : base(clashCli)
+    public ProxyProviderService(IClashCli clashCli, IClashApiFactory clashApiFactory) : base(clashCli, clashApiFactory)
     {
     }
 
     protected override async Task<List<ProxyProvider>> GetObj()
     {
-        var providerData = await GlobalConfigs.ClashControllerApi.GetProxyProviders();
+        var providerData = await _clashApiFactory.Get().GetProxyProviders();
         return providerData?.Providers?.Values.Where(d =>
                    d.VehicleType != VehicleType.Compatible && d.VehicleType != VehicleType.Unknown).ToList() ??
                new List<ProxyProvider>();
+    }
+
+    public Task HealthCheckProxyProvider(string name)
+    {
+        return _clashApiFactory.Get().HealthCheckProxyProvider(name);
+    }
+
+    public Task UpdateProxyProvider(string name)
+    {
+        return _clashApiFactory.Get().UpdateProxyProvider(name);
     }
 }

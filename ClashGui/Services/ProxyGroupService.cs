@@ -13,13 +13,13 @@ public class ProxyGroupService : BaseListService<ProxyGroup>, IProxyGroupService
     private static readonly string[] NotShownProxyGroups = {"DIRECT", "GLOBAL", "REJECT", "COMPATIBLE", "PASS"};
     private static ProxyGroupComparer _proxyGroupComparer = new();
 
-    public ProxyGroupService(IClashCli clashCli) : base(clashCli)
+    public ProxyGroupService(IClashCli clashCli, IClashApiFactory clashApiFactory) : base(clashCli, clashApiFactory)
     {
     }
 
     protected override async Task<List<ProxyGroup>> GetObj()
     {
-        var proxyData = await GlobalConfigs.ClashControllerApi.GetProxyGroups();
+        var proxyData = await _clashApiFactory.Get().GetProxyGroups();
         return proxyData?.Proxies?.Values.Where(d => !NotShownProxyGroups.Contains(d.Name)).ToList() ??
                new List<ProxyGroup>();
     }
@@ -49,5 +49,10 @@ public class ProxyGroupService : BaseListService<ProxyGroup>, IProxyGroupService
         {
             return HashCode.Combine(obj.All, obj.Name, obj.Now, obj.Type, obj.Udp);
         }
+    }
+
+    public Task SelectProxy(string group, string name)
+    {
+        return _clashApiFactory.Get().SelectProxy(group, new UpdateProxyRequest {Name = name});
     }
 }

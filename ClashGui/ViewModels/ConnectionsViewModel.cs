@@ -57,9 +57,9 @@ public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
             .Subscribe();
 
         CloseConnection = ReactiveCommand.CreateFromTask<string>(async id => 
-            await GlobalConfigs.ClashControllerApi.CloeseConnection(id));
+            await connectionService.CloseConnection(id));
         CloseAllConnection = ReactiveCommand.CreateFromTask(async () =>
-            await GlobalConfigs.ClashControllerApi.CloseAllConnections());
+            await connectionService.CloseAllConnections());
     }
 
     private readonly ObservableAsPropertyHelper<string> _downloadTotal;

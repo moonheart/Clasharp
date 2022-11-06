@@ -21,7 +21,7 @@ public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
 
         UpdateCommand = ReactiveCommand.CreateFromTask<string>(async name =>
         {
-            await GlobalConfigs.ClashControllerApi.UpdateRuleProvider(name);
+            await proxyRuleService.UpdateRuleProvider(name);
         });
     }
 

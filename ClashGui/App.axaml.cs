@@ -51,6 +51,7 @@ namespace ClashGui
             // https://www.reactiveui.net/docs/handbook/dependency-inversion/custom-dependency-inversion
             var builder = new ContainerBuilder();
             builder.RegisterType<ClashCli>().As<IClashCli>().SingleInstance();
+            builder.RegisterType<ClashApiFactory>().As<IClashApiFactory>().SingleInstance();
             builder.RegisterType<MainWindowViewModel>().As<IMainWindowViewModel>().SingleInstance();
             builder.RegisterType<ProxiesViewModel>().As<IProxiesViewModel>().SingleInstance();
             builder.RegisterType<ClashLogsViewModel>().As<IClashLogsViewModel>().SingleInstance();

@@ -9,13 +9,13 @@ namespace ClashGui.Services;
 
 public class ProxyRuleProviderService: BaseListService<RuleProvider>,IProxyRuleProviderService
 {
-    public ProxyRuleProviderService(IClashCli clashCli) : base(clashCli)
+    public ProxyRuleProviderService(IClashCli clashCli, IClashApiFactory clashApiFactory) : base(clashCli, clashApiFactory)
     {
     }
 
     protected override async Task<List<RuleProvider>> GetObj()
     {
-        return (await GlobalConfigs.ClashControllerApi.GetRuleProviders())?.Providers?.Values.ToList() ??
+        return (await _clashApiFactory.Get().GetRuleProviders())?.Providers?.Values.ToList() ??
                new List<RuleProvider>();
     }
 

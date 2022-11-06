@@ -7,12 +7,12 @@ namespace ClashGui.Services;
 
 public class VersionService : BaseService<VersionInfo>, IVersionService
 {
-    public VersionService(IClashCli clashCli) : base(clashCli)
+    public VersionService(IClashCli clashCli, IClashApiFactory clashApiFactory) : base(clashCli, clashApiFactory)
     {
     }
 
     protected override async Task<VersionInfo> GetObj()
     {
-        return await GlobalConfigs.ClashControllerApi.GetClashVersion() ?? new VersionInfo();
+        return await _clashApiFactory.Get().GetClashVersion() ?? new VersionInfo();
     }
 }

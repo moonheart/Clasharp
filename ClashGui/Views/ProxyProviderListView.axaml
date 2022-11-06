@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:designTime="clr-namespace:ClashGui.DesignTime"
              xmlns:avaloniaProgressRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+             xmlns:views="clr-namespace:ClashGui.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ClashGui.Views.ProxyProviderListView">
     <Design.DataContext>
@@ -18,17 +19,16 @@
                         <TextBlock Text="{Binding ProxyProvider.Name}" FontSize="20" FontWeight="Bold" Margin="0 0 5 0" />
                         <TextBlock Text="{Binding ProxyProvider.VehicleType}" VerticalAlignment="Bottom"></TextBlock>
 
-
                         <Button Content="Health Check"
                                 Padding="3"
                                 IsEnabled="{Binding !IsLoading}"
-                                Command="{Binding  CheckCommand}"
+                                Command="{Binding  $parent[views:ProxyProviderListView].DataContext.CheckCommand}"
                                 CommandParameter="{Binding ProxyProvider.Name}">
                         </Button>
                         <Button Content="Update"
                                 Padding="3"
                                 IsEnabled="{Binding !IsLoading}"
-                                Command="{Binding  UpdateCommand}"
+                                Command="{Binding  $parent[views:ProxyProviderListView].DataContext.UpdateCommand}"
                                 CommandParameter="{Binding ProxyProvider.Name}"></Button>
                         <avaloniaProgressRing:ProgressRing Width="16"
                                                            Height="16"

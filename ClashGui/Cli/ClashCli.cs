@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using ClashGui.Clash;
 using ClashGui.Cli.ClashConfigs;
 using ClashGui.Common.ApiModels.Logs;
+using ClashGui.Services;
 using Refit;
 using YamlDotNet.Serialization;
 using LogLevel = ClashGui.Common.ApiModels.Logs.LogLevel;
@@ -48,8 +49,10 @@ public class ClashCli : IClashCli
     private ReplaySubject<LogEntry> _consoleLog = new(1);
     private ReplaySubject<RawConfig> _config = new(1);
 
-    public ClashCli()
+    private IClashApiFactory _clashApiFactory;
+    public ClashCli(IClashApiFactory clashApiFactory)
     {
+        _clashApiFactory = clashApiFactory;
         _runningState.OnNext(Cli.RunningState.Stopped);
     }
 
@@ -111,12 +114,7 @@ public class ClashCli : IClashCli
         _process.PriorityClass = ProcessPriorityClass.High;
         _process.BeginOutputReadLine();
         var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
-
-        GlobalConfigs.ClashControllerApi = RestService.For<IClashControllerApi>($"http://localhost:{port}",
-            new RefitSettings()
-            {
-                ExceptionFactory = message => Task.FromResult<Exception?>(null)
-            });
+        _clashApiFactory.SetPort(int.Parse(port));
 
         if (_process.WaitForExit(500))
         {

@@ -145,7 +145,7 @@ public interface IClashControllerApi
     /// <param name="id"></param>
     /// <returns></returns>
     [Delete("/connections/{id}")]
-    Task CloeseConnection(string id);
+    Task CloseConnection(string id);
 
     #endregion
 

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using ClashGui.Interfaces;
 using ClashGui.Services;
 using ReactiveUI;
@@ -17,9 +16,18 @@ public class ProxyProviderListViewModel : ViewModelBase, IProxyProviderListViewM
         proxyProviderService.Obj
             .Select(d => d.Select(x => new ProxyProviderViewModel(x) as IProxyProviderViewModel).ToList())
             .ToPropertyEx(this, d => d.ProxyProviders);
+        
+        CheckCommand = ReactiveCommand.CreateFromTask<string>(async name =>
+            await proxyProviderService.HealthCheckProxyProvider(name));
+        UpdateCommand = ReactiveCommand.CreateFromTask<string>(async name =>
+            await proxyProviderService.UpdateProxyProvider(name));
     }
 
     [ObservableAsProperty]
     public List<IProxyProviderViewModel>? ProxyProviders { get; }
+    
+    
+    public ReactiveCommand<string, Unit> CheckCommand { get; }
+    public ReactiveCommand<string, Unit> UpdateCommand { get; }
 
 }

@@ -14,9 +14,10 @@ public abstract class BaseService<T>: IAutoFreshable, IObservalbeObjService<T>
     public IObservable<T> Obj { get; }
     private T? _obj;
 
-
-    protected BaseService(IClashCli clashCli)
+    protected IClashApiFactory _clashApiFactory;
+    protected BaseService(IClashCli clashCli, IClashApiFactory clashApiFactory)
     {
+        _clashApiFactory = clashApiFactory;
         Obj = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
             .CombineLatest(clashCli.RunningState)
             .Where(tuple => tuple.Second == RunningState.Started && EnableAutoFresh)
@@ -39,7 +40,7 @@ public abstract class BaseService<T>: IAutoFreshable, IObservalbeObjService<T>
 
 public abstract class BaseListService<T> : BaseService<List<T>>
 {
-    protected BaseListService(IClashCli clashCli) : base(clashCli)
+    protected BaseListService(IClashCli clashCli, IClashApiFactory clashApiFactory) : base(clashCli, clashApiFactory)
     {
     }
 

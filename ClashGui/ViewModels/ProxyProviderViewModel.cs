@@ -17,20 +17,10 @@ public class ProxyProviderViewModel : ViewModelBase, IProxyProviderViewModel
     public ProxyProviderViewModel(ProxyProvider proxyProvider)
     {
         _proxyProvider = proxyProvider;
-
-        CheckCommand = ReactiveCommand.CreateFromTask<string>(async name =>
-            await GlobalConfigs.ClashControllerApi.HealthCheckProxyProvider(name));
-        UpdateCommand = ReactiveCommand.CreateFromTask<string>(async name =>
-            await GlobalConfigs.ClashControllerApi.UpdateProxyProvider(name));
-
-        CheckCommand.IsExecuting.Merge(UpdateCommand.IsExecuting)
-            .ToPropertyEx(this, d => d.IsLoading);
     }
 
     public bool IsLoading { [ObservableAsProperty] get; }
 
-    public ReactiveCommand<string, Unit> CheckCommand { get; }
-    public ReactiveCommand<string, Unit> UpdateCommand { get; }
     public ProxyProvider ProxyProvider => _proxyProvider;
 
     public List<ProxyGroupExt> Proxies => _proxyProvider.Proxies.Select(pg => new ProxyGroupExt(pg)).ToList();

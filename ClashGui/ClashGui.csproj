@@ -22,7 +22,6 @@
         <DefineConstants>Linux</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
-        <Folder Include="Clash\Models" />
         <Folder Include="Models\" />
         <AvaloniaResource Include="Assets\**" />
     </ItemGroup>

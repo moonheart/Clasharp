@@ -8,5 +8,10 @@ namespace ClashGui.Interfaces;
 public interface IProxyProviderListViewModel: IViewModelBase
 {
     List<IProxyProviderViewModel>? ProxyProviders { get; }
+        
+    ReactiveCommand<string, Unit> CheckCommand { get; }
+    
+    ReactiveCommand<string, Unit> UpdateCommand { get; }
+
 
 }

@@ -7,6 +7,7 @@ using ClashGui.Models.Proxies;
 using ReactiveUI;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using ClashGui.Common.ApiModels.Proxies;
 using ReactiveUI.Fody.Helpers;
 
@@ -15,10 +16,12 @@ namespace ClashGui.ViewModels;
 public class ProxyGroupViewModel : ViewModelBase, IProxyGroupViewModel
 {
     private readonly ProxyGroup _proxyGroup;
+    private Func<string, string, Task> _setProxy;
 
-    public ProxyGroupViewModel(ProxyGroup proxyGroup)
+    public ProxyGroupViewModel(ProxyGroup proxyGroup, Func<string, string, Task> setProxy)
     {
         _proxyGroup = proxyGroup;
+        _setProxy = setProxy;
         SelectedProxy = _proxyGroup.Now == null
             ? null
             : new SelectProxy {Group = _proxyGroup.Name, Proxy = _proxyGroup.Now};
@@ -29,7 +32,7 @@ public class ProxyGroupViewModel : ViewModelBase, IProxyGroupViewModel
             .Skip(1)
             .Subscribe(d =>
             {
-                GlobalConfigs.ClashControllerApi.SelectProxy(d.Group, new UpdateProxyRequest() {Name = d.Proxy})
+                _setProxy(d.Group, d.Proxy)
                     .ConfigureAwait(false).GetAwaiter().GetResult();
             });
     }
@@ -45,7 +48,7 @@ public class ProxyGroupViewModel : ViewModelBase, IProxyGroupViewModel
     public SelectProxy? SelectedProxy { get; set; }
 
     public bool Enabled { get; }
-    
+
     public override bool Equals(object? obj)
     {
         if (obj is ProxyGroupViewModel other)

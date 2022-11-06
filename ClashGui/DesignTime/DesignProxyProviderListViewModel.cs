@@ -14,4 +14,5 @@ public class DesignProxyProviderListViewModel : ViewModelBase, IProxyProviderLis
     };
 
     public ReactiveCommand<string, Unit> CheckCommand { get; }
+    public ReactiveCommand<string, Unit> UpdateCommand { get; }
 }
