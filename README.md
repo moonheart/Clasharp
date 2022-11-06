@@ -1,6 +1,15 @@
 ﻿# A clash GUI written in C# 
 This is a WIP project.
 
+## Screenshots
+
+![dashboard](images/dashboard.png)
+![proxies](images/proxies.png)
+![logs](images/logs.png)
+![rules](images/rules.png)
+![connections](images/connections.png)
+
+## Roadmap
 - [x] Clash API
 - [x] Clash CLI
   - [x] Start
