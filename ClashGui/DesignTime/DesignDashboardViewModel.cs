@@ -12,12 +12,6 @@ namespace ClashGui.DesignTime;
 public class DesignDashboardViewModel : ViewModelBase, IDashboardViewModel
 {
     public override string Name => "Dashboard";
-    public ReactiveCommand<Unit, Unit> StartClash { get; }
-    public ReactiveCommand<Unit, Unit> StopClash { get; }
-    public RunningState RunningState { get; }
-    public bool IsStartingOrStopping { get; } = false;
-    public bool IsStarted { get; } = true;
-    public bool IsStopped { get; } = true;
     public Axis[] YAxes { get; set; }
 
     public ISeries[] Series { get; set; } =

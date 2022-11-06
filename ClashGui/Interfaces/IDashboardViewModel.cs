@@ -9,16 +9,6 @@ namespace ClashGui.Interfaces;
 
 public interface IDashboardViewModel : IViewModelBase
 {
-    ReactiveCommand<Unit, Unit> StartClash { get; }
-    ReactiveCommand<Unit, Unit> StopClash { get; }
-
-    RunningState RunningState { get; }
-
-    bool IsStartingOrStopping { get; }
-
-    bool IsStarted { get; }
-    bool IsStopped { get; }
-
     Axis[] YAxes { get; set; }
     ISeries[] Series { get; set; }
 

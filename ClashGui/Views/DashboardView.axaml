@@ -28,8 +28,6 @@
     </UserControl.Styles>
     <Grid RowDefinitions="Auto,Auto,Auto,Auto">
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock Text="Clash State:" Padding="0 0 5 0" />
-            <TextBlock Text="{Binding RunningState}" Padding="0 0 5 0" />
             <TextBlock Text="{Binding ExternalController}"></TextBlock>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -65,17 +63,6 @@
             </Border>
         </StackPanel>
         <StackPanel Grid.Row="2">
-            <Button
-                IsEnabled="{Binding !IsStartingOrStopping}"
-                IsVisible="{Binding IsStopped}"
-                Command="{Binding StartClash}" Content="Start Clash" />
-            <Button
-                IsEnabled="{Binding !IsStartingOrStopping}"
-                IsVisible="{Binding IsStarted}"
-                Command="{Binding StopClash}" Content="Stop Clash">
-            </Button>
-        </StackPanel>
-        <StackPanel Grid.Row="3">
             <lvc:CartesianChart
                 Series="{Binding Series}"
                 YAxes="{Binding YAxes}"

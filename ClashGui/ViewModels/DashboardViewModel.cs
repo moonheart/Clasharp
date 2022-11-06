@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
 using ClashGui.Cli;
 using ClashGui.Interfaces;
-using ClashGui.Models.Settings;
 using ClashGui.Services;
 using ClashGui.Utils;
 using DynamicData;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using SkiaSharp;
 
@@ -21,7 +17,6 @@ namespace ClashGui.ViewModels;
 public class DashboardViewModel : ViewModelBase, IDashboardViewModel
 {
     public DashboardViewModel(IClashCli clashCli,
-        ISettingsViewModel settingsViewModel,
         IRealtimeTrafficService realtimeTrafficService,
         IConnectionService connectionService)
     {
@@ -29,41 +24,7 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
         Download = "0 KB/s";
         UploadTotal = "0 KB";
         DownloadTotal = "0 KB";
-        
-        StartClash = ReactiveCommand.CreateFromTask(async () => await clashCli.Start());
-        StopClash = ReactiveCommand.CreateFromTask(async () => await clashCli.Stop());
-
-        clashCli.RunningState
-            .CombineLatest(clashCli.Config)
-            .Subscribe(d =>
-            {
-                switch (settingsViewModel.SystemProxyMode)
-                {
-                    case SystemProxyMode.Clear:
-                        ProxyUtils.UnsetSystemProxy();
-                        break;
-                    case SystemProxyMode.SetProxy:
-                        if (d.First == RunningState.Started)
-                        {
-                            ProxyUtils.SetSystemProxy($"http://127.0.0.1:{d.Second.MixedPort ?? d.Second.Port}", "");
-                        }
-                        else if (d.First == RunningState.Stopped)
-                        {
-                            ProxyUtils.UnsetSystemProxy();
-                        }
-
-                        break;
-                }
-            });
-
-        clashCli.RunningState.Subscribe(d =>
-        {
-            RunningState = d;
-            IsStartingOrStopping = d is RunningState.Starting or RunningState.Stopping;
-            IsStarted = d == RunningState.Started;
-            IsStopped = d == RunningState.Stopped;
-        });
-
+      
         connectionService.Obj.Subscribe(d =>
         {
             DownloadTotal = d.DownloadTotal.ToHumanSize();
@@ -129,20 +90,6 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
     public int ConnectionsCount { get; set; }
 
     public override string Name => "Dashboard";
-    public ReactiveCommand<Unit, Unit> StartClash { get; }
-    public ReactiveCommand<Unit, Unit> StopClash { get; }
-
-    [Reactive]
-    public RunningState RunningState { get; set; }
-
-    [Reactive]
-    public bool IsStartingOrStopping { get; set; }
-
-    [Reactive]
-    public bool IsStarted { get; set; }
-
-    [Reactive]
-    public bool IsStopped { get; set; }
 
     private ObservableCollection<long> _upSpeeds = new();
     private ObservableCollection<long> _downSpeeds = new();
