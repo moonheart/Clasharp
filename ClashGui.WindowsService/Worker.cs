@@ -26,7 +26,7 @@ public class Worker : BackgroundService
         _httpListenerWrapper.AddRoute("/stop_clash", HandleStop);
         _httpListenerWrapper.AddRoute("/logs", HandleLogs);
         _httpListenerWrapper.AddRoute("/hello", HandleHello);
-        var httpLocalhost = "http://localhost:62134/";
+        var httpLocalhost = $"http://localhost:{GlobalConfigs.ClashServicePort}/";
         _logger.LogInformation($"Listening at {httpLocalhost}");
         await _httpListenerWrapper.Listen(httpLocalhost, stoppingToken);
     }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using ClashGui.Clash;
 using ClashGui.Clash.Models.Logs;
 using ClashGui.Cli.ClashConfigs;
+using ClashGui.Common;
 using ClashGui.Services;
 using Refit;
 using YamlDotNet.Serialization;
@@ -37,50 +38,18 @@ public enum RunningState
     Stopping
 }
 
-public class ClashCli : IClashCli
+public class ClashCli : ClashCliBase
 {
     private Process? _process;
 
-    public IObservable<RawConfig> Config => _config;
-    public IObservable<RunningState> RunningState => _runningState;
-    public IObservable<LogEntry> ConsoleLog => _consoleLog;
-
-    private ReplaySubject<RunningState> _runningState = new(1);
-    private ReplaySubject<LogEntry> _consoleLog = new(1);
-    private ReplaySubject<RawConfig> _config = new(1);
-
-    private IClashApiFactory _clashApiFactory;
     public ClashCli(IClashApiFactory clashApiFactory)
     {
         _clashApiFactory = clashApiFactory;
         _runningState.OnNext(Cli.RunningState.Stopped);
     }
 
-    private Regex _logRegex = new Regex(@"\d{2}\:\d{2}\:\d{2}\s+(?<level>\S+)\s*(?<module>\[.+?\])?\s*(?<payload>.+)");
-    private Regex _logMetaRegex = new Regex(@"time=""(.+?) level=(?<level>.+?) msg=""(?<payload>.+)""");
-
-    private Dictionary<string, LogLevel> _levelsMap = new Dictionary<string, LogLevel>()
+    protected override async Task DoStart()
     {
-        ["DBG"] = LogLevel.DEBUG,
-        ["INF"] = LogLevel.INFO,
-        ["WRN"] = LogLevel.WARNING,
-        ["ERR"] = LogLevel.ERROR,
-        ["SLT"] = LogLevel.SILENT,
-        ["debug"] = LogLevel.DEBUG,
-        ["info"] = LogLevel.INFO,
-        ["warning"] = LogLevel.WARNING,
-        ["error"] = LogLevel.ERROR,
-        ["silent"] = LogLevel.SILENT,
-    };
-
-    public async Task Start()
-    {
-        _runningState.OnNext(Cli.RunningState.Starting);
-
-        await EnsureConfig();
-        var configYaml = File.ReadAllText(GlobalConfigs.ClashConfig);
-        var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
-
         _process = new Process()
         {
             StartInfo = new ProcessStartInfo()
@@ -93,13 +62,8 @@ public class ClashCli : IClashCli
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 StandardOutputEncoding = Encoding.UTF8,
-                // Verb = "runas",
             }
         };
-        if (rawConfig.Tun?.Enable ?? false)
-        {
-            _process.StartInfo.Verb = "runas";
-        }
 
         _process.OutputDataReceived += (_, args) =>
         {
@@ -113,24 +77,17 @@ public class ClashCli : IClashCli
         _process.Start();
         _process.PriorityClass = ProcessPriorityClass.High;
         _process.BeginOutputReadLine();
-        var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
-        _clashApiFactory.SetPort(int.Parse(port));
 
         if (_process.WaitForExit(500))
         {
-            var readToEnd = _process.StandardError.ReadToEnd();
+            var readToEnd = await _process.StandardError.ReadToEndAsync();
             throw new Exception(readToEnd);
         }
-
-        _config.OnNext(rawConfig);
-        _runningState.OnNext(Cli.RunningState.Started);
     }
 
-    public Task Stop()
+    protected override Task DoStop()
     {
-        _runningState.OnNext(Cli.RunningState.Stopping);
         _process?.Kill(true);
-        _runningState.OnNext(Cli.RunningState.Stopped);
         return Task.CompletedTask;
     }
 

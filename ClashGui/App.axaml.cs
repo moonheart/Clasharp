@@ -5,12 +5,14 @@ using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
 using ClashGui.Cli;
+using ClashGui.Common;
 using ClashGui.Interfaces;
 using ClashGui.Services;
 using ClashGui.Utils;
 using ClashGui.ViewModels;
 using ClashGui.Views;
 using ReactiveUI;
+using Refit;
 using Splat;
 using Splat.Autofac;
 
@@ -50,7 +52,9 @@ namespace ClashGui
         {
             // https://www.reactiveui.net/docs/handbook/dependency-inversion/custom-dependency-inversion
             var builder = new ContainerBuilder();
-            builder.RegisterType<ClashCli>().As<IClashCli>().SingleInstance();
+            builder.RegisterType<ClashCli>().As<IClashCli>().Keyed<bool>(false).SingleInstance();
+            builder.RegisterType<ClashRemoteCli>().As<IClashCli>().Keyed<bool>(true).SingleInstance();
+            builder.RegisterType<ClashCliFactory>().As<IClashCliFactory>().SingleInstance();
             builder.RegisterType<ClashApiFactory>().As<IClashApiFactory>().SingleInstance();
             builder.RegisterType<MainWindowViewModel>().As<IMainWindowViewModel>().SingleInstance();
             builder.RegisterType<ProxiesViewModel>().As<IProxiesViewModel>().SingleInstance();
@@ -62,6 +66,7 @@ namespace ClashGui
             builder.RegisterType<ProxyProviderListViewModel>().As<IProxyProviderListViewModel>().SingleInstance();
             builder.RegisterType<DashboardViewModel>().As<IDashboardViewModel>().SingleInstance();
             builder.RegisterInstance(RxApp.SuspensionHost.GetAppState<SettingsViewModel>()).As<ISettingsViewModel>().SingleInstance();
+            builder.RegisterInstance(RestService.For<IRemoteClash>($"http://localhost:{GlobalConfigs.ClashServicePort}/")).SingleInstance();
 
             builder.RegisterType<ProxyGroupService>().As<IProxyGroupService>().SingleInstance();
             builder.RegisterType<ProxyProviderService>().As<IProxyProviderService>().SingleInstance();
