@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using ClashGui.Interfaces;
 using ClashGui.Models.Settings;
 using ClashGui.Utils;
@@ -11,26 +10,29 @@ using ReactiveUI.Fody.Helpers;
 
 namespace ClashGui.ViewModels;
 
-public class SettingsViewModel: ViewModelBase, ISettingsViewModel
+public class SettingsViewModel : ViewModelBase, ISettingsViewModel
 {
     public override string Name => "Settings";
+    private AppSettings _appSettings;
 
-    public SettingsViewModel()
+    public SettingsViewModel(AppSettings appSettings)
     {
+        _appSettings = appSettings;
         SystemProxyModes = EnumHelper.GetAllEnumValues<SystemProxyMode>().ToList();
+
+        this.WhenAnyValue(d => d.SystemProxyMode)
+            .Subscribe(d => _appSettings.SystemProxyMode = d);
+        this.WhenAnyValue(d => d.UseServiceMode)
+            .Subscribe(d => _appSettings.UseServiceMode = d);
     }
 
-    [DataMember]
-    [Reactive]
-    public string ClashApiAddress { get; set; }
-    
-    [DataMember]
     [Reactive]
     public SystemProxyMode SystemProxyMode { get; set; }
 
-    [JsonIgnore]
+    [Reactive]
+    public bool UseServiceMode { get; set; }
+
     public List<SystemProxyMode> SystemProxyModes { get; }
 
-    [JsonIgnore]
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
 }

@@ -1,105 +1,61 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using ClashGui.Clash;
+using Autofac;
 using ClashGui.Clash.Models.Logs;
 using ClashGui.Cli.ClashConfigs;
-using ClashGui.Common;
-using ClashGui.Services;
-using Refit;
-using YamlDotNet.Serialization;
-using LogLevel = ClashGui.Clash.Models.Logs.LogLevel;
+using ClashGui.Models.Settings;
 
 namespace ClashGui.Cli;
 
-public interface IClashCli
+public class ClashCli : IClashCli
 {
-    IObservable<RawConfig> Config { get; }
+    public IObservable<RawConfig> Config => _config;
+    public IObservable<RunningState> RunningState => _runningState;
+    public IObservable<LogEntry> ConsoleLog => _consoleLog;
 
-    IObservable<RunningState> RunningState { get; }
+    protected ReplaySubject<RunningState> _runningState = new(1);
+    protected ReplaySubject<LogEntry> _consoleLog = new(1);
+    protected ReplaySubject<RawConfig> _config = new(1);
 
-    IObservable<LogEntry> ConsoleLog { get; }
 
-    Task Start();
-    Task Stop();
-}
+    private IClashCli _local;
+    private IClashCli _remote;
 
-public enum RunningState
-{
-    Stopped,
-    Starting,
-    Started,
-    Stopping
-}
+    private AppSettings _appSettings;
 
-public class ClashCli : ClashCliBase
-{
-    private Process? _process;
-
-    public ClashCli(IClashApiFactory clashApiFactory)
+    public ClashCli(AppSettings appSettings)
     {
-        _clashApiFactory = clashApiFactory;
-        _runningState.OnNext(Cli.RunningState.Stopped);
+        _appSettings = appSettings;
+        _local = ContainerProvider.Container.ResolveNamed<IClashCli>("local");
+        _remote = ContainerProvider.Container.ResolveNamed<IClashCli>("remote");
+        
+        Sub(_local.Config, _remote.Config, _config);
+        Sub(_local.ConsoleLog, _remote.ConsoleLog, _consoleLog);
+        Sub(_local.RunningState, _remote.RunningState, _runningState);
     }
 
-    protected override async Task DoStart()
+    private void Sub<T>(IObservable<T> sourceLocal, IObservable<T> sourceRemote, ReplaySubject<T> target)
     {
-        _process = new Process()
-        {
-            StartInfo = new ProcessStartInfo()
-            {
-                FileName = GlobalConfigs.ClashExe,
-                Arguments = $"-f config.yaml -d {GlobalConfigs.ProgramHome}",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                WorkingDirectory = GlobalConfigs.ProgramHome,
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                StandardOutputEncoding = Encoding.UTF8,
-            }
-        };
+        sourceLocal.Where(_ => !_appSettings.UseServiceMode).Subscribe(target.OnNext);
+        sourceRemote.Where(_ => _appSettings.UseServiceMode).Subscribe(target.OnNext);
+    }
 
-        _process.OutputDataReceived += (_, args) =>
+    public async Task Start()
+    {
+        if (_appSettings.UseServiceMode)
         {
-            if (string.IsNullOrEmpty(args.Data)) return;
-            var match = _logRegex.Match(args.Data);
-            if (!match.Success) match = _logMetaRegex.Match(args.Data);
-            _consoleLog.OnNext(match.Success
-                ? new LogEntry(_levelsMap[match.Groups["level"].Value], match.Groups["payload"].Value)
-                : new LogEntry(LogLevel.INFO, args.Data));
-        };
-        _process.Start();
-        _process.PriorityClass = ProcessPriorityClass.High;
-        _process.BeginOutputReadLine();
-
-        if (_process.WaitForExit(500))
+            await _remote.Start();
+        }
+        else
         {
-            var readToEnd = await _process.StandardError.ReadToEndAsync();
-            throw new Exception(readToEnd);
+            await _local.Start();
         }
     }
 
-    protected override Task DoStop()
+    public Task Stop()
     {
-        _process?.Kill(true);
-        return Task.CompletedTask;
-    }
-
-    private async Task EnsureConfig()
-    {
-        Directory.CreateDirectory(GlobalConfigs.ProgramHome);
-        if (!File.Exists(GlobalConfigs.ClashConfig))
-        {
-            await File.WriteAllTextAsync(GlobalConfigs.ClashConfig,
-                @"mixed-port: 17890
-allow-lan: false
-external-controller: 0.0.0.0:62708");
-        }
+        return _appSettings.UseServiceMode ? _remote.Stop() : _local.Stop();
     }
 }

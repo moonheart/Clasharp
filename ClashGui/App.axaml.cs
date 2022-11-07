@@ -7,6 +7,7 @@ using Avalonia.Threading;
 using ClashGui.Cli;
 using ClashGui.Common;
 using ClashGui.Interfaces;
+using ClashGui.Models.Settings;
 using ClashGui.Services;
 using ClashGui.Utils;
 using ClashGui.ViewModels;
@@ -22,8 +23,6 @@ namespace ClashGui
     {
         public override void Initialize()
         {
-           
-            
             AvaloniaXamlLoader.Load(this);
         }
 
@@ -37,11 +36,11 @@ namespace ClashGui
                 desktop.MainWindow = new MainWindow()
                 {
                     DataContext = Locator.Current.GetService<IMainWindowViewModel>(),
-                    ClashCli =  Locator.Current.GetService<IClashCli>()
+                    ClashCli =  Locator.Current.GetService<IClashCli>()!,
                 };
                 desktop.ShutdownRequested += (sender, args) =>
                 {
-                    RxApp.SuspensionHost.AppState = Locator.Current.GetService<ISettingsViewModel>();
+                    RxApp.SuspensionHost.AppState = Locator.Current.GetService<AppSettings>();
                 };
             }
 
@@ -52,9 +51,9 @@ namespace ClashGui
         {
             // https://www.reactiveui.net/docs/handbook/dependency-inversion/custom-dependency-inversion
             var builder = new ContainerBuilder();
-            builder.RegisterType<ClashCli>().As<IClashCli>().Keyed<bool>(false).SingleInstance();
-            builder.RegisterType<ClashRemoteCli>().As<IClashCli>().Keyed<bool>(true).SingleInstance();
-            builder.RegisterType<ClashCliFactory>().As<IClashCliFactory>().SingleInstance();
+            builder.RegisterType<ClashCli>().As<IClashCli>().SingleInstance();
+            builder.RegisterType<ClashLocalCli>().Named<IClashCli>("local").SingleInstance();
+            builder.RegisterType<ClashRemoteCli>().Named<IClashCli>("remote").SingleInstance();
             builder.RegisterType<ClashApiFactory>().As<IClashApiFactory>().SingleInstance();
             builder.RegisterType<MainWindowViewModel>().As<IMainWindowViewModel>().SingleInstance();
             builder.RegisterType<ProxiesViewModel>().As<IProxiesViewModel>().SingleInstance();
@@ -65,7 +64,8 @@ namespace ClashGui
             builder.RegisterType<ProxyGroupListViewModel>().As<IProxyGroupListViewModel>().SingleInstance();
             builder.RegisterType<ProxyProviderListViewModel>().As<IProxyProviderListViewModel>().SingleInstance();
             builder.RegisterType<DashboardViewModel>().As<IDashboardViewModel>().SingleInstance();
-            builder.RegisterInstance(RxApp.SuspensionHost.GetAppState<SettingsViewModel>()).As<ISettingsViewModel>().SingleInstance();
+            builder.RegisterType<SettingsViewModel>().As<ISettingsViewModel>().SingleInstance();
+            builder.RegisterInstance(RxApp.SuspensionHost.GetAppState<AppSettings>()).SingleInstance();
             builder.RegisterInstance(RestService.For<IRemoteClash>($"http://localhost:{GlobalConfigs.ClashServicePort}/")).SingleInstance();
 
             builder.RegisterType<ProxyGroupService>().As<IProxyGroupService>().SingleInstance();
@@ -86,6 +86,7 @@ namespace ClashGui
             Locator.CurrentMutable.RegisterConstant(new AutoDataTemplateBindingHook(), typeof(IPropertyBindingHook));
 
             var container = builder.Build();
+            ContainerProvider.Container = container;
             var autofacResolver = container.Resolve<AutofacDependencyResolver>();
             autofacResolver.SetLifetimeScope(container);
         }
@@ -94,8 +95,8 @@ namespace ClashGui
         {
             // Create the AutoSuspendHelper.
             var suspension = new AutoSuspendHelper(ApplicationLifetime);
-            RxApp.SuspensionHost.CreateNewAppState = () => new SettingsViewModel();
-            RxApp.SuspensionHost.SetupDefaultSuspendResume(new NewtonsoftJsonSuspensionDriver(GlobalConfigs.MainConfig));
+            RxApp.SuspensionHost.CreateNewAppState = () => new AppSettings();
+            RxApp.SuspensionHost.SetupDefaultSuspendResume(new NewtonsoftJsonSuspensionDriver<AppSettings>(GlobalConfigs.MainConfig));
             suspension.OnFrameworkInitializationCompleted();
         }
     }

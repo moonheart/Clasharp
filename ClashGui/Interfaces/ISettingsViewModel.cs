@@ -7,8 +7,6 @@ namespace ClashGui.Interfaces;
 
 public interface ISettingsViewModel: IViewModelBase
 {
-    string ClashApiAddress { get; set; }
-    
     SystemProxyMode SystemProxyMode { get; set; }
     
     List<SystemProxyMode> SystemProxyModes { get; }

@@ -3,16 +3,15 @@ using System.IO;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Text.Json;
-using ClashGui.ViewModels;
 using ReactiveUI;
 
 namespace ClashGui.Utils;
 
-public class NewtonsoftJsonSuspensionDriver : ISuspensionDriver
+public class NewtonsoftJsonSuspensionDriver<T> : ISuspensionDriver where T : new()
 {
     private readonly string _file;
 
-    private readonly JsonSerializerOptions _settings = new JsonSerializerOptions
+    private readonly JsonSerializerOptions _settings = new()
     {
     };
 
@@ -29,11 +28,11 @@ public class NewtonsoftJsonSuspensionDriver : ISuspensionDriver
     {
         if (!File.Exists(_file))
         {
-            return Observable.Return(new SettingsViewModel());
+            return Observable.Return(new T() as object);
         }
         var lines = File.ReadAllText(_file);
-        var state = JsonSerializer.Deserialize<SettingsViewModel>(lines, _settings);
-        return Observable.Return(state ?? new SettingsViewModel());
+        var state = JsonSerializer.Deserialize<T>(lines, _settings);
+        return Observable.Return(state ?? new T() as object);
     }
 
     public IObservable<Unit> SaveState(object state)
