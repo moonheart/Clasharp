@@ -12,6 +12,7 @@ public class DesignSettingsViewModel:ViewModelBase, ISettingsViewModel
     public override string Name => "Settings";
     public string ClashApiAddress { get; set; }
     public SystemProxyMode SystemProxyMode { get; set; }
+    public bool UseServiceMode { get; set; }
     public List<SystemProxyMode> SystemProxyModes { get; }
-    public ReactiveCommand<Unit, Unit> SaveCommand { get; }
+    public ReactiveCommand<bool, Unit> SetServiceModeCommand { get; }
 }

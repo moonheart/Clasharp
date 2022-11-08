@@ -38,7 +38,7 @@ This is a WIP project.
     - [ ] Start With System
   - [ ] Subscriptions
     - [ ] Update
-- [ ] Service Mode
+- [x] Service Mode
 - [ ] Builtin SubConverter
 - [ ] Connect To Remote Backend
 - [ ] Dark Theme

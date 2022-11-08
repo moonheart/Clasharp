@@ -8,8 +8,8 @@ namespace ClashGui.Interfaces;
 public interface ISettingsViewModel: IViewModelBase
 {
     SystemProxyMode SystemProxyMode { get; set; }
-    
+    bool UseServiceMode { get; set; }
     List<SystemProxyMode> SystemProxyModes { get; }
     
-    ReactiveCommand<Unit, Unit> SaveCommand { get; }
+    ReactiveCommand<bool, Unit> SetServiceModeCommand { get; }
 }

@@ -38,7 +38,11 @@
                     </Style>
                 </ListBox.Styles>
             </ListBox>
-            <Button Grid.Row="1" Grid.Column="0" Content="Save" Command="{Binding SaveCommand}"></Button>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Core Service"></TextBlock>
+            <ToggleSwitch Name="ServiceModeToggle" Grid.Row="1" Grid.Column="1"
+                          IsChecked="{Binding UseServiceMode}"
+                          CommandParameter="{Binding IsChecked, ElementName=ServiceModeToggle}"
+                          Command="{Binding SetServiceModeCommand}"></ToggleSwitch>
         </Grid>
     </Border>
 </UserControl>

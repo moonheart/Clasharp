@@ -55,6 +55,8 @@ namespace ClashGui
             builder.RegisterType<ClashLocalCli>().Named<IClashCli>("local").SingleInstance();
             builder.RegisterType<ClashRemoteCli>().Named<IClashCli>("remote").SingleInstance();
             builder.RegisterType<ClashApiFactory>().As<IClashApiFactory>().SingleInstance();
+            builder.RegisterType<CoreServiceHelper>().SingleInstance();
+            
             builder.RegisterType<MainWindowViewModel>().As<IMainWindowViewModel>().SingleInstance();
             builder.RegisterType<ProxiesViewModel>().As<IProxiesViewModel>().SingleInstance();
             builder.RegisterType<ClashLogsViewModel>().As<IClashLogsViewModel>().SingleInstance();
