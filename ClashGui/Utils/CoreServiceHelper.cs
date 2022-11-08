@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
+using System.ServiceProcess;
 using System.Threading.Tasks;
+using ClashGui.Models.ServiceMode;
 
 namespace ClashGui.Utils;
 
@@ -20,25 +21,48 @@ public class CoreServiceHelper
         {
             throw new Exception("Install core service failed");
         }
-
-        await Task.Delay(1000);
-        if (!await sc($"start clash_gui_service"))
-        {
-            throw new Exception("Start core service failed");
-        }
+        //
+        // if (!await sc($"start clash_gui_service"))
+        // {
+        //     throw new Exception("Start core service failed");
+        // }
     }
 
     public async Task Uninstall()
     {
-        if (!await sc($"stop clash_gui_service"))
-        {
-            throw new Exception("Stop core service failed");
-        }
-
         if (!await sc($"delete clash_gui_service"))
         {
             throw new Exception("Delete core service failed");
         }
+        if (!await sc($"stop clash_gui_service"))
+        {
+            throw new Exception("Stop core service failed");
+        }
+    }
+
+    public async Task<ServiceStatus> Status()
+    {
+        try
+        {
+            var serviceController = new ServiceController("clash_gui_service");
+            return (ServiceStatus) (int) serviceController.Status;
+        }
+        catch (Exception e)
+        {
+            return ServiceStatus.Uninstalled;
+        }
+    }
+
+    public async Task Start()
+    {
+        var serviceController = new ServiceController("clash_gui_service");
+        serviceController.Start();
+    }
+
+    public async Task Stop()
+    {
+        var serviceController = new ServiceController("clash_gui_service");
+        serviceController.Stop();
     }
 
     private async Task<bool> sc(string args)

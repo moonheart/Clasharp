@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using ClashGui.Interfaces;
+using ClashGui.Models.ServiceMode;
 using ClashGui.Models.Settings;
 using ClashGui.Utils;
 using ReactiveUI;
@@ -26,26 +28,32 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
             .Subscribe(d => _appSettings.SystemProxyMode = d);
         this.WhenAnyValue(d => d.UseServiceMode)
             .Subscribe(d => _appSettings.UseServiceMode = d);
+        var serviceStatus = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
+            .SelectMany(async _ => await coreServiceHelper.Status());
+        serviceStatus.ToPropertyEx(this, d => d.CoreServiceStatus);
+        serviceStatus.Select(d => d == ServiceStatus.Uninstalled).ToPropertyEx(this, d => d.IsUninstalled);
 
-        SetServiceModeCommand = ReactiveCommand.CreateFromTask<bool>(async b =>
+        InstallService = ReactiveCommand.CreateFromTask(async _ =>
         {
             try
             {
-                if (b)
-                {
-                    await coreServiceHelper.Install();
-                }
-                else
-                {
-                    await coreServiceHelper.Uninstall();
-                }
+                await coreServiceHelper.Install();
             }
             catch (Exception e)
             {
                 MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Error", e.Message);
             }
-            
-            UseServiceMode = b;
+        });
+        UninstallService = ReactiveCommand.CreateFromTask(async _ =>
+        {
+            try
+            {
+                await coreServiceHelper.Uninstall();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Error", e.Message);
+            }
         });
     }
 
@@ -55,7 +63,13 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     [Reactive]
     public bool UseServiceMode { get; set; }
 
-    public List<SystemProxyMode> SystemProxyModes { get; }
+    [ObservableAsProperty]
+    public bool IsUninstalled { get; }
 
-    public ReactiveCommand<bool, Unit> SetServiceModeCommand { get; }
+    [ObservableAsProperty]
+    public ServiceStatus CoreServiceStatus { get; }
+
+    public List<SystemProxyMode> SystemProxyModes { get; }
+    public ReactiveCommand<Unit, Unit> InstallService { get; }
+    public ReactiveCommand<Unit, Unit> UninstallService { get; }
 }
