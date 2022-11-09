@@ -10,4 +10,6 @@ public interface IClashInfoViewModel: IViewModelBase
     string RealtimeSpeed { get; }
     
     ReactiveCommand<bool, Unit> ToggleClash { get; }
+    
+    bool IsRunning { get; }
 }

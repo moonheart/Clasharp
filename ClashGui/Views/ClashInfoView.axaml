@@ -12,6 +12,7 @@
         <ToggleSwitch HorizontalAlignment="Center" Name="ClashToggle"
                       OffContent="Stopped"
                       OnContent="Started"
+                      IsChecked="{Binding IsRunning}"
                       Command="{Binding ToggleClash}"
                       CommandParameter="{Binding IsChecked, ElementName=ClashToggle}" />
         <TextBlock TextAlignment="Center" Text="{Binding RealtimeSpeed}"></TextBlock>

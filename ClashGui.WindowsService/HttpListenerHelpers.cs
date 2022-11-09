@@ -10,7 +10,10 @@ public static class HttpListenerHelpers
     {
         var streamReader = new StreamReader(context.Request.InputStream);
         var reqbody = await streamReader.ReadToEndAsync();
-        return JsonSerializer.Deserialize<T>(reqbody);
+        return JsonSerializer.Deserialize<T>(reqbody, new JsonSerializerOptions()
+        {
+            PropertyNameCaseInsensitive = true
+        });
     }
 
     public static void Return(this HttpListenerContext context, int statusCode = 200)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using ClashGui.Cli;
 using ClashGui.Interfaces;
@@ -20,7 +21,7 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
         IClashCli clashCli)
     {
         Version = "Unknown";
-        
+
         realtimeTrafficService.Obj.Select(d => $"↑ {d.Up.ToHumanSize()}/s\n↓ {d.Down.ToHumanSize()}/s")
             .ToPropertyEx(this, d => d.RealtimeSpeed);
 
@@ -29,16 +30,23 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
 
         ToggleClash = ReactiveCommand.CreateFromTask<bool>(async b =>
         {
-            if (b)
+            try
             {
-                await clashCli.Start();
+                if (b)
+                {
+                    await clashCli.Start();
+                }
+                else
+                {
+                    await clashCli.Stop();
+                }
             }
-            else
+            catch (Exception e)
             {
-                await clashCli.Stop();
+                await MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Error", e.Message).Show();
             }
         });
-        
+
         clashCli.RunningState
             .CombineLatest(clashCli.Config)
             .Subscribe(d =>
@@ -61,6 +69,7 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
                         break;
                 }
             });
+        clashCli.RunningState.Select(d => d == RunningState.Started).ToPropertyEx(this, d => d.IsRunning);
     }
 
     [ObservableAsProperty]
@@ -70,4 +79,7 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
     public string RealtimeSpeed { get; }
 
     public ReactiveCommand<bool, Unit> ToggleClash { get; }
+
+    [ObservableAsProperty]
+    public bool IsRunning { get; }
 }

@@ -21,11 +21,11 @@ public class CoreServiceHelper
         {
             throw new Exception("Install core service failed");
         }
-        //
-        // if (!await sc($"start clash_gui_service"))
-        // {
-        //     throw new Exception("Start core service failed");
-        // }
+        
+        if (!await sc($"start clash_gui_service"))
+        {
+            throw new Exception("Start core service failed");
+        }
     }
 
     public async Task Uninstall()
