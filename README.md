@@ -35,10 +35,13 @@ This is a WIP project.
   - [ ] Settings
     - [x] System Proxy
     - [ ] TUN Mode
+    - [x] Service Mode
     - [ ] Start With System
   - [ ] Subscriptions
     - [ ] Update
 - [x] Service Mode
+  - [x] Install Core Service
+  - [x] Uninstall Core Service
 - [ ] Builtin SubConverter
 - [ ] Connect To Remote Backend
 - [ ] Dark Theme
