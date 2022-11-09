@@ -38,10 +38,6 @@ namespace ClashGui
                     DataContext = Locator.Current.GetService<IMainWindowViewModel>(),
                     ClashCli =  Locator.Current.GetService<IClashCli>()!,
                 };
-                desktop.ShutdownRequested += (sender, args) =>
-                {
-                    RxApp.SuspensionHost.AppState = Locator.Current.GetService<AppSettings>();
-                };
             }
 
             base.OnFrameworkInitializationCompleted();

@@ -19,8 +19,6 @@ public class NewtonsoftJsonSuspensionDriver<T> : ISuspensionDriver where T : new
 
     public IObservable<Unit> InvalidateState()
     {
-        if (File.Exists(_file))
-            File.Delete(_file);
         return Observable.Return(Unit.Default);
     }
 
