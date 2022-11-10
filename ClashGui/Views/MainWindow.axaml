@@ -8,8 +8,8 @@
         Width="800"
         Height="500"
         x:Class="ClashGui.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="ClashGui">
+        Icon="/Assets/clasharp.ico"
+        Title="Clasharp">
 
     <Design.DataContext>
         <designTime:DesignMainWindowViewModel />
