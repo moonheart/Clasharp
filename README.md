@@ -1,6 +1,9 @@
-﻿<img src="images/clasharp.svg" alt="drawing" width="200"/>
+﻿<h1 align="center">
+  <img src="images/clasharp.svg" alt="drawing" width="200"/>
+  <br>Clasharp<br>
+</h1>
 
-# Clasharp, A clash meta kernel GUI written in C# 
+<h3 align="center">A clash meta kernel GUI written in C#</h3>
 
 Clasharp uses [Meta Kernel](https://github.com/MetaCubeX/Clash.Meta) as backend.
 
