@@ -3,15 +3,31 @@
              xmlns:local="using:ClashGui"
              x:Class="ClashGui.App">
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
 
     <Application.Styles>
-        <FluentTheme Mode="Light"/>
-        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
-        <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml"/>
+        <FluentTheme Mode="Light" />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
         <Style Selector="TextBlock">
             <Setter Property="FontFamily" Value="微软雅黑,文泉驿微米黑"></Setter>
         </Style>
     </Application.Styles>
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon Icon="/Assets/clasharp.ico" ToolTipText="Clasharp">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Settings">
+                            <NativeMenu>
+                                <NativeMenuItem Header="Start"></NativeMenuItem>
+                                <NativeMenuItem Header="Stop"></NativeMenuItem>
+                            </NativeMenu>
+                        </NativeMenuItem>
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
 </Application>
