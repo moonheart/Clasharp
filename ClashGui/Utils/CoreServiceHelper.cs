@@ -17,7 +17,7 @@ public class CoreServiceHelper
         // var path = Path.Combine(Environment.CurrentDirectory, "ClashGui.WindowsService");
         var path =
             @"D:\Git_Github\ClashGui\ClashGui\ClashGui.WindowsService\bin\Debug\net6.0\ClashGui.WindowsService.exe";
-        if (!await sc($"create clash_gui_service binPath=\"{path}\""))
+        if (!await sc($"create clash_gui_service binPath=\"{path}\" start= auto DisplayName= \"Clasharp Core Service\""))
         {
             throw new Exception("Install core service failed");
         }
