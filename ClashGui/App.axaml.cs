@@ -1,5 +1,7 @@
+using System;
 using Autofac;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
@@ -26,6 +28,14 @@ namespace ClashGui
             AvaloniaXamlLoader.Load(this);
         }
 
+        private void Exit(object? sender, EventArgs e)
+        {
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                desktop.TryShutdown();
+            }  
+        }
+
         public override void OnFrameworkInitializationCompleted()
         {
             SetupSuspensionHost();
@@ -33,6 +43,7 @@ namespace ClashGui
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
+                desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 desktop.MainWindow = new MainWindow()
                 {
                     DataContext = Locator.Current.GetService<IMainWindowViewModel>(),

@@ -19,12 +19,7 @@
             <TrayIcon Icon="/Assets/clasharp.ico" ToolTipText="Clasharp">
                 <TrayIcon.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Header="Settings">
-                            <NativeMenu>
-                                <NativeMenuItem Header="Start"></NativeMenuItem>
-                                <NativeMenuItem Header="Stop"></NativeMenuItem>
-                            </NativeMenu>
-                        </NativeMenuItem>
+                        <NativeMenuItem Header="Exit" Click="Exit"></NativeMenuItem>
                     </NativeMenu>
                 </TrayIcon.Menu>
             </TrayIcon>
