@@ -8,6 +8,7 @@
         Width="800"
         Height="500"
         x:Class="ClashGui.Views.MainWindow"
+        WindowStartupLocation="CenterScreen"
         Icon="/Assets/clasharp.ico"
         Title="Clasharp">
 

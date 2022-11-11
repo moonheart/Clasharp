@@ -16,7 +16,7 @@
     </Application.Styles>
     <TrayIcon.Icons>
         <TrayIcons>
-            <TrayIcon Icon="/Assets/clasharp.ico" ToolTipText="Clasharp">
+            <TrayIcon Icon="/Assets/clasharp.ico" ToolTipText="Clasharp" Clicked="TrayIcon_OnClicked">
                 <TrayIcon.Menu>
                     <NativeMenu>
                         <NativeMenuItem Header="Exit" Click="Exit"></NativeMenuItem>

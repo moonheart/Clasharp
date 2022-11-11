@@ -33,7 +33,7 @@ namespace ClashGui
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.TryShutdown();
-            }  
+            }
         }
 
         public override void OnFrameworkInitializationCompleted()
@@ -41,17 +41,27 @@ namespace ClashGui
             SetupSuspensionHost();
             SetupAutofac();
 
+            StartMainWindow();
+
+            base.OnFrameworkInitializationCompleted();
+        }
+
+        private void StartMainWindow()
+        {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                desktop.MainWindow = new MainWindow()
+                if (desktop.MainWindow is not {IsVisible: true})
                 {
-                    DataContext = Locator.Current.GetService<IMainWindowViewModel>(),
-                    ClashCli =  Locator.Current.GetService<IClashCli>()!,
-                };
+                    desktop.MainWindow = new MainWindow
+                    {
+                        DataContext = Locator.Current.GetService<IMainWindowViewModel>(),
+                        ClashCli = Locator.Current.GetService<IClashCli>()!
+                    };
+                }
+                desktop.MainWindow.Show();
+                desktop.MainWindow.Activate();
             }
-
-            base.OnFrameworkInitializationCompleted();
         }
 
         private static void SetupAutofac()
@@ -63,7 +73,7 @@ namespace ClashGui
             builder.RegisterType<ClashRemoteCli>().Named<IClashCli>("remote").SingleInstance();
             builder.RegisterType<ClashApiFactory>().As<IClashApiFactory>().SingleInstance();
             builder.RegisterType<CoreServiceHelper>().SingleInstance();
-            
+
             builder.RegisterType<MainWindowViewModel>().As<IMainWindowViewModel>().SingleInstance();
             builder.RegisterType<ProxiesViewModel>().As<IProxiesViewModel>().SingleInstance();
             builder.RegisterType<ClashLogsViewModel>().As<IClashLogsViewModel>().SingleInstance();
@@ -75,7 +85,8 @@ namespace ClashGui
             builder.RegisterType<DashboardViewModel>().As<IDashboardViewModel>().SingleInstance();
             builder.RegisterType<SettingsViewModel>().As<ISettingsViewModel>().SingleInstance();
             builder.RegisterInstance(RxApp.SuspensionHost.GetAppState<AppSettings>()).SingleInstance();
-            builder.RegisterInstance(RestService.For<IRemoteClash>($"http://localhost:{GlobalConfigs.ClashServicePort}/")).SingleInstance();
+            builder.RegisterInstance(
+                RestService.For<IRemoteClash>($"http://localhost:{GlobalConfigs.ClashServicePort}/")).SingleInstance();
 
             builder.RegisterType<ProxyGroupService>().As<IProxyGroupService>().SingleInstance();
             builder.RegisterType<ProxyProviderService>().As<IProxyProviderService>().SingleInstance();
@@ -91,7 +102,8 @@ namespace ClashGui
 
             // https://github.com/reactiveui/splat/issues/882
             RxApp.MainThreadScheduler = AvaloniaScheduler.Instance;
-            Locator.CurrentMutable.RegisterConstant(new AvaloniaActivationForViewFetcher(), typeof(IActivationForViewFetcher));
+            Locator.CurrentMutable.RegisterConstant(new AvaloniaActivationForViewFetcher(),
+                typeof(IActivationForViewFetcher));
             Locator.CurrentMutable.RegisterConstant(new AutoDataTemplateBindingHook(), typeof(IPropertyBindingHook));
 
             var container = builder.Build();
@@ -105,8 +117,14 @@ namespace ClashGui
             // Create the AutoSuspendHelper.
             var suspension = new AutoSuspendHelper(ApplicationLifetime);
             RxApp.SuspensionHost.CreateNewAppState = () => new AppSettings();
-            RxApp.SuspensionHost.SetupDefaultSuspendResume(new NewtonsoftJsonSuspensionDriver<AppSettings>(GlobalConfigs.MainConfig));
+            RxApp.SuspensionHost.SetupDefaultSuspendResume(
+                new NewtonsoftJsonSuspensionDriver<AppSettings>(GlobalConfigs.MainConfig));
             suspension.OnFrameworkInitializationCompleted();
+        }
+
+        private void TrayIcon_OnClicked(object? sender, EventArgs e)
+        {
+            StartMainWindow();
         }
     }
 }
