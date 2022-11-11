@@ -55,7 +55,7 @@ This is a WIP project.
 - [ ] Dark Theme
 - [ ] Update Clash Core
 - [ ] Self Update
-- [ ] Tray Icon
+- [x] Tray Icon
 - [ ] Set System Proxy
   - [x] Windows
   - [ ] Linux
