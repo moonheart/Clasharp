@@ -9,16 +9,21 @@
         <designTime:DesignClashInfoViewModel />
     </Design.DataContext>
     <StackPanel>
+        <TextBlock TextAlignment="Center" Text="{Binding RealtimeSpeed}"></TextBlock>
         <ToggleSwitch HorizontalAlignment="Center" Name="ClashToggle"
                       OffContent="Stopped"
                       OnContent="Started"
                       IsChecked="{Binding IsRunning}"
                       Command="{Binding ToggleClash}"
                       CommandParameter="{Binding IsChecked, ElementName=ClashToggle}" />
-        <TextBlock TextAlignment="Center" Text="{Binding RealtimeSpeed}"></TextBlock>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Classes="ClashVersion" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Text="Clash "></TextBlock>
             <TextBlock Text="{Binding Version}"></TextBlock>
         </StackPanel>
     </StackPanel>
+    <UserControl.Styles>
+        <Style Selector="StackPanel.ClashVersion TextBlock">
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+    </UserControl.Styles>
 </UserControl>

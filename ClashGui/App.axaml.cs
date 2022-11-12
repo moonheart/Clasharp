@@ -40,25 +40,35 @@ namespace ClashGui
         {
             SetupSuspensionHost();
             SetupAutofac();
-
+            SetupLifetime();
             StartMainWindow();
-
             base.OnFrameworkInitializationCompleted();
+        }
+
+        private void SetupLifetime()
+        {
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                desktop.ShutdownRequested += (sender, args) =>
+                {
+                    Locator.Current.GetService<IClashCli>()?.Stop();
+                };
+                desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            }
         }
 
         private void StartMainWindow()
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 if (desktop.MainWindow is not {IsVisible: true})
                 {
                     desktop.MainWindow = new MainWindow
                     {
                         DataContext = Locator.Current.GetService<IMainWindowViewModel>(),
-                        ClashCli = Locator.Current.GetService<IClashCli>()!
                     };
                 }
+
                 desktop.MainWindow.Show();
                 desktop.MainWindow.Activate();
             }

@@ -25,7 +25,7 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
         realtimeTrafficService.Obj.Select(d => $"↑ {d.Up.ToHumanSize()}/s\n↓ {d.Down.ToHumanSize()}/s")
             .ToPropertyEx(this, d => d.RealtimeSpeed);
 
-        versionService.Obj.Select(d => $"{d.Version}\n{(d.Meta ? "Meta" : "")}")
+        versionService.Obj.Select(d => $"{(d.Meta ? "Meta" : "")} {d.Version}")
             .ToPropertyEx(this, d => d.Version);
 
         ToggleClash = ReactiveCommand.CreateFromTask<bool>(async b =>
@@ -47,28 +47,6 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
             }
         });
 
-        clashCli.RunningState
-            .CombineLatest(clashCli.Config)
-            .Subscribe(d =>
-            {
-                switch (settingsViewModel.SystemProxyMode)
-                {
-                    case SystemProxyMode.Clear:
-                        ProxyUtils.UnsetSystemProxy();
-                        break;
-                    case SystemProxyMode.SetProxy:
-                        if (d.First == RunningState.Started)
-                        {
-                            ProxyUtils.SetSystemProxy($"http://127.0.0.1:{d.Second.MixedPort ?? d.Second.Port}", "");
-                        }
-                        else if (d.First == RunningState.Stopped)
-                        {
-                            ProxyUtils.UnsetSystemProxy();
-                        }
-
-                        break;
-                }
-            });
         clashCli.RunningState.Select(d => d == RunningState.Started).ToPropertyEx(this, d => d.IsRunning);
     }
 
