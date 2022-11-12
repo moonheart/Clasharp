@@ -94,9 +94,14 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
     private ObservableCollection<long> _upSpeeds = new();
     private ObservableCollection<long> _downSpeeds = new();
 
+
     [Reactive]
     public ISeries[] Series { get; set; }
 
+    public Axis[] XAxes { get; set; } = {new()
+    {
+        Labeler = d => ""
+    }};
     public Axis[] YAxes { get; set; } =
     {
         new()

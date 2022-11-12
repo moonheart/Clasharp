@@ -66,6 +66,7 @@
             <lvc:CartesianChart
                 Series="{Binding Series}"
                 YAxes="{Binding YAxes}"
+                XAxes="{Binding XAxes}"
                 EasingFunction="{x:Null}"
                 LegendPosition="Top"
                 MinHeight="400" />

@@ -10,6 +10,7 @@ namespace ClashGui.Interfaces;
 public interface IDashboardViewModel : IViewModelBase
 {
     Axis[] YAxes { get; set; }
+    Axis[] XAxes { get; set; }
     ISeries[] Series { get; set; }
 
     public string? ExternalController { get; }

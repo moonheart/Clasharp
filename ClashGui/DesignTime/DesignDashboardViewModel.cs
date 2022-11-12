@@ -13,6 +13,7 @@ public class DesignDashboardViewModel : ViewModelBase, IDashboardViewModel
 {
     public override string Name => "Dashboard";
     public Axis[] YAxes { get; set; }
+    public Axis[] XAxes { get; set; }
 
     public ISeries[] Series { get; set; } =
     {
