@@ -1,0 +1,41 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:designTime="clr-namespace:ClashGui.DesignTime"
+             xmlns:profiles="clr-namespace:ClashGui.Models.Profiles"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ClashGui.Views.ProfilesView">
+    <Design.DataContext>
+        <designTime:DesignProfilesViewModel />
+    </Design.DataContext>
+    <Grid RowDefinitions="Auto,Auto">
+        <StackPanel Grid.Row="0">
+            <Button Command="{Binding OpenCreateBox}" Content="New Profile"></Button>
+        </StackPanel>
+        <ItemsControl Grid.Row="1" Items="{Binding Profiles}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="profiles:LocalProfile">
+                    <Border>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding Type}"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Description}"></TextBlock>
+                                <TextBlock Text="{Binding Notes}"></TextBlock>
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding UpdateTime}"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel></WrapPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
+</UserControl>

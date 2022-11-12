@@ -9,24 +9,9 @@
         <designTime:DesignSettingsViewModel />
     </Design.DataContext>
     <Border Padding="10">
-        <Border.Styles>
-            <Style Selector="StackPanel.Setting">
-                <Setter Property="Orientation" Value="Horizontal"></Setter>
-            </Style>
-            <Style Selector="TextBlock.Header">
-                <Setter Property="Width" Value="150" />
-                <Setter Property="TextAlignment" Value="Right" />
-                <Setter Property="LineHeight" Value="30" />
-                <Setter Property="FontWeight" Value="Bold" />
-                <Setter Property="Margin" Value="0 0 5 0" />
-            </Style>
-            <Style Selector="TextBlock">
-                <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            </Style>
-        </Border.Styles>
         <Grid RowDefinitions="Auto,Auto,Auto">
-            <StackPanel Classes="Setting" Grid.Row="0">
-                <TextBlock Classes="Header" Text="System Proxy"></TextBlock>
+            <StackPanel Classes="SettingLine" Grid.Row="0">
+                <TextBlock Classes="SettingHeader" Text="System Proxy"></TextBlock>
                 <ListBox
                     Background="Transparent"
                     Items="{Binding SystemProxyModes}"
@@ -57,8 +42,8 @@
                     </ListBox.Styles>
                 </ListBox>
             </StackPanel>
-            <StackPanel Classes="Setting" Grid.Row="1">
-                <TextBlock Classes="Header" Text="Core Service Status"></TextBlock>
+            <StackPanel Classes="SettingLine" Grid.Row="1">
+                <TextBlock Classes="SettingHeader" Text="Core Service Status"></TextBlock>
                 <TextBlock Text="{Binding CoreServiceStatus}"></TextBlock>
                 <Button
                     IsVisible="{Binding IsUninstalled}"
@@ -68,8 +53,8 @@
                     Command="{Binding UninstallService}" Content="Uninstall">
                 </Button>
             </StackPanel>
-            <StackPanel Classes="Setting" Grid.Row="2">
-                <TextBlock Classes="Header" Text="Use Core Service" />
+            <StackPanel Classes="SettingLine" Grid.Row="2">
+                <TextBlock Classes="SettingHeader" Text="Use Core Service" />
                 <ToggleSwitch IsChecked="{Binding UseServiceMode}" />
             </StackPanel>
         </Grid>

@@ -94,6 +94,7 @@ namespace ClashGui
             builder.RegisterType<ProxyProviderListViewModel>().As<IProxyProviderListViewModel>().SingleInstance();
             builder.RegisterType<DashboardViewModel>().As<IDashboardViewModel>().SingleInstance();
             builder.RegisterType<SettingsViewModel>().As<ISettingsViewModel>().SingleInstance();
+            builder.RegisterType<ProfilesViewModel>().As<IProfilesViewModel>().SingleInstance();
             builder.RegisterInstance(RxApp.SuspensionHost.GetAppState<AppSettings>()).SingleInstance();
             builder.RegisterInstance(
                 RestService.For<IRemoteClash>($"http://localhost:{GlobalConfigs.ClashServicePort}/")).SingleInstance();
@@ -105,6 +106,7 @@ namespace ClashGui
             builder.RegisterType<ConnectionService>().As<IConnectionService>().SingleInstance();
             builder.RegisterType<RealtimeTrafficService>().As<IRealtimeTrafficService>().SingleInstance();
             builder.RegisterType<VersionService>().As<IVersionService>().SingleInstance();
+            builder.RegisterType<ProfilesService>().As<IProfilesService>().SingleInstance();
 
             var autofacDependencyResolver = builder.UseAutofacDependencyResolver();
             builder.RegisterInstance(autofacDependencyResolver);

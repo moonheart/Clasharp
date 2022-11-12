@@ -15,6 +15,7 @@ public interface IMainWindowViewModel: IViewModelBase
     IConnectionsViewModel ConnectionsViewModel { get; }
     IClashInfoViewModel ClashInfoViewModel { get; }
     ISettingsViewModel SettingsViewModel { get; }
+    IProfilesViewModel ProfilesViewModel { get; }
     
     ObservableCollection<IViewModelBase> Selections { get; }
 }

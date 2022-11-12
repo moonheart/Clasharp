@@ -13,6 +13,7 @@
         <Style Selector="TextBlock">
             <Setter Property="FontFamily" Value="微软雅黑,文泉驿微米黑"></Setter>
         </Style>
+        <StyleInclude Source="avares://ClashGui/MainStyles.axaml"></StyleInclude>
     </Application.Styles>
     <TrayIcon.Icons>
         <TrayIcons>

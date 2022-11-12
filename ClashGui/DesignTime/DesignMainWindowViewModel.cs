@@ -39,6 +39,7 @@ namespace ClashGui.DesignTime
         public IConnectionsViewModel ConnectionsViewModel { get; }
         public IClashInfoViewModel ClashInfoViewModel { get; }
         public ISettingsViewModel SettingsViewModel { get; }
+        public IProfilesViewModel ProfilesViewModel { get; }
         public ObservableCollection<IViewModelBase> Selections { get; }
     }
 }

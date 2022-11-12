@@ -1,10 +1,10 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
+using ClashGui.ViewModels;
 
 namespace ClashGui.Views;
 
-public partial class ClashInfoView : UserControl
+public partial class ClashInfoView : ReactiveUserControl<ClashInfoViewModel>
 {
     public ClashInfoView()
     {
