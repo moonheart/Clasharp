@@ -30,7 +30,7 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <TextBlock Text="{Binding ExternalController}"></TextBlock>
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <WrapPanel Grid.Row="1">
             <Border Classes="Card">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Classes="Title" Text="Upload"></TextBlock>
@@ -61,7 +61,7 @@
                     <TextBlock Classes="Content" Text="{Binding ConnectionsCount}"></TextBlock>
                 </StackPanel>
             </Border>
-        </StackPanel>
+        </WrapPanel>
         <StackPanel Grid.Row="2">
             <lvc:CartesianChart
                 Series="{Binding Series}"

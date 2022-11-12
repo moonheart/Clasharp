@@ -56,7 +56,15 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/configs")]
-    Task<Configs?> GetBaseConfigs();
+    Task<Configs?> GetConfigs();
+
+    /// <summary>
+    /// Reloading base configs
+    /// </summary>
+    /// <param name="updateConfigRequest"></param>
+    /// <returns></returns>
+    [Put("/configs?force={force}")]
+    Task UpdateConfigs(UpdateConfigRequest updateConfigRequest, bool force = false);
 
     /// <summary>
     /// Update base configs
@@ -65,14 +73,6 @@ public interface IClashControllerApi
     /// <returns></returns>
     [Patch("/configs")]
     Task UpdateBaseConfigs(Configs configs);
-
-    /// <summary>
-    /// Reloading base configs
-    /// </summary>
-    /// <param name="configs"></param>
-    /// <returns></returns>
-    [Put("/configs")]
-    Task ReloadingBaseConfigs(Configs configs);
 
     #endregion
 
@@ -101,7 +101,7 @@ public interface IClashControllerApi
     /// <param name="request"></param>
     /// <returns></returns>
     [Put("/proxies/{name}")]
-    Task SelectProxy(string name, [Body]UpdateProxyRequest request);
+    Task SelectProxy(string name, [Body] UpdateProxyRequest request);
 
     /// <summary>
     /// Get specific proxy delay test information

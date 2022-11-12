@@ -25,7 +25,7 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
         realtimeTrafficService.Obj.Select(d => $"↑ {d.Up.ToHumanSize()}/s\n↓ {d.Down.ToHumanSize()}/s")
             .ToPropertyEx(this, d => d.RealtimeSpeed);
 
-        versionService.Obj.Select(d => $"{d.Version}\n{(d.Premium ? "Premium" : "")}")
+        versionService.Obj.Select(d => $"{d.Version}\n{(d.Meta ? "Meta" : "")}")
             .ToPropertyEx(this, d => d.Version);
 
         ToggleClash = ReactiveCommand.CreateFromTask<bool>(async b =>

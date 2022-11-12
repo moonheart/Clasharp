@@ -4,13 +4,13 @@ namespace ClashGui.Clash.Models;
 
 public class VersionInfo
 {
-    public bool Premium { get; set; }
+    public bool Meta { get; set; }
 
     public string Version { get; set; }
 
     protected bool Equals(VersionInfo other)
     {
-        return Premium == other.Premium && Version == other.Version;
+        return Meta == other.Meta && Version == other.Version;
     }
 
     public override bool Equals(object? obj)
@@ -23,6 +23,6 @@ public class VersionInfo
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Premium, Version);
+        return HashCode.Combine(Meta, Version);
     }
 }
