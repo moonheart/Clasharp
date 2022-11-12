@@ -107,7 +107,8 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
         new()
         {
             MinLimit = 0,
-            Labeler = d => ((long) d).ToHumanSize()
+            Labeler = d => ((long) d).ToHumanSize(),
+            TextSize = 12,
         }
     };
 }
