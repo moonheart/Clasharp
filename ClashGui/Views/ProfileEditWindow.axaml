@@ -12,22 +12,36 @@
     <Design.DataContext>
         <designTime:DesignProfileEditViewModel />
     </Design.DataContext>
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
         <TextBlock Text="New Profile" IsVisible="{Binding IsCreate}" />
         <TextBlock Grid.Row="0" Text="Edit Profile" IsVisible="{Binding !IsCreate}" />
-        
+
         <StackPanel Grid.Row="1" Classes="SettingLine">
             <TextBlock Classes="SettingHeader" Text="Type" />
-            <ComboBox Items="{Binding ProfileTypes}" SelectedItem="{Binding Profile.Type}"></ComboBox>
+            <ComboBox Items="{Binding ProfileTypes}" SelectedItem="{Binding Profile.Type, Mode=TwoWay}"></ComboBox>
         </StackPanel>
         <StackPanel Grid.Row="2" Classes="SettingLine">
             <TextBlock Classes="SettingHeader" Text="Name" />
-            <TextBox Text="{Binding Profile.Name}"></TextBox>
+            <TextBox Text="{Binding Profile.Name, Mode=TwoWay}"></TextBox>
         </StackPanel>
         <StackPanel Grid.Row="3" Classes="SettingLine">
             <TextBlock Classes="SettingHeader" Text="Description" />
-            <TextBox Text="{Binding Profile.Description}"></TextBox>
+            <TextBox Text="{Binding Profile.Description, Mode=TwoWay}"></TextBox>
         </StackPanel>
-        
+        <Border Grid.Row="4" IsVisible="{Binding IsLocalProfile}">
+            <StackPanel Classes="SettingLine">
+                <TextBlock Classes="SettingHeader" Text="Import From" />
+                <TextBox Text="{Binding Profile.FromFile, Mode=TwoWay}"></TextBox>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="4" IsVisible="{Binding IsRemoteProfile}">
+            <StackPanel Classes="SettingLine">
+                <TextBlock Classes="SettingHeader" Text="Url" />
+                <TextBox Text="{Binding Profile.RemoteUrl, Mode=TwoWay}"></TextBox>
+            </StackPanel>
+        </Border>
+        <Panel Grid.Row="5">
+            <Button Command="{Binding Save}" Content="Save" />
+        </Panel>
     </Grid>
 </Window>

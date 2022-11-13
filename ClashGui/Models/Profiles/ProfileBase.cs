@@ -18,6 +18,8 @@ public abstract class ProfileBase
 public class LocalProfile : ProfileBase
 {
     public override ProfileType Type => ProfileType.Local;
+    
+    public string FromFile { get; set; }
 }
 
 public class RemoteProfile : ProfileBase
