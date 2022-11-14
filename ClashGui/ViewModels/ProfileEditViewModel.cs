@@ -16,8 +16,22 @@ namespace ClashGui.ViewModels;
 
 public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
 {
-    [Reactive]
-    public ProfileBase Profile { get; set; }
+    public FullEditProfile Profile { get; set; }
+
+    public ProfileType ProfileType
+    {
+        get => Profile.Type;
+        set
+        {
+            this.RaisePropertyChanging();
+            if (Profile.Type == value)
+            {
+                return;
+            }
+            Profile.Type = value;
+            this.RaisePropertyChanged();
+        }
+    }
 
     public bool IsCreate { get; }
     public List<ProfileType> ProfileTypes { get; }
@@ -28,58 +42,65 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
     [ObservableAsProperty]
     public bool IsLocalProfile { get; }
 
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string Notes { get; }
-    public string Filename { get; }
-    public ProfileType Type { get; set; }
-    public string FromFile { get; set; }
-    public string RemoteUrl { get; set; }
-    public TimeSpan UpdateInterval { get; set; }
-
-    public ReactiveCommand<Unit, ProfileBase> Save { get; }
+    public ReactiveCommand<Unit, ProfileBase?> Save { get; }
+    private ProfileBase? _profileBase;
 
     public ProfileEditViewModel(ProfileBase? profile)
     {
-        var profileType = this.WhenAnyValue(d => d.Profile.Type);
-        profileType.Select(d => d == ProfileType.Local).ToPropertyEx(this, d => d.IsLocalProfile);
-        profileType.Select(d => d == ProfileType.Remote).ToPropertyEx(this, d => d.IsRemoteProfile);
-        
+        _profileBase = profile;
         ProfileTypes = EnumHelper.GetAllEnumValues<ProfileType>().ToList();
         IsCreate = profile == null;
-        Profile = profile ?? new LocalProfile();
-        Save = ReactiveCommand.CreateFromTask(async d =>
+        Profile = new FullEditProfile()
         {
-            await SaveProfile();
-            return Profile;
-        });
+            Name = profile?.Name,
+            Description = profile?.Description,
+        };
+        switch (profile)
+        {
+            case LocalProfile localProfile:
+                Profile.FromFile = localProfile.FromFile;
+                break;
+            case RemoteProfile remoteProfile:
+                Profile.RemoteUrl = remoteProfile.RemoteUrl;
+                Profile.UpdateInterval = remoteProfile.UpdateInterval;
+                break;
+        }
 
-        Observable.Interval(TimeSpan.FromSeconds(1))
-            .Subscribe(d =>
-            {
-                Debug.WriteLine(Profile.Type);
-            });
-        this.WhenAnyValue(d => d.Profile.Name)
-            .Subscribe(d =>
-            {
-                Debug.WriteLine(Profile.Name);
-            });
+        var profileType = this.WhenAnyValue(d => d.ProfileType);
+        profileType.Select(d => d == ProfileType.Local).ToPropertyEx(this, d => d.IsLocalProfile);
+        profileType.Select(d => d == ProfileType.Remote).ToPropertyEx(this, d => d.IsRemoteProfile);
+        profileType.Subscribe(d => { });
+        this.WhenAnyValue(d => d.Profile.Name).Subscribe(d => { });
+
+        Save = ReactiveCommand.CreateFromTask(async d => { return await SaveProfile(); });
     }
 
-    private async Task SaveProfile()
+    private async Task<ProfileBase?> SaveProfile()
     {
-        switch (Profile)
+        switch (Profile.Type)
         {
-            case RemoteProfile remoteProfile:
+            case ProfileType.Remote:
                 break;
-            case LocalProfile localProfile:
-                var content = await File.ReadAllTextAsync(localProfile.FromFile);
-                var fileName = $"{DateTimeOffset.Now.ToUnixTimeSeconds()}.yaml";
-                localProfile.Filename = fileName;
-                await File.WriteAllTextAsync(fileName, content);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+            case ProfileType.Local:
+                if (IsCreate)
+                {
+                    var content = await File.ReadAllTextAsync(Profile.FromFile);
+                    var fileName = $"{DateTimeOffset.Now.ToUnixTimeSeconds()}.yaml";
+                    await File.WriteAllTextAsync(fileName, content);
+                    return new LocalProfile
+                    {
+                        Name = Profile.Name,
+                        Description = Profile.Description,
+                        Filename = fileName,
+                        CreateTime = DateTime.Now
+                    };
+                }
+
+                _profileBase!.Name = Profile.Name;
+                _profileBase!.Description = Profile.Description;
+                return _profileBase;
         }
+
+        return null;
     }
 }

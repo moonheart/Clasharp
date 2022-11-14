@@ -8,9 +8,10 @@ namespace ClashGui.Interfaces;
 
 public interface IProfileEditViewModel : IViewModelBase
 {
-    ProfileBase Profile { get; set; }
+    FullEditProfile Profile { get; set; }
+    ProfileType ProfileType { get; set; }
 
-    ReactiveCommand<Unit, ProfileBase> Save { get; }
+    ReactiveCommand<Unit, ProfileBase?> Save { get; }
 
     bool IsCreate { get; }
 
@@ -19,12 +20,4 @@ public interface IProfileEditViewModel : IViewModelBase
     bool IsRemoteProfile { get; }
     bool IsLocalProfile { get; }
 
-    string Name { get; set; }
-    string Description { get; set; }
-    string Notes { get; }
-    string Filename { get; }
-    ProfileType Type { get; set; }
-    string FromFile { get; set; }
-    string RemoteUrl { get; set; }
-    TimeSpan UpdateInterval { get; set; }
 }

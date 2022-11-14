@@ -18,7 +18,7 @@
 
         <StackPanel Grid.Row="1" Classes="SettingLine">
             <TextBlock Classes="SettingHeader" Text="Type" />
-            <ComboBox Items="{Binding ProfileTypes}" SelectedItem="{Binding Profile.Type, Mode=TwoWay}"></ComboBox>
+            <ComboBox Items="{Binding ProfileTypes}" SelectedItem="{Binding ProfileType, Mode=TwoWay}"></ComboBox>
         </StackPanel>
         <StackPanel Grid.Row="2" Classes="SettingLine">
             <TextBlock Classes="SettingHeader" Text="Name" />
