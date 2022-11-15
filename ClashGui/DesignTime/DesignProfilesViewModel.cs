@@ -10,6 +10,6 @@ namespace ClashGui.DesignTime;
 public class DesignProfilesViewModel : ViewModelBase, IProfilesViewModel
 {
     public override string Name => "Profiles";
-    public List<ProfileBase> Profiles { get; }
-    public ReactiveCommand<ProfileBase, Unit> OpenCreateBox { get; }
+    public List<Profile> Profiles { get; }
+    public ReactiveCommand<Profile, Unit> OpenCreateBox { get; }
 }

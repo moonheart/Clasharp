@@ -2,39 +2,21 @@
 
 namespace ClashGui.Models.Profiles;
 
-public abstract class ProfileBase
+public class Profile
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string Notes { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public string? Notes { get; set; }
 
-    public string Filename { get; set; }
+    public string? Filename { get; set; }
 
     public DateTime CreateTime { get; set; }
     public DateTime UpdateTime { get; set; }
-    public virtual ProfileType Type { get; }
-}
+    public ProfileType Type { get; set; }
+    
+    public string? FromFile { get; set; }
+    
+    public string? RemoteUrl { get; set; }
+    public TimeSpan? UpdateInterval { get; set; }
 
-public class LocalProfile : ProfileBase
-{
-    public override ProfileType Type => ProfileType.Local;
-
-    public string FromFile { get; set; }
-}
-
-public class RemoteProfile : ProfileBase
-{
-    public string RemoteUrl { get; set; }
-
-    public TimeSpan UpdateInterval { get; set; }
-    public override ProfileType Type => ProfileType.Remote;
-}
-
-public class FullEditProfile : ProfileBase
-{
-    public new ProfileType Type { get; set; }
-    public string FromFile { get; set; }
-    public string RemoteUrl { get; set; }
-
-    public TimeSpan UpdateInterval { get; set; }
 }

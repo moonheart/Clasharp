@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using ClashGui.Common;
 using ClashGui.Interfaces;
 using ClashGui.Models.Profiles;
 using ClashGui.Utils;
@@ -16,7 +17,7 @@ namespace ClashGui.ViewModels;
 
 public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
 {
-    public FullEditProfile Profile { get; set; }
+    public Profile Profile { get; set; }
 
     public ProfileType ProfileType
     {
@@ -33,6 +34,22 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
         }
     }
 
+    public string FromFile
+    {
+        get => Profile.FromFile;
+        set
+        {
+            this.RaisePropertyChanging();
+            if (Profile.FromFile == value)
+            {
+                return;
+            }
+            Profile.FromFile = value;
+            this.RaisePropertyChanged();
+        }
+    }
+    public ReactiveCommand<Unit, Unit> OpenFile { get; }
+    public Interaction<Unit, string?> ShowOpenFileDialog { get; }
     public bool IsCreate { get; }
     public List<ProfileType> ProfileTypes { get; }
 
@@ -42,29 +59,22 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
     [ObservableAsProperty]
     public bool IsLocalProfile { get; }
 
-    public ReactiveCommand<Unit, ProfileBase?> Save { get; }
-    private ProfileBase? _profileBase;
+    public ReactiveCommand<Unit, Profile?> Save { get; }
+    private Profile? _profileBase;
 
-    public ProfileEditViewModel(ProfileBase? profile)
+    public ProfileEditViewModel(Profile? profile)
     {
         _profileBase = profile;
         ProfileTypes = EnumHelper.GetAllEnumValues<ProfileType>().ToList();
         IsCreate = profile == null;
-        Profile = new FullEditProfile
+        Profile = new Profile
         {
             Name = profile?.Name,
             Description = profile?.Description,
+            FromFile = profile?.FromFile,
+            RemoteUrl = profile?.RemoteUrl,
+            UpdateInterval = profile?.UpdateInterval,
         };
-        switch (profile)
-        {
-            case LocalProfile localProfile:
-                Profile.FromFile = localProfile.FromFile;
-                break;
-            case RemoteProfile remoteProfile:
-                Profile.RemoteUrl = remoteProfile.RemoteUrl;
-                Profile.UpdateInterval = remoteProfile.UpdateInterval;
-                break;
-        }
 
         var profileType = this.WhenAnyValue(d => d.ProfileType);
         profileType.Select(d => d == ProfileType.Local).ToPropertyEx(this, d => d.IsLocalProfile);
@@ -73,10 +83,19 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
         this.WhenAnyValue(d => d.Profile.Name).Subscribe(d => { });
 
         Save = ReactiveCommand.CreateFromTask(async d => { return await SaveProfile(); });
+        ShowOpenFileDialog = new Interaction<Unit, string?>();
+        OpenFile = ReactiveCommand.CreateFromTask(async () =>
+        {
+            var filename = await ShowOpenFileDialog.Handle(Unit.Default);
+            if (filename != null)
+            {
+                FromFile = filename;
+            }
+        });
     }
 
     private static HttpClient _httpClient = new();
-    private async Task<ProfileBase?> SaveProfile()
+    private async Task<Profile?> SaveProfile()
     {
         switch (Profile.Type)
         {
@@ -86,11 +105,12 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
                     var content = await _httpClient.GetStringAsync(Profile.RemoteUrl);
                     var fileName = $"{DateTimeOffset.Now.ToUnixTimeSeconds()}.yaml";
                     await File.WriteAllTextAsync(fileName, content);
-                    return new RemoteProfile
+                    return new Profile
                     {
                         Name = Profile.Name,
                         Description = Profile.Description,
                         Filename = fileName,
+                        Type = ProfileType.Remote,
                         CreateTime = DateTime.Now,
                         RemoteUrl = Profile.RemoteUrl,
                         UpdateInterval = Profile.UpdateInterval,
@@ -99,11 +119,8 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
 
                 _profileBase!.Name = Profile.Name;
                 _profileBase!.Description = Profile.Description;
-                if (_profileBase is RemoteProfile remoteProfile)
-                {
-                    remoteProfile.RemoteUrl = Profile.RemoteUrl;
-                    remoteProfile.UpdateInterval = Profile.UpdateInterval;
-                }
+                _profileBase.RemoteUrl = Profile.RemoteUrl;
+                _profileBase.UpdateInterval = Profile.UpdateInterval;
 
                 return _profileBase;
             case ProfileType.Local:
@@ -111,10 +128,11 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
                 {
                     var content = await File.ReadAllTextAsync(Profile.FromFile);
                     var fileName = $"{DateTimeOffset.Now.ToUnixTimeSeconds()}.yaml";
-                    await File.WriteAllTextAsync(fileName, content);
-                    return new LocalProfile
+                    await File.WriteAllTextAsync(Path.Combine(GlobalConfigs.ProfilesDir, fileName), content);
+                    return new Profile()
                     {
                         Name = Profile.Name,
+                        Type = ProfileType.Local,
                         Description = Profile.Description,
                         Filename = fileName,
                         CreateTime = DateTime.Now

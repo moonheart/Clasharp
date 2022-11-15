@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:designTime="clr-namespace:ClashGui.DesignTime"
-             xmlns:profiles="clr-namespace:ClashGui.Models.Profiles"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ClashGui.Views.ProfilesView">
     <Design.DataContext>
@@ -15,7 +14,7 @@
         </StackPanel>
         <ItemsControl Grid.Row="1" Items="{Binding Profiles}">
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="profiles:LocalProfile">
+                <DataTemplate>
                     <Border>
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">

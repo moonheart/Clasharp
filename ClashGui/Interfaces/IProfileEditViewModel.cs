@@ -8,10 +8,12 @@ namespace ClashGui.Interfaces;
 
 public interface IProfileEditViewModel : IViewModelBase
 {
-    FullEditProfile Profile { get; set; }
+    Profile Profile { get; set; }
     ProfileType ProfileType { get; set; }
-
-    ReactiveCommand<Unit, ProfileBase?> Save { get; }
+    string FromFile { get; set; }
+    ReactiveCommand<Unit, Profile?> Save { get; }
+    ReactiveCommand<Unit, Unit> OpenFile { get; }
+    Interaction<Unit, string?> ShowOpenFileDialog { get; }
 
     bool IsCreate { get; }
 

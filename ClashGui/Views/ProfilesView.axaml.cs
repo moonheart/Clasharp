@@ -17,12 +17,12 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         this.WhenActivated(d => d(ViewModel?.EditProfile.RegisterHandler(Handler)!));
     }
 
-    private async Task Handler(InteractionContext<ProfileBase?, ProfileBase?> obj)
+    private async Task Handler(InteractionContext<Profile?, Profile?> obj)
     {
         var profileEditWindow = new ProfileEditWindow {DataContext = new ProfileEditViewModel(obj.Input)};
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var res = await profileEditWindow.ShowDialog<ProfileBase>(desktop.MainWindow);
+            var res = await profileEditWindow.ShowDialog<Profile>(desktop.MainWindow);
             obj.SetOutput(res);
         }
         else

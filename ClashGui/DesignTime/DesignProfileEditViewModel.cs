@@ -10,9 +10,12 @@ namespace ClashGui.DesignTime;
 
 public class DesignProfileEditViewModel:ViewModelBase, IProfileEditViewModel
 {
-    public FullEditProfile Profile { get; set; }
+    public Profile Profile { get; set; }
     public ProfileType ProfileType { get; set; }
-    public ReactiveCommand<Unit, ProfileBase> Save { get; }
+    public string FromFile { get; set; }
+    public ReactiveCommand<Unit, Profile> Save { get; }
+    public ReactiveCommand<Unit, Unit> OpenFile { get; }
+    public Interaction<Unit, string?> ShowOpenFileDialog { get; }
     public bool IsCreate { get; }
     public List<ProfileType> ProfileTypes { get; }
     public bool IsRemoteProfile { get; }

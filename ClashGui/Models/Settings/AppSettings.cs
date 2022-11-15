@@ -8,5 +8,5 @@ public class AppSettings
     public SystemProxyMode SystemProxyMode { get; set; }
     public bool UseServiceMode { get; set; }
 
-    public List<ProfileBase> Profiles { get; set; } = new();
+    public List<Profile> Profiles { get; set; } = new();
 }

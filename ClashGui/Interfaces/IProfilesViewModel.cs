@@ -7,7 +7,7 @@ namespace ClashGui.Interfaces;
 
 public interface IProfilesViewModel : IViewModelBase
 {
-    List<ProfileBase> Profiles { get; }
+    List<Profile> Profiles { get; }
 
-    ReactiveCommand<ProfileBase, Unit> OpenCreateBox { get; }
+    ReactiveCommand<Profile, Unit> OpenCreateBox { get; }
 }

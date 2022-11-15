@@ -6,19 +6,23 @@ using ClashGui.Common;
 using ClashGui.Models.Profiles;
 using ClashGui.Models.Settings;
 using ClashGui.Services.Base;
+using DynamicData;
 
 namespace ClashGui.Services;
 
-public interface IProfilesService : IObservalbeObjService<List<ProfileBase>>, IAutoFreshable
+public interface IProfilesService : IObservalbeObjService<List<Profile>>, IAutoFreshable
 {
+    void AddProfile(Profile profile);
+
+    void ReplaceProfile(Profile old, Profile newp);
 }
 
 public class ProfilesService : IDisposable, IProfilesService
 {
-    public IObservable<List<ProfileBase>> Obj => _profiles;
+    public IObservable<List<Profile>> Obj => _profiles;
     public bool EnableAutoFresh { get; set; }
 
-    private AsyncSubject<List<ProfileBase>> _profiles = new();
+    private ReplaySubject<List<Profile>> _profiles = new();
     private FileSystemWatcher _fileSystemWatcher;
 
     private AppSettings _appSettings;
@@ -35,6 +39,7 @@ public class ProfilesService : IDisposable, IProfilesService
         _fileSystemWatcher.Created += FileSystemWatcherOnChanged;
         _fileSystemWatcher.Deleted += FileSystemWatcherOnChanged;
         _fileSystemWatcher.Renamed += FileSystemWatcherOnChanged;
+        _fileSystemWatcher.EnableRaisingEvents = true;
         
         FileSystemWatcherOnChanged(null!, null!);
     }
@@ -62,5 +67,17 @@ public class ProfilesService : IDisposable, IProfilesService
     public void Dispose()
     {
         _fileSystemWatcher.Dispose();
+    }
+
+    public void AddProfile(Profile profile)
+    {
+        _appSettings.Profiles.Add(profile);
+        _profiles.OnNext(_appSettings.Profiles);
+    }
+
+    public void ReplaceProfile(Profile old, Profile newp)
+    {
+        _appSettings.Profiles.Replace(old, newp);
+        _profiles.OnNext(_appSettings.Profiles);
     }
 }

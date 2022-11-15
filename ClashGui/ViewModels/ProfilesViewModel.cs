@@ -6,7 +6,6 @@ using ClashGui.Interfaces;
 using ClashGui.Models.Profiles;
 using ClashGui.Models.Settings;
 using ClashGui.Services;
-using DynamicData;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -18,35 +17,35 @@ public class ProfilesViewModel : ViewModelBase, IProfilesViewModel
 
     public ProfilesViewModel(IProfilesService profilesService, AppSettings appSettings)
     {
-        EditProfile = new Interaction<ProfileBase?, ProfileBase?>();
+        EditProfile = new Interaction<Profile?, Profile?>();
         profilesService.Obj.ToPropertyEx(this, d => d.Profiles);
 
-        OpenCreateBox = ReactiveCommand.CreateFromTask<ProfileBase?>(async d =>
+        OpenCreateBox = ReactiveCommand.CreateFromTask<Profile?>(async d =>
         {
             if (d == null)
             {
                 var newProfile = await EditProfile.Handle(null);
                 if (newProfile != null)
                 {
-                    appSettings.Profiles.Add(newProfile);
+                    profilesService.AddProfile(newProfile);
                 }
             }
             else
             {
-                var profileBase = JsonSerializer.SerializeToDocument(d).Deserialize<ProfileBase>();
+                var profileBase = JsonSerializer.SerializeToDocument(d).Deserialize<Profile>();
                 var newProfile = await EditProfile.Handle(profileBase);
                 if (newProfile != null)
                 {
-                    appSettings.Profiles.Replace(d, newProfile);
+                    profilesService.ReplaceProfile(d, newProfile);
                 }
             }
         });
     }
 
-    public Interaction<ProfileBase?, ProfileBase?> EditProfile { get; }
+    public Interaction<Profile?, Profile?> EditProfile { get; }
 
     [ObservableAsProperty]
-    public List<ProfileBase> Profiles { get; }
+    public List<Profile> Profiles { get; }
 
-    public ReactiveCommand<ProfileBase?, Unit> OpenCreateBox { get; }
+    public ReactiveCommand<Profile?, Unit> OpenCreateBox { get; }
 }

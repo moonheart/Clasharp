@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Linq;
+using System.Reactive;
+using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using ClashGui.ViewModels;
@@ -18,9 +22,21 @@ public partial class ProfileEditWindow : ReactiveWindow<ProfileEditViewModel>
         this.WhenActivated(d =>
         {
             d(ViewModel.Save.Subscribe(Close));
+            d(ViewModel.ShowOpenFileDialog.RegisterHandler(ShowFileDialog));
             Title = ViewModel.IsCreate ? "Create Profile" : "Edit Profle";
         });
     }
+
+    private async Task ShowFileDialog(InteractionContext<Unit, string?> interaction)
+    {
+        var openFileDialog = new OpenFileDialog
+        {
+            AllowMultiple = false
+        };
+        var files = await openFileDialog.ShowAsync(this);
+        interaction.SetOutput(files?.FirstOrDefault());
+    }
+
 
     private void InitializeComponent()
     {

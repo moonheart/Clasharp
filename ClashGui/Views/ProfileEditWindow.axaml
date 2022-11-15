@@ -28,7 +28,8 @@
         <StackPanel IsVisible="{Binding IsLocalProfile}">
             <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="Import From" />
-                <TextBox Text="{Binding Profile.FromFile, Mode=TwoWay}" />
+                <Button Command="{Binding OpenFile}" Content="Select File" />
+                <TextBlock Text="{Binding FromFile}" />
             </StackPanel>
         </StackPanel>
         <StackPanel IsVisible="{Binding IsRemoteProfile}">
