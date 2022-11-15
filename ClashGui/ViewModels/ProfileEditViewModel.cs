@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -50,7 +50,7 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
         _profileBase = profile;
         ProfileTypes = EnumHelper.GetAllEnumValues<ProfileType>().ToList();
         IsCreate = profile == null;
-        Profile = new FullEditProfile()
+        Profile = new FullEditProfile
         {
             Name = profile?.Name,
             Description = profile?.Description,
@@ -75,12 +75,37 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
         Save = ReactiveCommand.CreateFromTask(async d => { return await SaveProfile(); });
     }
 
+    private static HttpClient _httpClient = new();
     private async Task<ProfileBase?> SaveProfile()
     {
         switch (Profile.Type)
         {
             case ProfileType.Remote:
-                break;
+                if (IsCreate)
+                {
+                    var content = await _httpClient.GetStringAsync(Profile.RemoteUrl);
+                    var fileName = $"{DateTimeOffset.Now.ToUnixTimeSeconds()}.yaml";
+                    await File.WriteAllTextAsync(fileName, content);
+                    return new RemoteProfile
+                    {
+                        Name = Profile.Name,
+                        Description = Profile.Description,
+                        Filename = fileName,
+                        CreateTime = DateTime.Now,
+                        RemoteUrl = Profile.RemoteUrl,
+                        UpdateInterval = Profile.UpdateInterval,
+                    };
+                }
+
+                _profileBase!.Name = Profile.Name;
+                _profileBase!.Description = Profile.Description;
+                if (_profileBase is RemoteProfile remoteProfile)
+                {
+                    remoteProfile.RemoteUrl = Profile.RemoteUrl;
+                    remoteProfile.UpdateInterval = Profile.UpdateInterval;
+                }
+
+                return _profileBase;
             case ProfileType.Local:
                 if (IsCreate)
                 {
