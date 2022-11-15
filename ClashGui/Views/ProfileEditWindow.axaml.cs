@@ -15,7 +15,11 @@ public partial class ProfileEditWindow : ReactiveWindow<ProfileEditViewModel>
 #if DEBUG
         this.AttachDevTools();
 #endif
-        this.WhenActivated(d => d(ViewModel.Save.Subscribe(Close)));
+        this.WhenActivated(d =>
+        {
+            d(ViewModel.Save.Subscribe(Close));
+            Title = ViewModel.IsCreate ? "Create Profile" : "Edit Profle";
+        });
     }
 
     private void InitializeComponent()
