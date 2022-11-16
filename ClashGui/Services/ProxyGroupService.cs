@@ -8,7 +8,7 @@ using ClashGui.Services.Base;
 
 namespace ClashGui.Services;
 
-public class ProxyGroupService : BaseListService<ProxyGroup>, IProxyGroupService
+public class ProxyGroupService : BaseListService<ProxyGroup, string>, IProxyGroupService
 {
     private static readonly string[] NotShownProxyGroups = {"DIRECT", "GLOBAL", "REJECT", "COMPATIBLE", "PASS"};
     private static ProxyGroupComparer _proxyGroupComparer = new();
@@ -24,10 +24,10 @@ public class ProxyGroupService : BaseListService<ProxyGroup>, IProxyGroupService
                new List<ProxyGroup>();
     }
 
-    protected override bool ObjEquals(List<ProxyGroup> oldObj, List<ProxyGroup> newObj)
-    {
-        return oldObj.SequenceEqual(newObj, _proxyGroupComparer);
-    }
+    // protected override bool ObjEquals(List<ProxyGroup> oldObj, List<ProxyGroup> newObj)
+    // {
+    //     return oldObj.SequenceEqual(newObj, _proxyGroupComparer);
+    // }
 
 
     private class ProxyGroupComparer : IEqualityComparer<ProxyGroup>
@@ -54,5 +54,10 @@ public class ProxyGroupService : BaseListService<ProxyGroup>, IProxyGroupService
     public Task SelectProxy(string group, string name)
     {
         return _clashApiFactory.Get().SelectProxy(group, new UpdateProxyRequest {Name = name});
+    }
+
+    protected override string GetUniqueKey(ProxyGroup obj)
+    {
+        return obj.Name;
     }
 }

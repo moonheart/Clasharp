@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using ClashGui.Models.Proxies;
+﻿using System.Collections.ObjectModel;
 
 namespace ClashGui.Interfaces;
 
 public interface IProxyGroupListViewModel: IViewModelBase
 {
-    List<IProxyGroupViewModel> ProxyGroupViewModels { get; }
+    ReadOnlyObservableCollection<IProxyGroupViewModel> ProxyGroupViewModels { get; }
 }

@@ -4,7 +4,10 @@ using ClashGui.Services.Base;
 
 namespace ClashGui.Services;
 
-public interface IConnectionService: IObservalbeObjService<ConnectionInfo>, IAutoFreshable
+public interface IConnectionService :
+    IObservableListService<Connection, string>,
+    IObservalbeObjService<ConnectionInfo>,
+    IAutoFreshable
 {
     Task CloseConnection(string id);
     Task CloseAllConnections();

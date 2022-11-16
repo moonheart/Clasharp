@@ -5,7 +5,7 @@ using ClashGui.Services.Base;
 
 namespace ClashGui.Services;
 
-public interface IProxyGroupService : IObservalbeObjService<List<ProxyGroup>>, IAutoFreshable
+public interface IProxyGroupService : IObservableListService<ProxyGroup, string>, IAutoFreshable
 {
     Task SelectProxy(string group, string name);
 }

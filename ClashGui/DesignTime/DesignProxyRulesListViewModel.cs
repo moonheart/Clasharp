@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Reactive;
 using ClashGui.Clash.Models.Providers;
 using ClashGui.Clash.Models.Rules;
@@ -13,19 +12,9 @@ public class DesignProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewM
 {
     public override string Name => "Rules";
 
-    public List<RuleInfo> Rules { get; } = new()
-    {
-        new RuleInfo() {Type = "type", Payload = "paylaod", Proxy = "ssdfsdf"}
-    };
+    public ReadOnlyObservableCollection<RuleInfo> Rules { get; }
 
-    public List<RuleProvider> Providers { get; } = new()
-    {
-        new RuleProvider()
-        {
-            Behavior = "behaviour", Name = "name", RuleCount = 123, Type = "ssg", UpdatedAt = DateTime.Now,
-            VehicleType = VehicleType.HTTP
-        }
-    };
+    public ReadOnlyObservableCollection<RuleProvider> Providers { get; } 
 
     public ReactiveCommand<string, Unit> UpdateCommand { get; }
 }

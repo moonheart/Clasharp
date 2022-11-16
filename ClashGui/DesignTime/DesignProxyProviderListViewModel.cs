@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Reactive;
 using ClashGui.Interfaces;
 using ClashGui.ViewModels;
@@ -8,10 +8,7 @@ namespace ClashGui.DesignTime;
 
 public class DesignProxyProviderListViewModel : ViewModelBase, IProxyProviderListViewModel
 {
-    public List<IProxyProviderViewModel> ProxyProviders => new List<IProxyProviderViewModel>()
-    {
-        new DesignProxyProviderViewModel()
-    };
+    public ReadOnlyObservableCollection<IProxyProviderViewModel>? ProxyProviders { get; }
 
     public ReactiveCommand<string, Unit> CheckCommand { get; }
     public ReactiveCommand<string, Unit> UpdateCommand { get; }

@@ -4,7 +4,6 @@ using ClashGui.Services.Base;
 
 namespace ClashGui.Services;
 
-public interface IProxyRuleProviderService: IObservalbeObjService<List<RuleProvider>>, IAutoFreshable
+public interface IProxyRuleProviderService : IObservableListService<RuleProvider, string>, IAutoFreshable
 {
-    
 }

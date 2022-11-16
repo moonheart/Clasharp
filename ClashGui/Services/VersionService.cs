@@ -5,7 +5,7 @@ using ClashGui.Services.Base;
 
 namespace ClashGui.Services;
 
-public class VersionService : BaseService<VersionInfo>, IVersionService
+public class VersionService : BaseObjService<VersionInfo>, IVersionService
 {
     public VersionService(IClashCli clashCli, IClashApiFactory clashApiFactory) : base(clashCli, clashApiFactory)
     {

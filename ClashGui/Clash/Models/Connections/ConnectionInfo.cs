@@ -8,5 +8,5 @@ public class ConnectionInfo
 
     public long UploadTotal { get; set; }
 
-    public List<Connection> Connections { get; set; }
+    public List<Connection>? Connections { get; set; }
 }

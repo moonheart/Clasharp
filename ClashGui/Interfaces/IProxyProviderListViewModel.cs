@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Reactive;
-using ClashGui.Models.Providers;
 using ReactiveUI;
 
 namespace ClashGui.Interfaces;
 
 public interface IProxyProviderListViewModel: IViewModelBase
 {
-    List<IProxyProviderViewModel>? ProxyProviders { get; }
+    ReadOnlyObservableCollection<IProxyProviderViewModel>? ProxyProviders { get; }
         
     ReactiveCommand<string, Unit> CheckCommand { get; }
     

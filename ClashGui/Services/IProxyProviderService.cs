@@ -5,7 +5,7 @@ using ClashGui.Services.Base;
 
 namespace ClashGui.Services;
 
-public interface IProxyProviderService : IObservalbeObjService<List<ProxyProvider>>, IAutoFreshable
+public interface IProxyProviderService : IObservableListService<ProxyProvider, string>, IAutoFreshable
 {
     Task HealthCheckProxyProvider(string name);
     Task UpdateProxyProvider(string name);

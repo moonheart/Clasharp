@@ -10,7 +10,7 @@ using DynamicData;
 
 namespace ClashGui.Services;
 
-public interface IProfilesService : IObservalbeObjService<List<Profile>>, IAutoFreshable
+public interface IProfilesService : IObservableListService<Profile, string>, IAutoFreshable
 {
     void AddProfile(Profile profile);
 
@@ -19,16 +19,18 @@ public interface IProfilesService : IObservalbeObjService<List<Profile>>, IAutoF
 
 public class ProfilesService : IDisposable, IProfilesService
 {
-    public IObservable<List<Profile>> Obj => _profiles;
+    public IObservable<IChangeSet<Profile, string>> List => _profiles.Connect();
     public bool EnableAutoFresh { get; set; }
 
-    private ReplaySubject<List<Profile>> _profiles = new();
+    private readonly SourceCache<Profile, string> _profiles;
     private FileSystemWatcher _fileSystemWatcher;
 
     private AppSettings _appSettings;
 
     public ProfilesService(AppSettings appSettings)
     {
+        _profiles = new(d => d.Filename);
+
         if (!Directory.Exists(GlobalConfigs.ProfilesDir)) Directory.CreateDirectory(GlobalConfigs.ProfilesDir);
 
         _appSettings = appSettings;
@@ -39,8 +41,8 @@ public class ProfilesService : IDisposable, IProfilesService
         _fileSystemWatcher.Created += FileSystemWatcherOnChanged;
         _fileSystemWatcher.Deleted += FileSystemWatcherOnChanged;
         _fileSystemWatcher.Renamed += FileSystemWatcherOnChanged;
-        _fileSystemWatcher.EnableRaisingEvents = true;
-        
+        _fileSystemWatcher.EnableRaisingEvents = false;
+
         FileSystemWatcherOnChanged(null!, null!);
     }
 
@@ -60,8 +62,8 @@ public class ProfilesService : IDisposable, IProfilesService
                 profile.UpdateTime = fileInfo.LastWriteTime;
             }
         }
-        
-        _profiles.OnNext(_appSettings.Profiles);
+
+        _profiles.AddOrUpdate(_appSettings.Profiles);
     }
 
     public void Dispose()
@@ -72,12 +74,12 @@ public class ProfilesService : IDisposable, IProfilesService
     public void AddProfile(Profile profile)
     {
         _appSettings.Profiles.Add(profile);
-        _profiles.OnNext(_appSettings.Profiles);
+        _profiles.AddOrUpdate(profile);
     }
 
     public void ReplaceProfile(Profile old, Profile newp)
     {
         _appSettings.Profiles.Replace(old, newp);
-        _profiles.OnNext(_appSettings.Profiles);
+        _profiles.AddOrUpdate(newp);
     }
 }

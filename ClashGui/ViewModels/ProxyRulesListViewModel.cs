@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Reactive.Linq;
 using ClashGui.Clash.Models.Providers;
 using ClashGui.Clash.Models.Rules;
 using ClashGui.Interfaces;
 using ClashGui.Services;
+using DynamicData;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 
 namespace ClashGui.ViewModels;
 
@@ -16,8 +18,8 @@ public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
     public ProxyRulesListViewModel(IProxyRuleProviderService proxyRuleProviderService,
         IProxyRuleService proxyRuleService)
     {
-        proxyRuleProviderService.Obj.ToPropertyEx(this, d => d.Providers);
-        proxyRuleService.Obj.ToPropertyEx(this, d => d.Rules);
+        proxyRuleProviderService.List.ObserveOn(RxApp.MainThreadScheduler).Bind(out _ruleProviders).Subscribe();
+        proxyRuleService.List.ObserveOn(RxApp.MainThreadScheduler).Bind(out _ruleInfos).Subscribe();
 
         UpdateCommand = ReactiveCommand.CreateFromTask<string>(async name =>
         {
@@ -25,11 +27,14 @@ public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
         });
     }
 
-    [ObservableAsProperty]
-    public List<RuleInfo> Rules { get; }
+    // [ObservableAsProperty]
+    public ReadOnlyObservableCollection<RuleInfo> Rules => _ruleInfos;
 
-    [ObservableAsProperty]
-    public List<RuleProvider> Providers { get; }
+    private ReadOnlyObservableCollection<RuleInfo> _ruleInfos;
+
+    // [ObservableAsProperty]
+    public ReadOnlyObservableCollection<RuleProvider> Providers => _ruleProviders;
+    private ReadOnlyObservableCollection<RuleProvider> _ruleProviders;
 
     public ReactiveCommand<string, Unit> UpdateCommand { get; }
 }

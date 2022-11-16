@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Linq;
 using ClashGui.Interfaces;
 using ClashGui.Services;
+using DynamicData;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 
 namespace ClashGui.ViewModels;
 
@@ -13,9 +13,11 @@ public class ProxyProviderListViewModel : ViewModelBase, IProxyProviderListViewM
 {
     public ProxyProviderListViewModel(IProxyProviderService proxyProviderService)
     {
-        proxyProviderService.Obj
-            .Select(d => d.Select(x => new ProxyProviderViewModel(x) as IProxyProviderViewModel).ToList())
-            .ToPropertyEx(this, d => d.ProxyProviders);
+        proxyProviderService.List
+            .Transform(d => new ProxyProviderViewModel(d) as IProxyProviderViewModel)
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Bind(out _items)
+            .Subscribe();
         
         CheckCommand = ReactiveCommand.CreateFromTask<string>(async name =>
             await proxyProviderService.HealthCheckProxyProvider(name));
@@ -23,10 +25,12 @@ public class ProxyProviderListViewModel : ViewModelBase, IProxyProviderListViewM
             await proxyProviderService.UpdateProxyProvider(name));
     }
 
-    [ObservableAsProperty]
-    public List<IProxyProviderViewModel>? ProxyProviders { get; }
-    
-    
+    // [ObservableAsProperty]
+    public ReadOnlyObservableCollection<IProxyProviderViewModel>? ProxyProviders => _items;
+
+    private ReadOnlyObservableCollection<IProxyProviderViewModel> _items;
+
+
     public ReactiveCommand<string, Unit> CheckCommand { get; }
     public ReactiveCommand<string, Unit> UpdateCommand { get; }
 

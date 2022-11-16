@@ -5,7 +5,7 @@ using ClashGui.Services.Base;
 
 namespace ClashGui.Services;
 
-public interface IProxyRuleService: IObservalbeObjService<List<RuleInfo>>, IAutoFreshable
+public interface IProxyRuleService: IObservableListService<RuleInfo, string>, IAutoFreshable
 {
     Task UpdateRuleProvider(string name);
 }
