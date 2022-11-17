@@ -18,7 +18,7 @@ public class ConnectionService : BaseService<ConnectionInfo>, IConnectionService
     {
         _items = new SourceCache<Connection, string>(d => d.Id);
         var observable = GetObservable();
-        observable.Subscribe(d => _items.AddOrUpdate(d.Connections!));
+        observable.Subscribe(d => _items.EditDiff(d.Connections!, EqualityComparer<Connection>.Default));
         Obj = observable.Where(d =>
         {
             if (_prevConn != null && Equals(_prevConn, d)) return false;
