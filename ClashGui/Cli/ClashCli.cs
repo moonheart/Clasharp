@@ -73,7 +73,6 @@ public class ClashCli : IClashCli
 
     public async Task Stop()
     {
-        await (_appSettings.UseServiceMode ? _remote.Stop() : _local.Stop());
         switch (_appSettings.SystemProxyMode)
         {
             case SystemProxyMode.SetProxy:
@@ -82,5 +81,6 @@ public class ClashCli : IClashCli
                 break;
             }
         }
+        await (_appSettings.UseServiceMode ? _remote.Stop() : _local.Stop());
     }
 }
