@@ -13,7 +13,7 @@
             <TextBlock Text="{Binding  Name}" FontSize="20" FontWeight="Bold" Margin="0 0 5 0" />
             <TextBlock Text="{Binding Type}" VerticalAlignment="Bottom"></TextBlock>
         </StackPanel>
-        <ListBox Background="White" Grid.Row="1" Grid.Column="0" Items="{Binding Proxies}"
+        <ListBox Background="Transparent" Grid.Row="1" Grid.Column="0" Items="{Binding Proxies}"
                  SelectedItem="{Binding SelectedProxy, Mode=TwoWay}"
                  IsEnabled="{Binding Enabled}"
                  SelectionMode="Single">

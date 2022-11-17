@@ -12,29 +12,51 @@
         <StackPanel Grid.Row="0">
             <Button Command="{Binding OpenCreateBox}" Content="New Profile"></Button>
         </StackPanel>
-        <ItemsControl Grid.Row="1" Items="{Binding Profiles}">
-            <ItemsControl.ItemTemplate>
+        <ListBox Grid.Row="1" Items="{Binding Profiles}" Background="Transparent" SelectionMode="Single">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border>
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Name}"></TextBlock>
-                                <TextBlock HorizontalAlignment="Right" Text="{Binding Type}"></TextBlock>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                    <Border Width="200" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Margin="3" Padding="3">
+                        <StackPanel>
+                            <Panel  VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" FontSize="20"></TextBlock>
+                                <Border HorizontalAlignment="Right" VerticalAlignment="Top" Background="#646464" CornerRadius="5" Padding="3" >
+                                    <TextBlock Text="{Binding Type}" Foreground="White" FontSize="12" ></TextBlock>
+                                </Border>
+                            </Panel>
+                            <Panel>
                                 <TextBlock Text="{Binding Description}"></TextBlock>
                                 <TextBlock Text="{Binding Notes}"></TextBlock>
                                 <TextBlock HorizontalAlignment="Right" Text="{Binding UpdateTime}"></TextBlock>
-                            </StackPanel>
+                            </Panel>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel></WrapPanel>
                 </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+            </ListBox.ItemsPanel>
+            <ListBox.Styles>
+                <Style Selector="ListBox ListBoxItem">
+                    <Setter Property="Padding" Value="0"></Setter>
+                </Style>
+                <Style Selector="ListBox ListBoxItem:selected ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Style>
+                <Style Selector="ListBox ListBoxItem:selected Border">
+                    <Setter Property="Background" Value="Black"></Setter>
+                </Style>
+                <Style Selector="ListBox ListBoxItem:selected TextBlock">
+                    <Setter Property="Foreground" Value="White"></Setter>
+                </Style>
+                <Style Selector="ListBox Border">
+                    <Setter Property="CornerRadius" Value="3"></Setter>
+                    <Setter Property="BorderThickness" Value="1"></Setter>
+                    <Setter Property="BorderBrush" Value="Black"></Setter>
+                    <Setter Property="Padding" Value="2"></Setter>
+                </Style>
+            </ListBox.Styles>
+        </ListBox>
     </Grid>
 </UserControl>
