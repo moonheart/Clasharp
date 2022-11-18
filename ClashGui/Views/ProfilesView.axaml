@@ -26,6 +26,8 @@
                             <Panel>
                                 <TextBlock Text="{Binding Description}"></TextBlock>
                                 <TextBlock Text="{Binding Notes}"></TextBlock>
+                            </Panel>
+                            <Panel>
                                 <TextBlock HorizontalAlignment="Right" Text="{Binding UpdateTime}"></TextBlock>
                             </Panel>
                         </StackPanel>
