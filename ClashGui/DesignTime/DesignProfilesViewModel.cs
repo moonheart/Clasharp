@@ -15,5 +15,7 @@ public class DesignProfilesViewModel : ViewModelBase, IProfilesViewModel
     {
         Name = "123123", Description = "Desdsfsdf", Type = ProfileType.Local, UpdateTime = DateTime.Now
     }}));
+
+    public Profile? SelectedProfile { get; set; }
     public ReactiveCommand<Profile, Unit> OpenCreateBox { get; }
 }

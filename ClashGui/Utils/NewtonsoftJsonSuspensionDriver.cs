@@ -13,6 +13,7 @@ public class NewtonsoftJsonSuspensionDriver<T> : ISuspensionDriver where T : new
 
     private readonly JsonSerializerOptions _settings = new()
     {
+        WriteIndented = true
     };
 
     public NewtonsoftJsonSuspensionDriver(string file) => _file = file;

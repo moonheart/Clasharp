@@ -40,6 +40,11 @@ This is a WIP project.
     - [x] Close Connection
   - [x] Realtime Logs
   - [x] Clash Process Status
+  - [ ] Profiles
+    - [x] List
+    - [x] Select
+    - [ ] Edit
+    - [ ] Delete
   - [ ] Settings
     - [x] System Proxy
     - [ ] TUN Mode

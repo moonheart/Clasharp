@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Text.Json;
@@ -9,6 +10,7 @@ using ClashGui.Models.Settings;
 using ClashGui.Services;
 using DynamicData;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace ClashGui.ViewModels;
 
@@ -20,7 +22,18 @@ public class ProfilesViewModel : ViewModelBase, IProfilesViewModel
     {
         EditProfile = new Interaction<Profile?, Profile?>();
         profilesService.List.ObserveOn(RxApp.MainThreadScheduler).Bind(out _profiles).Subscribe();
+        SelectedProfile = string.IsNullOrWhiteSpace(appSettings.SelectedProfile)
+            ? null
+            : appSettings.Profiles.FirstOrDefault(d => d.Filename == appSettings.SelectedProfile);
 
+        this.WhenAnyValue(d => d.SelectedProfile)
+            .WhereNotNull()
+            .Skip(1)
+            .Subscribe(d =>
+            {
+                appSettings.SelectedProfile = d.Filename;
+            });
+        
         OpenCreateBox = ReactiveCommand.CreateFromTask<Profile?>(async d =>
         {
             if (d == null)
@@ -47,6 +60,9 @@ public class ProfilesViewModel : ViewModelBase, IProfilesViewModel
 
     // [ObservableAsProperty]
     public ReadOnlyObservableCollection<Profile> Profiles => _profiles;
+
+    [Reactive]
+    public Profile? SelectedProfile { get; set; }
 
     private ReadOnlyObservableCollection<Profile> _profiles;
 
