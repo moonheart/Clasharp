@@ -30,8 +30,9 @@ public class ClashRemoteCli : ClashCliBase
     private IRemoteClash _remoteClash;
     private CoreServiceHelper _coreServiceHelper;
 
-    public ClashRemoteCli(IClashApiFactory clashApiFactory, IRemoteClash remoteClash,
+    public ClashRemoteCli(IClashApiFactory clashApiFactory, IProfilesService profilesService, IRemoteClash remoteClash,
         CoreServiceHelper coreServiceHelper)
+    : base(clashApiFactory, profilesService)
     {
         _clashApiFactory = clashApiFactory;
         _remoteClash = remoteClash;
@@ -42,7 +43,7 @@ public class ClashRemoteCli : ClashCliBase
 
     private CancellationTokenSource? _cancellationTokenSource;
 
-    protected override async Task DoStart()
+    protected override async Task DoStart(string configPath)
     {
         var status = await _coreServiceHelper.Status();
         if (status != ServiceStatus.Running)
@@ -54,7 +55,8 @@ public class ClashRemoteCli : ClashCliBase
         await _remoteClash.StartClash(new ClashLaunchInfo()
         {
             ExecutablePath = GlobalConfigs.ClashExe,
-            WorkDir = GlobalConfigs.ProgramHome
+            WorkDir = GlobalConfigs.ProgramHome,
+            ConfigPath = configPath
         });
 
         _cancellationTokenSource?.Cancel();
@@ -64,12 +66,7 @@ public class ClashRemoteCli : ClashCliBase
             await foreach (var realtimeLog in _remoteClash.GetRealtimeLogs()
                                .WithCancellation(_cancellationTokenSource.Token))
             {
-                if (string.IsNullOrEmpty(realtimeLog)) return;
-                var match = _logRegex.Match(realtimeLog);
-                if (!match.Success) match = _logMetaRegex.Match(realtimeLog);
-                _consoleLog.OnNext(match.Success
-                    ? new LogEntry(_levelsMap[match.Groups["level"].Value], match.Groups["payload"].Value)
-                    : new LogEntry(LogLevel.INFO, realtimeLog));
+                CliLogProcessor(realtimeLog);
             }
         });
     }

@@ -1,77 +1,35 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using ClashGui.Clash.Models.Logs;
+﻿using System.Threading.Tasks;
 using ClashGui.Common;
 using ClashGui.Services;
-using LogLevel = ClashGui.Clash.Models.Logs.LogLevel;
 
 namespace ClashGui.Cli;
 
 public class ClashLocalCli : ClashCliBase
 {
-    private Process? _process;
+    private ClashWrapper? _clashWrapper;
 
-    public ClashLocalCli(IClashApiFactory clashApiFactory)
+    public ClashLocalCli(IClashApiFactory clashApiFactory, IProfilesService profilesService)
+        : base(clashApiFactory, profilesService)
     {
-        _clashApiFactory = clashApiFactory;
         _runningState.OnNext(Cli.RunningState.Stopped);
     }
 
-    protected override async Task DoStart()
+    protected override async Task DoStart(string configPath)
     {
-        _process = new Process()
+        _clashWrapper?.Stop();
+        _clashWrapper = new ClashWrapper(new ClashLaunchInfo()
         {
-            StartInfo = new ProcessStartInfo()
-            {
-                FileName = GlobalConfigs.ClashExe,
-                Arguments = $"-f config.yaml -d {GlobalConfigs.ProgramHome}",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                WorkingDirectory = GlobalConfigs.ProgramHome,
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                StandardOutputEncoding = Encoding.UTF8,
-            }
+            ConfigPath = configPath, ExecutablePath = GlobalConfigs.ClashExe, WorkDir = GlobalConfigs.ProgramHome
+        })
+        {
+            OnNewLog = CliLogProcessor
         };
-
-        _process.OutputDataReceived += (_, args) =>
-        {
-            if (string.IsNullOrEmpty(args.Data)) return;
-            var match = _logRegex.Match(args.Data);
-            if (!match.Success) match = _logMetaRegex.Match(args.Data);
-            _consoleLog.OnNext(match.Success
-                ? new LogEntry(_levelsMap[match.Groups["level"].Value], match.Groups["payload"].Value)
-                : new LogEntry(LogLevel.INFO, args.Data));
-        };
-        _process.Start();
-        _process.PriorityClass = ProcessPriorityClass.High;
-        _process.BeginOutputReadLine();
-
-        if (_process.WaitForExit(500))
-        {
-            var readToEnd = await _process.StandardError.ReadToEndAsync();
-            throw new Exception(readToEnd);
-        }
+        _clashWrapper.Start();
     }
 
     protected override Task DoStop()
     {
-        _process?.Kill(true);
+        _clashWrapper?.Stop();
         return Task.CompletedTask;
-    }
-
-    private async Task EnsureConfig()
-    {
-        Directory.CreateDirectory(GlobalConfigs.ProgramHome);
-        if (!File.Exists(GlobalConfigs.ClashConfig))
-        {
-            await File.WriteAllTextAsync(GlobalConfigs.ClashConfig,
-                @"mixed-port: 17890
-allow-lan: false
-external-controller: 0.0.0.0:62708");
-        }
     }
 }

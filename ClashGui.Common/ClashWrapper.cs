@@ -22,7 +22,7 @@ public class ClashWrapper
             StartInfo = new ProcessStartInfo()
             {
                 FileName = _clashLaunchInfo.ExecutablePath,
-                Arguments = $"-f config.yaml -d {_clashLaunchInfo.WorkDir}",
+                Arguments = $"-f '{_clashLaunchInfo.ConfigPath}' -d {_clashLaunchInfo.WorkDir}",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 WorkingDirectory = _clashLaunchInfo.WorkDir,

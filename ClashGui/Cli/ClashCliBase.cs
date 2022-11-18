@@ -24,11 +24,12 @@ public abstract class ClashCliBase : IClashCli
     protected ReplaySubject<LogEntry> _consoleLog = new(1);
     protected ReplaySubject<RawConfig> _config = new(1);
 
-    protected IClashApiFactory _clashApiFactory;
 
     protected Regex _logRegex = new(@"\d{2}\:\d{2}\:\d{2}\s+(?<level>\S+)\s*(?<module>\[.+?\])?\s*(?<payload>.+)");
     protected Regex _logMetaRegex = new(@"time=""(.+?) level=(?<level>.+?) msg=""(?<payload>.+)""");
 
+    protected IClashApiFactory _clashApiFactory;
+    private IProfilesService _profilesService;
 
     protected Dictionary<string, LogLevel> _levelsMap = new()
     {
@@ -44,22 +45,38 @@ public abstract class ClashCliBase : IClashCli
         ["silent"] = LogLevel.SILENT,
     };
 
+    protected ClashCliBase(IClashApiFactory clashApiFactory, IProfilesService profilesService)
+    {
+        _clashApiFactory = clashApiFactory;
+        _profilesService = profilesService;
+    }
+
     public async Task Start()
     {
         _runningState.OnNext(Cli.RunningState.Starting);
-        await EnsureConfig();
-        var configYaml = await File.ReadAllTextAsync(GlobalConfigs.ClashConfig);
+        var configPath = await EnsureConfig();
+        var configYaml = await File.ReadAllTextAsync(configPath);
         var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
 
-        await DoStart();
-        
+        await DoStart(configPath);
+
         var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
         _clashApiFactory.SetPort(int.Parse(port));
         _config.OnNext(rawConfig);
         _runningState.OnNext(Cli.RunningState.Started);
     }
 
-    protected abstract Task DoStart();
+    protected void CliLogProcessor(string log)
+    {
+        if (string.IsNullOrEmpty(log)) return;
+        var match = _logRegex.Match(log);
+        if (!match.Success) match = _logMetaRegex.Match(log);
+        _consoleLog.OnNext(match.Success
+            ? new LogEntry(_levelsMap[match.Groups["level"].Value], match.Groups["payload"].Value)
+            : new LogEntry(LogLevel.INFO, log));
+    }
+
+    protected abstract Task DoStart(string configPath);
 
     public async Task Stop()
     {
@@ -67,17 +84,24 @@ public abstract class ClashCliBase : IClashCli
         await DoStop();
         _runningState.OnNext(Cli.RunningState.Stopped);
     }
+
     protected abstract Task DoStop();
 
-    private async Task EnsureConfig()
+    private async Task<string> EnsureConfig()
     {
         Directory.CreateDirectory(GlobalConfigs.ProgramHome);
-        if (!File.Exists(GlobalConfigs.ClashConfig))
+        var filename = _profilesService.GetActiveProfile();
+        if (string.IsNullOrWhiteSpace(filename))
         {
-            await File.WriteAllTextAsync(GlobalConfigs.ClashConfig,
-                @"mixed-port: 17890
-allow-lan: false
-external-controller: 0.0.0.0:62708");
+            throw new Exception("No selected profile");
         }
+
+        var fulPath = Path.Combine(GlobalConfigs.ProfilesDir, filename);
+        if (!File.Exists(fulPath))
+        {
+            throw new Exception("Selected profile file not exist");
+        }
+
+        return fulPath;
     }
 }

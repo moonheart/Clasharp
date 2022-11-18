@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Reactive.Subjects;
 using ClashGui.Common;
 using ClashGui.Models.Profiles;
 using ClashGui.Models.Settings;
@@ -15,6 +13,8 @@ public interface IProfilesService : IObservableListService<Profile, string>, IAu
     void AddProfile(Profile profile);
 
     void ReplaceProfile(Profile old, Profile newp);
+
+    string? GetActiveProfile();
 }
 
 public class ProfilesService : IDisposable, IProfilesService
@@ -81,5 +81,10 @@ public class ProfilesService : IDisposable, IProfilesService
     {
         _appSettings.Profiles.Replace(old, newp);
         _profiles.AddOrUpdate(newp);
+    }
+
+    public string? GetActiveProfile()
+    {
+        return _appSettings.SelectedProfile;
     }
 }
