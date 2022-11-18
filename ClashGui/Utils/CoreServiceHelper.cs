@@ -14,9 +14,12 @@ public class CoreServiceHelper
     /// <exception cref="Exception">when error happens</exception>
     public async Task Install()
     {
-        // var path = Path.Combine(Environment.CurrentDirectory, "ClashGui.WindowsService");
+#if DEBUG
         var path =
             @"D:\Git_Github\ClashGui\ClashGui\ClashGui.WindowsService\bin\Debug\net6.0\ClashGui.WindowsService.exe";
+#else
+        var path = Path.Combine(Environment.CurrentDirectory, "ClashGui.WindowsService");
+#endif
         if (!await sc($"create clash_gui_service binPath=\"{path}\" start= auto DisplayName= \"Clasharp Core Service\""))
         {
             throw new Exception("Install core service failed");
@@ -55,14 +58,20 @@ public class CoreServiceHelper
 
     public async Task Start()
     {
-        var serviceController = new ServiceController("clash_gui_service");
-        serviceController.Start();
+        var r = await sc($"start clash_gui_service");
+        if (!r)
+        {
+            throw new Exception("Start core service failed");
+        }
     }
 
     public async Task Stop()
     {
-        var serviceController = new ServiceController("clash_gui_service");
-        serviceController.Stop();
+        var r = await sc($"stop clash_gui_service");
+        if (!r)
+        {
+            throw new Exception("Stop core service failed");
+        }
     }
 
     private async Task<bool> sc(string args)

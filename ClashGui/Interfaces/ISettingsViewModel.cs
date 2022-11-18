@@ -11,8 +11,11 @@ public interface ISettingsViewModel: IViewModelBase
     SystemProxyMode SystemProxyMode { get; set; }
     bool UseServiceMode { get; set; }
     bool IsUninstalled { get; }
+    bool IsCoreServiceRunning { get; }
     ServiceStatus CoreServiceStatus { get; }
     List<SystemProxyMode> SystemProxyModes { get; }
     ReactiveCommand<Unit, Unit> InstallService { get; }
     ReactiveCommand<Unit, Unit> UninstallService { get; }
+    ReactiveCommand<Unit, Unit> StartService { get; }
+    ReactiveCommand<Unit, Unit> StopService { get; }
 }

@@ -52,6 +52,13 @@
                     IsVisible="{Binding !IsUninstalled}"
                     Command="{Binding UninstallService}" Content="Uninstall">
                 </Button>
+                <Button
+                    IsVisible="{Binding IsCoreServiceRunning}"
+                    Command="{Binding StopService}" Content="Stop" />
+                <Button
+                    IsVisible="{Binding !IsCoreServiceRunning}"
+                    Command="{Binding StartService}" Content="Start">
+                </Button>
             </StackPanel>
             <StackPanel Classes="SettingLine" Grid.Row="2">
                 <TextBlock Classes="SettingHeader" Text="Use Core Service" />

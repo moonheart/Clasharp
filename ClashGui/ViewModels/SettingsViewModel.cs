@@ -32,6 +32,7 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
             .SelectMany(async _ => await coreServiceHelper.Status());
         serviceStatus.ToPropertyEx(this, d => d.CoreServiceStatus);
         serviceStatus.Select(d => d == ServiceStatus.Uninstalled).ToPropertyEx(this, d => d.IsUninstalled);
+        serviceStatus.Select(d => d == ServiceStatus.Running).ToPropertyEx(this, d => d.IsCoreServiceRunning);
 
         InstallService = ReactiveCommand.CreateFromTask(async _ =>
         {
@@ -55,6 +56,28 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
                 MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Error", e.Message);
             }
         });
+        StartService = ReactiveCommand.CreateFromTask(async _ =>
+        {
+            try
+            {
+                await coreServiceHelper.Start();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Error", e.Message);
+            }
+        });
+        StopService = ReactiveCommand.CreateFromTask(async _ =>
+        {
+            try
+            {
+                await coreServiceHelper.Stop();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Error", e.Message);
+            }
+        });
     }
 
     [Reactive]
@@ -67,9 +90,14 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     public bool IsUninstalled { get; }
 
     [ObservableAsProperty]
+    public bool IsCoreServiceRunning { get; }
+
+    [ObservableAsProperty]
     public ServiceStatus CoreServiceStatus { get; }
 
     public List<SystemProxyMode> SystemProxyModes { get; }
     public ReactiveCommand<Unit, Unit> InstallService { get; }
     public ReactiveCommand<Unit, Unit> UninstallService { get; }
+    public ReactiveCommand<Unit, Unit> StartService { get; }
+    public ReactiveCommand<Unit, Unit> StopService { get; }
 }
