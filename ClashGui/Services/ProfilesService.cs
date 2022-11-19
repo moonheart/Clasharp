@@ -4,11 +4,13 @@ using System.IO;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using ClashGui.Clash.Models.Logs;
 using ClashGui.Common;
 using ClashGui.Models.Profiles;
 using ClashGui.Models.Settings;
 using ClashGui.Services.Base;
 using DynamicData;
+using ReactiveUI;
 
 namespace ClashGui.Services;
 
@@ -125,9 +127,16 @@ public class ProfilesService : IDisposable, IProfilesService
     private static HttpClient _httpClient = new();
     public async Task DownloadProfile(Profile profile)
     {
-        var content = await _httpClient.GetStringAsync(profile.RemoteUrl);
-        await File.WriteAllTextAsync(Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename), content);
-        profile.UpdateTime = DateTime.Now;
+        try
+        {
+            var content = await _httpClient.GetStringAsync(profile.RemoteUrl);
+            await File.WriteAllTextAsync(Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename), content);
+            profile.UpdateTime = DateTime.Now;
+        }
+        catch (Exception e)
+        {
+            MessageBus.Current.SendMessage(new LogEntry(LogLevel.ERROR, $"Failed to download profile from {profile.RemoteUrl}, {e.Message}"));
+        }
     }
 
     public string? GetActiveProfile()

@@ -8,6 +8,7 @@ using ClashGui.Clash.Models.Logs;
 using ClashGui.Cli.ClashConfigs;
 using ClashGui.Models.Settings;
 using ClashGui.Utils;
+using ReactiveUI;
 
 namespace ClashGui.Cli;
 
@@ -36,6 +37,7 @@ public class ClashCli : IClashCli
 
         Sub(_local.Config, _remote.Config, _config);
         Sub(_local.ConsoleLog, _remote.ConsoleLog, _consoleLog);
+        MessageBus.Current.Listen<LogEntry>().Subscribe(_consoleLog.OnNext);
         Sub(_local.RunningState, _remote.RunningState, _runningState);
 
         _config.Subscribe(d => _currentConfig = d);
