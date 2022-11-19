@@ -50,8 +50,8 @@ This is a WIP project.
     - [ ] TUN Mode
     - [x] Service Mode
     - [ ] Start With System
-  - [ ] Subscriptions
-    - [ ] Update
+  - [x] Subscriptions
+    - [x] Update
 - [x] Service Mode
   - [x] Install Core Service
   - [x] Uninstall Core Service

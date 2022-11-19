@@ -38,7 +38,7 @@
                 <TextBox Text="{Binding Profile.RemoteUrl, Mode=TwoWay}" />
             </StackPanel>
             <StackPanel Classes="SettingLine">
-                <TextBlock Classes="SettingHeader" Text="Update Interval" />
+                <TextBlock Classes="SettingHeader" Text="Auto Update Minute" />
                 <TextBox Text="{Binding Profile.UpdateInterval, Mode=TwoWay}" />
             </StackPanel>
         </StackPanel>

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ClashGui.Common;
 using ClashGui.Interfaces;
 using ClashGui.Models.Profiles;
+using ClashGui.Services;
 using ClashGui.Utils;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -62,9 +63,12 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
     public ReactiveCommand<Unit, Profile?> Save { get; }
     private Profile? _profileBase;
 
-    public ProfileEditViewModel(Profile? profile)
+    private IProfilesService _profilesService;
+    
+    public ProfileEditViewModel(Profile? profile, IProfilesService profilesService)
     {
         _profileBase = profile;
+        _profilesService = profilesService;
         ProfileTypes = EnumHelper.GetAllEnumValues<ProfileType>().ToList();
         IsCreate = profile == null;
         Profile = new Profile
@@ -94,7 +98,6 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
         });
     }
 
-    private static HttpClient _httpClient = new();
     private async Task<Profile?> SaveProfile()
     {
         switch (Profile.Type)
@@ -102,19 +105,18 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
             case ProfileType.Remote:
                 if (IsCreate)
                 {
-                    var content = await _httpClient.GetStringAsync(Profile.RemoteUrl);
-                    var fileName = $"{DateTimeOffset.Now.ToUnixTimeSeconds()}.yaml";
-                    await File.WriteAllTextAsync(fileName, content);
-                    return new Profile
+                    var profile = new Profile
                     {
                         Name = Profile.Name,
                         Description = Profile.Description,
-                        Filename = fileName,
+                        Filename = $"{DateTimeOffset.Now.ToUnixTimeSeconds()}.yaml",
                         Type = ProfileType.Remote,
                         CreateTime = DateTime.Now,
                         RemoteUrl = Profile.RemoteUrl,
                         UpdateInterval = Profile.UpdateInterval,
                     };
+                    await _profilesService.DownloadProfile(profile);
+                    return profile;
                 }
 
                 _profileBase!.Name = Profile.Name;

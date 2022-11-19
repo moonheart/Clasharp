@@ -17,6 +17,6 @@ public class Profile
     public string? FromFile { get; set; }
     
     public string? RemoteUrl { get; set; }
-    public TimeSpan? UpdateInterval { get; set; }
+    public int? UpdateInterval { get; set; }
 
 }

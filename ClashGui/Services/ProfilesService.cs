@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 using ClashGui.Common;
 using ClashGui.Models.Profiles;
 using ClashGui.Models.Settings;
@@ -15,12 +19,16 @@ public interface IProfilesService : IObservableListService<Profile, string>, IAu
     void ReplaceProfile(Profile old, Profile newp);
 
     string? GetActiveProfile();
+
+    Task DownloadProfile(Profile profile);
 }
 
 public class ProfilesService : IDisposable, IProfilesService
 {
     public IObservable<IChangeSet<Profile, string>> List => _profiles.Connect();
     public bool EnableAutoFresh { get; set; }
+
+    private Dictionary<string, (int, IDisposable)> _profileAutoUpdates = new();
 
     private readonly SourceCache<Profile, string> _profiles;
     private FileSystemWatcher _fileSystemWatcher;
@@ -50,6 +58,21 @@ public class ProfilesService : IDisposable, IProfilesService
     {
         foreach (var profile in _appSettings.Profiles)
         {
+            if (profile.Type == ProfileType.Remote && profile.UpdateInterval != null)
+            {
+                if (_profileAutoUpdates.TryGetValue(profile.Filename, out var value))
+                {
+                    if (value.Item1 != profile.UpdateInterval)
+                    {
+                        _profileAutoUpdates[profile.Filename].Item2.Dispose();
+                        SetupInterval(profile);
+                    }
+                }
+                else
+                {
+                    SetupInterval(profile);
+                }
+            }
             var fullPath = Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename);
             var fileInfo = new FileInfo(fullPath);
             if (!fileInfo.Exists)
@@ -58,6 +81,7 @@ public class ProfilesService : IDisposable, IProfilesService
             }
             else
             {
+                profile.Notes = "";
                 profile.CreateTime = fileInfo.CreationTime;
                 profile.UpdateTime = fileInfo.LastWriteTime;
             }
@@ -66,9 +90,24 @@ public class ProfilesService : IDisposable, IProfilesService
         _profiles.AddOrUpdate(_appSettings.Profiles);
     }
 
+    private void SetupInterval(Profile profile)
+    {
+        async void OnNext(long _)
+        {
+            await DownloadProfile(profile);
+        }
+
+        var disposable = Observable.Interval(TimeSpan.FromMinutes((double) profile.UpdateInterval!)).Subscribe(OnNext);
+        _profileAutoUpdates[profile.Filename!] = (profile.UpdateInterval.Value, disposable);
+    }
+
     public void Dispose()
     {
         _fileSystemWatcher.Dispose();
+        foreach (var (_, (_, disposable)) in _profileAutoUpdates)
+        {
+            disposable.Dispose();
+        }
     }
 
     public void AddProfile(Profile profile)
@@ -81,6 +120,14 @@ public class ProfilesService : IDisposable, IProfilesService
     {
         _appSettings.Profiles.Replace(old, newp);
         _profiles.AddOrUpdate(newp);
+    }
+
+    private static HttpClient _httpClient = new();
+    public async Task DownloadProfile(Profile profile)
+    {
+        var content = await _httpClient.GetStringAsync(profile.RemoteUrl);
+        await File.WriteAllTextAsync(Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename), content);
+        profile.UpdateTime = DateTime.Now;
     }
 
     public string? GetActiveProfile()

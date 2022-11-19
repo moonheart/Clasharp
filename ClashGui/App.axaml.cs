@@ -95,6 +95,7 @@ namespace ClashGui
             builder.RegisterType<DashboardViewModel>().As<IDashboardViewModel>().SingleInstance();
             builder.RegisterType<SettingsViewModel>().As<ISettingsViewModel>().SingleInstance();
             builder.RegisterType<ProfilesViewModel>().As<IProfilesViewModel>().SingleInstance();
+            builder.RegisterType<ProfileEditViewModel>().As<IProfileEditViewModel>().SingleInstance();
             builder.RegisterInstance(RxApp.SuspensionHost.GetAppState<AppSettings>()).SingleInstance();
             builder.RegisterInstance(
                 RestService.For<IRemoteClash>($"http://localhost:{GlobalConfigs.ClashServicePort}/")).SingleInstance();
