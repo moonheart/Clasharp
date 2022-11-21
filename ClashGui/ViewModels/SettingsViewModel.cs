@@ -100,4 +100,16 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     public ReactiveCommand<Unit, Unit> UninstallService { get; }
     public ReactiveCommand<Unit, Unit> StartService { get; }
     public ReactiveCommand<Unit, Unit> StopService { get; }
+    
+    public string ExternalController { get; set; }
+    // {
+    //     get=> _appSettings.ManagedFields[ManagedFieldType.ExternalController].Value<string>();
+    //     set
+    //     {
+    //         this.RaisePropertyChanging();
+    //         if (_appSettings.ManagedFields[ManagedFieldType.ExternalController].Value<string>() == value) return;
+    //         _appSettings.ManagedFields[ManagedFieldType.ExternalController].Set(value);
+    //         this.RaisePropertyChanged();
+    //     }
+    // }
 }

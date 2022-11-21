@@ -23,4 +23,5 @@ public class DesignSettingsViewModel:ViewModelBase, ISettingsViewModel
     public ReactiveCommand<Unit, Unit> UninstallService { get; }
     public ReactiveCommand<Unit, Unit> StartService { get; }
     public ReactiveCommand<Unit, Unit> StopService { get; }
+    public string ExternalController { get; set; }
 }

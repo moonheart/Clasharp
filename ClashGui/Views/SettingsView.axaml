@@ -9,7 +9,7 @@
         <designTime:DesignSettingsViewModel />
     </Design.DataContext>
     <Border Padding="10">
-        <Grid RowDefinitions="Auto,Auto,Auto">
+        <Grid RowDefinitions="Auto,Auto,Auto,*">
             <StackPanel Classes="SettingLine" Grid.Row="0">
                 <TextBlock Classes="SettingHeader" Text="System Proxy"></TextBlock>
                 <ListBox

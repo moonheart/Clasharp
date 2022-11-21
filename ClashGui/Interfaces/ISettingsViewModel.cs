@@ -18,4 +18,6 @@ public interface ISettingsViewModel: IViewModelBase
     ReactiveCommand<Unit, Unit> UninstallService { get; }
     ReactiveCommand<Unit, Unit> StartService { get; }
     ReactiveCommand<Unit, Unit> StopService { get; }
+    
+    string ExternalController { get; set; }
 }
