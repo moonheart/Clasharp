@@ -63,6 +63,12 @@ public abstract class ClashCliBase : IClashCli
         var mergedYaml = new SerializerBuilder().ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull).Build().Serialize(rawConfig);
         await File.WriteAllTextAsync(GlobalConfigs.RuntimeClashConfig, mergedYaml);
 
+        var clashWrapper = new ClashWrapper(new ClashLaunchInfo
+        {
+            ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = GlobalConfigs.ClashExe, WorkDir = GlobalConfigs.ProgramHome
+        });
+        clashWrapper.Test();
+
         await DoStart(GlobalConfigs.RuntimeClashConfig);
 
         var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries).Last();

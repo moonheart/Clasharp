@@ -48,6 +48,30 @@ public class ClashWrapper
             throw new Exception(readToEnd);
         }
     }
+    public void Test()
+    {
+        var process = new Process()
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = _clashLaunchInfo.ExecutablePath,
+                Arguments = $"-f {_clashLaunchInfo.ConfigPath} -d {_clashLaunchInfo.WorkDir} -t",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                WorkingDirectory = _clashLaunchInfo.WorkDir,
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                StandardOutputEncoding = Encoding.UTF8
+            }
+        };
+        process.Start();
+        process.WaitForExit();
+        if (process.ExitCode != 0)
+        {
+            var readToEnd = process.StandardOutput.ReadToEnd();
+            throw new Exception(readToEnd);
+        }
+    }
 
     public void Stop()
     {
