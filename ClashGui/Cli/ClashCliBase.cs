@@ -57,24 +57,33 @@ public abstract class ClashCliBase : IClashCli
     public async Task Start()
     {
         _runningState.OnNext(Cli.RunningState.Starting);
-        var configYaml = await File.ReadAllTextAsync(await EnsureConfig());
-        var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
-        MergeManagedFields(rawConfig);
-        var mergedYaml = new SerializerBuilder().ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull).Build().Serialize(rawConfig);
-        await File.WriteAllTextAsync(GlobalConfigs.RuntimeClashConfig, mergedYaml);
-
-        var clashWrapper = new ClashWrapper(new ClashLaunchInfo
+        try
         {
-            ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = GlobalConfigs.ClashExe, WorkDir = GlobalConfigs.ProgramHome
-        });
-        clashWrapper.Test();
+            var configYaml = await File.ReadAllTextAsync(await EnsureConfig());
+            var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
+            MergeManagedFields(rawConfig);
+            var mergedYaml = new SerializerBuilder().ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull).Build().Serialize(rawConfig);
+            await File.WriteAllTextAsync(GlobalConfigs.RuntimeClashConfig, mergedYaml);
 
-        await DoStart(GlobalConfigs.RuntimeClashConfig);
+            var clashWrapper = new ClashWrapper(new ClashLaunchInfo
+            {
+                ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = GlobalConfigs.ClashExe, WorkDir = GlobalConfigs.ProgramHome
+            });
+            clashWrapper.Test();
 
-        var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
-        _clashApiFactory.SetPort(int.Parse(port));
-        _config.OnNext(rawConfig);
-        _runningState.OnNext(Cli.RunningState.Started);
+            await DoStart(GlobalConfigs.RuntimeClashConfig);
+
+            var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
+            _clashApiFactory.SetPort(int.Parse(port));
+            _config.OnNext(rawConfig);
+            _runningState.OnNext(Cli.RunningState.Started);
+        }
+        catch (Exception)
+        {
+            _runningState.OnNext(Cli.RunningState.Stopped);
+            throw;
+        }
+
     }
 
     private void MergeManagedFields(RawConfig rawConfig)
