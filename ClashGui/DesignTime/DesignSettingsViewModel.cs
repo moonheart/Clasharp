@@ -13,6 +13,7 @@ public class DesignSettingsViewModel:ViewModelBase, ISettingsViewModel
 {
     public override string Name => "Settings";
     public string ClashApiAddress { get; set; }
+    public AppSettings AppSettings { get; set; }
     public SystemProxyMode SystemProxyMode { get; set; }
     public bool UseServiceMode { get; set; }
     public bool IsUninstalled { get; set; }
@@ -23,5 +24,5 @@ public class DesignSettingsViewModel:ViewModelBase, ISettingsViewModel
     public ReactiveCommand<Unit, Unit> UninstallService { get; }
     public ReactiveCommand<Unit, Unit> StartService { get; }
     public ReactiveCommand<Unit, Unit> StopService { get; }
-    public string ExternalController { get; set; }
+    public int ExternalController { get; set; }
 }

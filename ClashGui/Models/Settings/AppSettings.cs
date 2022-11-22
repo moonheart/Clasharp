@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using ClashGui.Models.Profiles;
+using ReactiveUI;
 
 namespace ClashGui.Models.Settings;
 
-public class AppSettings
+public class AppSettings: ReactiveObject
 {
     public SystemProxyMode SystemProxyMode { get; set; }
     public bool UseServiceMode { get; set; }
@@ -11,36 +12,22 @@ public class AppSettings
     
     public string? SelectedProfile { get; set; }
 
-    // public Dictionary<ManagedFieldType, ManagedConfig> ManagedFields { get; set; } = new()
-    // {
-    //     [ManagedFieldType.ExternalController] = new ManagedConfigValue<string>(){Value = "127.0.0.1:19090"}
-    // };
-    
+    public ManagedConfigs ManagedFields { get; set; } = new();
+
 }
 
-public enum ManagedFieldType
+public class ManagedConfigs: ReactiveObject
 {
-    ExternalController
+    public ManagedConfigValue<int> ExternalControllerPort { get; set; } = new() {Value = 19090, Hide = true};
 }
 
 public abstract class ManagedConfig
 {
     public bool Enabled { get; set; }
-}
-
-public static class ManagedConfigExtension
-{
-    public static T Value<T>(this ManagedConfig managedConfig)
-    {
-        return ((ManagedConfigValue<T>) managedConfig).Value;
-    }
-    public static T Set<T>(this ManagedConfig managedConfig, T value)
-    {
-        return ((ManagedConfigValue<T>) managedConfig).Value = value;
-    }
+    public bool Hide { get; set; }
 }
 
 public class ManagedConfigValue<T> : ManagedConfig
 {
-    public T Value { get; set; }
+    public T? Value { get; set; }
 }

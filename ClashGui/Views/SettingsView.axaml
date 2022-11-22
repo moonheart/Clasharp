@@ -9,9 +9,9 @@
         <designTime:DesignSettingsViewModel />
     </Design.DataContext>
     <Border Padding="10">
-        <Grid RowDefinitions="Auto,Auto,Auto,*">
-            <StackPanel Classes="SettingLine" Grid.Row="0">
-                <TextBlock Classes="SettingHeader" Text="System Proxy"></TextBlock>
+        <StackPanel>
+            <StackPanel Classes="SettingLine">
+                <TextBlock Classes="SettingHeader" Text="System Proxy" />
                 <ListBox
                     Background="Transparent"
                     Items="{Binding SystemProxyModes}"
@@ -34,36 +34,38 @@
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
-                            <Setter Property="Padding" Value="0"></Setter>
+                            <Setter Property="Padding" Value="0" />
                         </Style>
                         <Style Selector="ListBoxItem">
-                            <Setter Property="Background" Value="Transparent"></Setter>
+                            <Setter Property="Background" Value="Transparent" />
                         </Style>
                     </ListBox.Styles>
                 </ListBox>
             </StackPanel>
-            <StackPanel Classes="SettingLine" Grid.Row="1">
-                <TextBlock Classes="SettingHeader" Text="Core Service Status"></TextBlock>
-                <TextBlock Text="{Binding CoreServiceStatus}"></TextBlock>
+            <StackPanel Classes="SettingLine">
+                <TextBlock Classes="SettingHeader" Text="Core Service Status" />
+                <TextBlock Text="{Binding CoreServiceStatus}" />
                 <Button
                     IsVisible="{Binding IsUninstalled}"
                     Command="{Binding InstallService}" Content="Install" />
                 <Button
                     IsVisible="{Binding !IsUninstalled}"
-                    Command="{Binding UninstallService}" Content="Uninstall">
-                </Button>
+                    Command="{Binding UninstallService}" Content="Uninstall" />
                 <Button
                     IsVisible="{Binding IsCoreServiceRunning}"
                     Command="{Binding StopService}" Content="Stop" />
                 <Button
                     IsVisible="{Binding !IsCoreServiceRunning}"
-                    Command="{Binding StartService}" Content="Start">
-                </Button>
+                    Command="{Binding StartService}" Content="Start" />
             </StackPanel>
-            <StackPanel Classes="SettingLine" Grid.Row="2">
+            <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="Use Core Service" />
                 <ToggleSwitch IsChecked="{Binding UseServiceMode}" />
             </StackPanel>
-        </Grid>
+            <StackPanel Classes="SettingLine" IsVisible="{Binding !AppSettings.ManagedFields.ExternalControllerPort.Hide}">
+                <TextBlock Classes="SettingHeader" Text="External Controller" />
+                <TextBox Text="{Binding ExternalController}" />
+            </StackPanel>
+        </StackPanel>
     </Border>
 </UserControl>

@@ -15,19 +15,19 @@ namespace ClashGui.ViewModels;
 public class SettingsViewModel : ViewModelBase, ISettingsViewModel
 {
     public override string Name => "Settings";
-    private AppSettings _appSettings;
+    public AppSettings AppSettings { get; set; }
 
     public SettingsViewModel(AppSettings appSettings, CoreServiceHelper coreServiceHelper)
     {
-        _appSettings = appSettings;
+        AppSettings = appSettings;
         SystemProxyModes = EnumHelper.GetAllEnumValues<SystemProxyMode>().ToList();
-        UseServiceMode = _appSettings.UseServiceMode;
-        SystemProxyMode = _appSettings.SystemProxyMode;
+        UseServiceMode = AppSettings.UseServiceMode;
+        SystemProxyMode = AppSettings.SystemProxyMode;
 
         this.WhenAnyValue(d => d.SystemProxyMode)
-            .Subscribe(d => _appSettings.SystemProxyMode = d);
+            .Subscribe(d => AppSettings.SystemProxyMode = d);
         this.WhenAnyValue(d => d.UseServiceMode)
-            .Subscribe(d => _appSettings.UseServiceMode = d);
+            .Subscribe(d => AppSettings.UseServiceMode = d);
         var serviceStatus = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
             .SelectMany(async _ => await coreServiceHelper.Status());
         serviceStatus.ToPropertyEx(this, d => d.CoreServiceStatus);
@@ -100,16 +100,16 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     public ReactiveCommand<Unit, Unit> UninstallService { get; }
     public ReactiveCommand<Unit, Unit> StartService { get; }
     public ReactiveCommand<Unit, Unit> StopService { get; }
-    
-    public string ExternalController { get; set; }
-    // {
-    //     get=> _appSettings.ManagedFields[ManagedFieldType.ExternalController].Value<string>();
-    //     set
-    //     {
-    //         this.RaisePropertyChanging();
-    //         if (_appSettings.ManagedFields[ManagedFieldType.ExternalController].Value<string>() == value) return;
-    //         _appSettings.ManagedFields[ManagedFieldType.ExternalController].Set(value);
-    //         this.RaisePropertyChanged();
-    //     }
-    // }
+
+    public int ExternalController //{ get; set; }
+    {
+        get => AppSettings.ManagedFields.ExternalControllerPort.Value;
+        set
+        {
+            this.RaisePropertyChanging();
+            if (AppSettings.ManagedFields.ExternalControllerPort.Value == value) return;
+            AppSettings.ManagedFields.ExternalControllerPort.Value = value;
+            this.RaisePropertyChanged();
+        }
+    }
 }
