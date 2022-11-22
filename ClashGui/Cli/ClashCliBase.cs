@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ClashGui.Clash.Models.Logs;
 using ClashGui.Cli.ClashConfigs;
 using ClashGui.Common;
+using ClashGui.Models.Settings;
 using ClashGui.Services;
 using YamlDotNet.Serialization;
 using LogLevel = ClashGui.Clash.Models.Logs.LogLevel;
@@ -30,6 +31,7 @@ public abstract class ClashCliBase : IClashCli
 
     protected IClashApiFactory _clashApiFactory;
     private IProfilesService _profilesService;
+    private AppSettings _appSettings;
 
     protected Dictionary<string, LogLevel> _levelsMap = new()
     {
@@ -45,25 +47,40 @@ public abstract class ClashCliBase : IClashCli
         ["silent"] = LogLevel.SILENT,
     };
 
-    protected ClashCliBase(IClashApiFactory clashApiFactory, IProfilesService profilesService)
+    protected ClashCliBase(IClashApiFactory clashApiFactory, IProfilesService profilesService, AppSettings appSettings)
     {
         _clashApiFactory = clashApiFactory;
         _profilesService = profilesService;
+        _appSettings = appSettings;
     }
 
     public async Task Start()
     {
         _runningState.OnNext(Cli.RunningState.Starting);
-        var configPath = await EnsureConfig();
-        var configYaml = await File.ReadAllTextAsync(configPath);
+        var configYaml = await File.ReadAllTextAsync(await EnsureConfig());
         var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
+        MergeManagedFields(rawConfig);
+        var mergedYaml = new SerializerBuilder().ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull).Build().Serialize(rawConfig);
+        await File.WriteAllTextAsync(GlobalConfigs.RuntimeClashConfig, mergedYaml);
 
-        await DoStart(configPath);
+        await DoStart(GlobalConfigs.RuntimeClashConfig);
 
         var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
         _clashApiFactory.SetPort(int.Parse(port));
         _config.OnNext(rawConfig);
         _runningState.OnNext(Cli.RunningState.Started);
+    }
+
+    private void MergeManagedFields(RawConfig rawConfig)
+    {
+        void CheckAndMerge<T>(ManagedConfigValue<T> managedConfigValue, Action<RawConfig, T> action)
+        {
+            if (!managedConfigValue.Enabled || managedConfigValue.Value == null) return;
+            action(rawConfig, managedConfigValue.Value);
+        }
+
+        var fields = _appSettings.ManagedFields;
+        CheckAndMerge(fields.ExternalControllerPort, (config, v) => config.ExternalController = $"127.0.0.1:{v}");
     }
 
     protected void CliLogProcessor(string log)

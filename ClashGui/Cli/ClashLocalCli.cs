@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ClashGui.Common;
+using ClashGui.Models.Settings;
 using ClashGui.Services;
 
 namespace ClashGui.Cli;
@@ -8,8 +9,8 @@ public class ClashLocalCli : ClashCliBase
 {
     private ClashWrapper? _clashWrapper;
 
-    public ClashLocalCli(IClashApiFactory clashApiFactory, IProfilesService profilesService)
-        : base(clashApiFactory, profilesService)
+    public ClashLocalCli(IClashApiFactory clashApiFactory, IProfilesService profilesService, AppSettings appSettings)
+        : base(clashApiFactory, profilesService, appSettings)
     {
         _runningState.OnNext(Cli.RunningState.Stopped);
     }

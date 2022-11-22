@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ClashGui.Clash;
-using ClashGui.Clash.Models.Logs;
 using ClashGui.Common;
 using ClashGui.Models.ServiceMode;
+using ClashGui.Models.Settings;
 using ClashGui.Services;
 using ClashGui.Utils;
 using Refit;
-using LogLevel = ClashGui.Clash.Models.Logs.LogLevel;
 
 namespace ClashGui.Cli;
 
@@ -30,9 +29,10 @@ public class ClashRemoteCli : ClashCliBase
     private IRemoteClash _remoteClash;
     private CoreServiceHelper _coreServiceHelper;
 
-    public ClashRemoteCli(IClashApiFactory clashApiFactory, IProfilesService profilesService, IRemoteClash remoteClash,
+    public ClashRemoteCli(IClashApiFactory clashApiFactory, IProfilesService profilesService, AppSettings appSettings,
+        IRemoteClash remoteClash,
         CoreServiceHelper coreServiceHelper)
-    : base(clashApiFactory, profilesService)
+        : base(clashApiFactory, profilesService, appSettings)
     {
         _clashApiFactory = clashApiFactory;
         _remoteClash = remoteClash;
