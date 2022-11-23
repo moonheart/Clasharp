@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Reactive;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using ClashGui.Cli;
 using ClashGui.Interfaces;
-using ClashGui.Models.Settings;
 using ClashGui.Services;
 using ClashGui.Utils;
 using ReactiveUI;
@@ -48,6 +46,7 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
         });
 
         clashCli.RunningState.Select(d => d == RunningState.Started).ToPropertyEx(this, d => d.IsRunning);
+        clashCli.RunningState.ToPropertyEx(this, d => d.RunningState);
     }
 
     [ObservableAsProperty]
@@ -60,4 +59,7 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
 
     [ObservableAsProperty]
     public bool IsRunning { get; }
+
+    [ObservableAsProperty]
+    public RunningState RunningState { get; }
 }
