@@ -18,7 +18,7 @@ public class AppSettings: ReactiveObject
 
 public class ManagedConfigs: ReactiveObject
 {
-    public ManagedConfigValue<int> ExternalControllerPort { get; set; } = new() {Value = 19090, Hide = true};
+    public ManagedConfigValue<int> ExternalControllerPort { get; set; } = new() {Value = 19090, Hide = false};
 }
 
 public abstract class ManagedConfig

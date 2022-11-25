@@ -12,13 +12,14 @@
     <Style Selector="StackPanel.SettingLine">
         <Setter Property="Orientation" Value="Horizontal"></Setter>
     </Style>
+    <Style Selector="StackPanel.SettingLine TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+    </Style>
     <Style Selector="StackPanel.SettingLine TextBlock.SettingHeader">
         <Setter Property="Width" Value="150" />
         <Setter Property="TextAlignment" Value="Right" />
-        <Setter Property="LineHeight" Value="30" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Margin" Value="0 0 5 0" />
-        <Setter Property="VerticalAlignment" Value="Center"></Setter>
     </Style>
     <Style Selector="StackPanel.SettingLine TextBox">
         <Setter Property="Width" Value="200"></Setter>
