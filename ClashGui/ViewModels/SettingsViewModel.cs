@@ -15,19 +15,19 @@ namespace ClashGui.ViewModels;
 public class SettingsViewModel : ViewModelBase, ISettingsViewModel
 {
     public override string Name => "Settings";
-    public AppSettings AppSettings { get; set; }
+    public ManagedConfigs ManagedFields { get; set; }
 
     public SettingsViewModel(AppSettings appSettings, CoreServiceHelper coreServiceHelper)
     {
-        AppSettings = appSettings;
+        ManagedFields = appSettings.ManagedFields;
         SystemProxyModes = EnumHelper.GetAllEnumValues<SystemProxyMode>().ToList();
-        UseServiceMode = AppSettings.UseServiceMode;
-        SystemProxyMode = AppSettings.SystemProxyMode;
+        UseServiceMode = appSettings.UseServiceMode;
+        SystemProxyMode = appSettings.SystemProxyMode;
 
         this.WhenAnyValue(d => d.SystemProxyMode)
-            .Subscribe(d => AppSettings.SystemProxyMode = d);
+            .Subscribe(d => appSettings.SystemProxyMode = d);
         this.WhenAnyValue(d => d.UseServiceMode)
-            .Subscribe(d => AppSettings.UseServiceMode = d);
+            .Subscribe(d => appSettings.UseServiceMode = d);
         var serviceStatus = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
             .SelectMany(async _ => await coreServiceHelper.Status());
         serviceStatus.ToPropertyEx(this, d => d.CoreServiceStatus);
@@ -100,16 +100,4 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     public ReactiveCommand<Unit, Unit> UninstallService { get; }
     public ReactiveCommand<Unit, Unit> StartService { get; }
     public ReactiveCommand<Unit, Unit> StopService { get; }
-
-    public int ExternalController //{ get; set; }
-    {
-        get => AppSettings.ManagedFields.ExternalControllerPort.Value;
-        set
-        {
-            this.RaisePropertyChanging();
-            if (AppSettings.ManagedFields.ExternalControllerPort.Value == value) return;
-            AppSettings.ManagedFields.ExternalControllerPort.Value = value;
-            this.RaisePropertyChanged();
-        }
-    }
 }

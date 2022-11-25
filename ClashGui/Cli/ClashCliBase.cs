@@ -10,6 +10,7 @@ using ClashGui.Cli.ClashConfigs;
 using ClashGui.Common;
 using ClashGui.Models.Settings;
 using ClashGui.Services;
+using ClashGui.Utils;
 using YamlDotNet.Serialization;
 using LogLevel = ClashGui.Clash.Models.Logs.LogLevel;
 
@@ -60,20 +61,27 @@ public abstract class ClashCliBase : IClashCli
         try
         {
             var configYaml = await File.ReadAllTextAsync(await EnsureConfig());
-            var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(configYaml);
-            MergeManagedFields(rawConfig);
-            var mergedYaml = new SerializerBuilder().ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull).Build().Serialize(rawConfig);
+            var configDic =
+                new DeserializerBuilder().Build().Deserialize(new StringReader(configYaml)) as
+                    Dictionary<object, object>;
+            MergeManagedFields(configDic);
+
+            var mergedYaml = new SerializerBuilder().ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
+                .Build().Serialize(configDic);
             await File.WriteAllTextAsync(GlobalConfigs.RuntimeClashConfig, mergedYaml);
+            var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(mergedYaml);
 
             var clashWrapper = new ClashWrapper(new ClashLaunchInfo
             {
-                ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = GlobalConfigs.ClashExe, WorkDir = GlobalConfigs.ProgramHome
+                ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = GlobalConfigs.ClashExe,
+                WorkDir = GlobalConfigs.ProgramHome
             });
             clashWrapper.Test();
 
             await DoStart(GlobalConfigs.RuntimeClashConfig);
 
-            var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries).Last();
+            var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries)
+                .Last();
             _clashApiFactory.SetPort(int.Parse(port));
             _config.OnNext(rawConfig);
             _runningState.OnNext(Cli.RunningState.Started);
@@ -83,19 +91,27 @@ public abstract class ClashCliBase : IClashCli
             _runningState.OnNext(Cli.RunningState.Stopped);
             throw;
         }
-
     }
 
-    private void MergeManagedFields(RawConfig rawConfig)
+    private void MergeManagedFields(Dictionary<object, object> rawConfig)
     {
-        void CheckAndMerge<T>(ManagedConfigValue<T> managedConfigValue, Action<RawConfig, T> action)
+        void CheckAndMergeTrans<T, TV>(ManagedConfigValue<T> managedConfigValue, Func<T, TV> transform)
         {
             if (!managedConfigValue.Enabled || managedConfigValue.Value == null) return;
-            action(rawConfig, managedConfigValue.Value);
+            rawConfig.Patch(managedConfigValue.Path, transform.Invoke(managedConfigValue.Value));
+        }
+
+        void CheckAndMerge<T>(ManagedConfigValue<T> managedConfigValue)
+        {
+            CheckAndMergeTrans(managedConfigValue, v => v);
         }
 
         var fields = _appSettings.ManagedFields;
-        CheckAndMerge(fields.ExternalControllerPort, (config, v) => config.ExternalController = $"127.0.0.1:{v}");
+        CheckAndMergeTrans(fields.ExternalControllerPort, i => $"127.0.0.1:{i}");
+        CheckAndMerge(fields.Tun);
+        CheckAndMerge(fields.AllowLan);
+        CheckAndMerge(fields.Ipv6);
+        CheckAndMerge(fields.MixedPort);
     }
 
     protected void CliLogProcessor(string log)

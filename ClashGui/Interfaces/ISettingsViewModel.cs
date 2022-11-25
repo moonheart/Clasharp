@@ -8,7 +8,7 @@ namespace ClashGui.Interfaces;
 
 public interface ISettingsViewModel: IViewModelBase
 {
-    AppSettings AppSettings { get; set; }
+    ManagedConfigs ManagedFields { get; set; }
     SystemProxyMode SystemProxyMode { get; set; }
     bool UseServiceMode { get; set; }
     bool IsUninstalled { get; }
@@ -20,5 +20,4 @@ public interface ISettingsViewModel: IViewModelBase
     ReactiveCommand<Unit, Unit> StartService { get; }
     ReactiveCommand<Unit, Unit> StopService { get; }
     
-    int ExternalController { get; set; }
 }

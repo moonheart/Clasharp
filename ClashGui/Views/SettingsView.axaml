@@ -62,9 +62,25 @@
                 <TextBlock Classes="SettingHeader" Text="Use Core Service" />
                 <ToggleSwitch IsChecked="{Binding UseServiceMode}" />
             </StackPanel>
-            <StackPanel Classes="SettingLine" IsVisible="{Binding !AppSettings.ManagedFields.ExternalControllerPort.Hide}">
+            <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.ExternalControllerPort.Hide}">
                 <TextBlock Classes="SettingHeader" Text="External Controller" />
-                <TextBox Text="{Binding ExternalController}" />
+                <NumericUpDown Minimum="1025" Maximum="65534" Value="{Binding ManagedFields.ExternalControllerPort.Value}" />
+            </StackPanel>
+            <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.Tun.Hide}">
+                <TextBlock Classes="SettingHeader" Text="Tun" />
+                <ToggleSwitch IsChecked="{Binding ManagedFields.Tun.Value}" />
+            </StackPanel>
+            <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.AllowLan.Hide}">
+                <TextBlock Classes="SettingHeader" Text="Allow Lan" />
+                <ToggleSwitch IsChecked="{Binding ManagedFields.AllowLan.Value}" />
+            </StackPanel>
+            <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.Ipv6.Hide}">
+                <TextBlock Classes="SettingHeader" Text="Ipv6" />
+                <ToggleSwitch IsChecked="{Binding ManagedFields.Ipv6.Value}" />
+            </StackPanel>
+            <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.MixedPort.Hide}">
+                <TextBlock Classes="SettingHeader" Text="Mixed Port" />
+                <NumericUpDown Minimum="1025" Maximum="65534" Value="{Binding ManagedFields.MixedPort.Value}" />
             </StackPanel>
         </StackPanel>
     </Border>

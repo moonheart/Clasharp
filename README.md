@@ -47,7 +47,7 @@ This is a WIP project.
     - [ ] Delete
   - [ ] Settings
     - [x] System Proxy
-    - [ ] TUN Mode
+    - [x] TUN Mode
     - [x] Service Mode
     - [ ] Start With System
   - [x] Subscriptions
