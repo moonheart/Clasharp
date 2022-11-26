@@ -44,8 +44,8 @@ This is a WIP project.
   - [ ] Profiles
     - [x] List
     - [x] Select
-    - [ ] Edit
-    - [ ] Delete
+    - [x] Edit
+    - [x] Delete
   - [ ] Settings
     - [x] System Proxy
     - [x] TUN Mode
