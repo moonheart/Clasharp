@@ -19,7 +19,7 @@
                        Background="Transparent">
             <utils:CustomListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border Width="200" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Margin="3" Padding="3">
+                    <Border Classes="ProfileContainer" Width="200" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Margin="3" Padding="3">
                         <Border.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Test1"></MenuItem>
@@ -51,13 +51,11 @@
             <utils:CustomListBox.Styles>
                 <Style Selector="ListBox ListBoxItem">
                     <Setter Property="Padding" Value="0"></Setter>
-                    <!-- <Setter Property="Focusable" Value="False"></Setter> -->
-                    <!-- <Setter Property="IsEnabled" Value="False"></Setter> -->
                 </Style>
-                <Style Selector="ListBox ListBoxItem:selected ContentPresenter">
+                <Style Selector="ListBox ListBoxItem Border.ProfileContainer">
                     <Setter Property="Background" Value="White"></Setter>
                 </Style>
-                <Style Selector="ListBox ListBoxItem:selected Border">
+                <Style Selector="ListBox ListBoxItem:selected Border.ProfileContainer">
                     <Setter Property="Background" Value="Gray"></Setter>
                 </Style>
                 <Style Selector="ListBox ListBoxItem:selected TextBlock">
