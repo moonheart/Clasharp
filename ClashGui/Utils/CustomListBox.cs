@@ -1,23 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Specialized;
-using Avalonia;
+﻿using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Generators;
-using Avalonia.Controls.Metadata;
-using Avalonia.Controls.Mixins;
-using Avalonia.Data;
 using Avalonia.Input;
-using Avalonia.Input.Platform;
+using Avalonia.Styling;
 using Avalonia.VisualTree;
 
 namespace ClashGui.Utils;
 
-public class CustomListBoxItem : ListBoxItem
+public class CustomListBoxItem : ListBoxItem, IStyleable
 {
-    
+    Type IStyleable.StyleKey => typeof(ListBoxItem);
 }
 
-public class CustomListBox : ListBox
+public class CustomListBox : ListBox, IStyleable
 {
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
@@ -32,6 +27,7 @@ public class CustomListBox : ListBox
         }
         base.OnPointerPressed(e);
     }
+    Type IStyleable.StyleKey => typeof(ListBox);
 
     protected override IItemContainerGenerator CreateItemContainerGenerator()
     {
