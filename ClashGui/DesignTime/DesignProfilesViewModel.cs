@@ -18,4 +18,5 @@ public class DesignProfilesViewModel : ViewModelBase, IProfilesViewModel
 
     public Profile? SelectedProfile { get; set; }
     public ReactiveCommand<Profile, Unit> OpenCreateBox { get; }
+    public ReactiveCommand<Profile, Unit> DeleteProfile { get; }
 }

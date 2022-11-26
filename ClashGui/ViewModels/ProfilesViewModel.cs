@@ -54,6 +54,10 @@ public class ProfilesViewModel : ViewModelBase, IProfilesViewModel
                 }
             }
         });
+        DeleteProfile = ReactiveCommand.Create<Profile>(d =>
+        {
+            profilesService.DeleteProfile(d);
+        });
     }
 
     public Interaction<Profile?, Profile?> EditProfile { get; }
@@ -67,4 +71,5 @@ public class ProfilesViewModel : ViewModelBase, IProfilesViewModel
     private ReadOnlyObservableCollection<Profile> _profiles;
 
     public ReactiveCommand<Profile?, Unit> OpenCreateBox { get; }
+    public ReactiveCommand<Profile, Unit> DeleteProfile { get; }
 }

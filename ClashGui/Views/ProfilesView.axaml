@@ -13,23 +13,32 @@
         <StackPanel Grid.Row="0">
             <Button Command="{Binding OpenCreateBox}" Content="New Profile"></Button>
         </StackPanel>
-        <utils:CustomListBox Grid.Row="1" 
-                       Items="{Binding Profiles}" 
-                       SelectedItem="{Binding SelectedProfile, Mode=TwoWay}" 
-                       Background="Transparent">
+        <utils:CustomListBox Grid.Row="1"
+                             Items="{Binding Profiles}"
+                             SelectedItem="{Binding SelectedProfile, Mode=TwoWay}"
+                             Background="Transparent">
             <utils:CustomListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border Classes="ProfileContainer" Width="200" CornerRadius="5" BorderThickness="1" BorderBrush="Black" Margin="3" Padding="3">
+                    <Border Classes="ProfileContainer" Width="200" CornerRadius="5" BorderThickness="1"
+                            BorderBrush="Black" Margin="3" Padding="3">
                         <Border.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Test1"></MenuItem>
+                                <MenuItem Header="Edit"
+                                          Command="{Binding $parent[utils:CustomListBox].DataContext.OpenCreateBox}"
+                                          CommandParameter="{Binding}">
+                                </MenuItem>
+                                <MenuItem Header="Remove"
+                                          Command="{Binding $parent[utils:CustomListBox].DataContext.DeleteProfile }"
+                                          CommandParameter="{Binding}">
+                                </MenuItem>
                             </ContextMenu>
                         </Border.ContextMenu>
                         <StackPanel>
                             <Panel VerticalAlignment="Center">
                                 <TextBlock Text="{Binding Name}" FontSize="20"></TextBlock>
-                                <Border HorizontalAlignment="Right" VerticalAlignment="Top" Background="#646464" CornerRadius="5" Padding="3" >
-                                    <TextBlock Text="{Binding Type}" Foreground="White" FontSize="12" ></TextBlock>
+                                <Border HorizontalAlignment="Right" VerticalAlignment="Top" Background="#646464"
+                                        CornerRadius="5" Padding="3">
+                                    <TextBlock Text="{Binding Type}" Foreground="White" FontSize="12"></TextBlock>
                                 </Border>
                             </Panel>
                             <Panel>

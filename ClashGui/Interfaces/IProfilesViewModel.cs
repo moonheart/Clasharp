@@ -12,4 +12,7 @@ public interface IProfilesViewModel : IViewModelBase
     Profile? SelectedProfile { get; set; }
     
     ReactiveCommand<Profile, Unit> OpenCreateBox { get; }
+    
+    ReactiveCommand<Profile, Unit> DeleteProfile { get; }
+    
 }

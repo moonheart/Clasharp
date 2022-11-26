@@ -18,6 +18,8 @@ public interface IProfilesService : IObservableListService<Profile, string>, IAu
 {
     void AddProfile(Profile profile);
 
+    void DeleteProfile(Profile profile);
+
     void ReplaceProfile(Profile old, Profile newp);
 
     string? GetActiveProfile();
@@ -75,6 +77,7 @@ public class ProfilesService : IDisposable, IProfilesService
                     SetupInterval(profile);
                 }
             }
+
             var fullPath = Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename);
             var fileInfo = new FileInfo(fullPath);
             if (!fileInfo.Exists)
@@ -118,6 +121,14 @@ public class ProfilesService : IDisposable, IProfilesService
         _profiles.AddOrUpdate(profile);
     }
 
+    public void DeleteProfile(Profile profile)
+    {
+        _appSettings.Profiles.Remove(profile);
+        _profiles.Remove(profile);
+        var fullPath = Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename);
+        if (File.Exists(fullPath)) File.Delete(fullPath);
+    }
+
     public void ReplaceProfile(Profile old, Profile newp)
     {
         _appSettings.Profiles.Replace(old, newp);
@@ -125,6 +136,7 @@ public class ProfilesService : IDisposable, IProfilesService
     }
 
     private static HttpClient _httpClient = new();
+
     public async Task DownloadProfile(Profile profile)
     {
         try
@@ -135,7 +147,8 @@ public class ProfilesService : IDisposable, IProfilesService
         }
         catch (Exception e)
         {
-            MessageBus.Current.SendMessage(new LogEntry(LogLevel.ERROR, $"Failed to download profile from {profile.RemoteUrl}, {e.Message}"));
+            MessageBus.Current.SendMessage(new LogEntry(LogLevel.ERROR,
+                $"Failed to download profile from {profile.RemoteUrl}, {e.Message}"));
         }
     }
 
