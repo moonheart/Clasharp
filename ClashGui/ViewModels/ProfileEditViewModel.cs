@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -55,16 +54,18 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
     public List<ProfileType> ProfileTypes { get; }
 
     [ObservableAsProperty]
+    // ReSharper disable once UnassignedGetOnlyAutoProperty
     public bool IsRemoteProfile { get; }
 
     [ObservableAsProperty]
+    // ReSharper disable once UnassignedGetOnlyAutoProperty
     public bool IsLocalProfile { get; }
 
     public ReactiveCommand<Unit, Profile?> Save { get; }
     private Profile? _profileBase;
 
     private IProfilesService _profilesService;
-    
+
     public ProfileEditViewModel(Profile? profile, IProfilesService profilesService)
     {
         _profileBase = profile;
@@ -78,15 +79,14 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
             FromFile = profile?.FromFile,
             RemoteUrl = profile?.RemoteUrl,
             UpdateInterval = profile?.UpdateInterval,
+            Type = profile?.Type ?? ProfileType.Local
         };
 
         var profileType = this.WhenAnyValue(d => d.ProfileType);
         profileType.Select(d => d == ProfileType.Local).ToPropertyEx(this, d => d.IsLocalProfile);
         profileType.Select(d => d == ProfileType.Remote).ToPropertyEx(this, d => d.IsRemoteProfile);
-        profileType.Subscribe(d => { });
-        this.WhenAnyValue(d => d.Profile.Name).Subscribe(d => { });
 
-        Save = ReactiveCommand.CreateFromTask(async d => { return await SaveProfile(); });
+        Save = ReactiveCommand.CreateFromTask(async _ => await SaveProfile());
         ShowOpenFileDialog = new Interaction<Unit, string?>();
         OpenFile = ReactiveCommand.CreateFromTask(async () =>
         {
@@ -128,6 +128,11 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
             case ProfileType.Local:
                 if (IsCreate)
                 {
+                    if (string.IsNullOrWhiteSpace(Profile.FromFile))
+                    {
+                        return null;
+                    }
+
                     var content = await File.ReadAllTextAsync(Profile.FromFile);
                     var fileName = $"{DateTimeOffset.Now.ToUnixTimeSeconds()}.yaml";
                     await File.WriteAllTextAsync(Path.Combine(GlobalConfigs.ProfilesDir, fileName), content);
