@@ -1,5 +1,8 @@
 name: Build
 
+env:
+  ProjectName: clasharp
+
 on:
   push:
     branches: [ master ]
@@ -41,5 +44,5 @@ jobs:
         continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
-          name: 'debug'
+          name: '${{ env.ProjectName }}_win_x64_${{ matrix.configuration }}_${{ env.GITHUB_SHA_SHORT }}'
           path: ./publish
