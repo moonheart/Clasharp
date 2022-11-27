@@ -18,7 +18,7 @@ public class CoreServiceHelper
         var path =
             @"D:\Git_Github\ClashGui\ClashGui\ClashGui.WindowsService\bin\Debug\net6.0\ClashGui.WindowsService.exe";
 #else
-        var path = Path.Combine(Environment.CurrentDirectory, "ClashGui.WindowsService");
+        var path = System.IO.Path.Combine(Environment.CurrentDirectory, "ClashGui.WindowsService.exe");
 #endif
         if (!await sc($"create clash_gui_service binPath=\"{path}\" start= auto DisplayName= \"Clasharp Core Service\""))
         {

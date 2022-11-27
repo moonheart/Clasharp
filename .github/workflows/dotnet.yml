@@ -1,0 +1,45 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+    
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [ Debug, Release ]
+        os: [ windows-latest ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v3.0.2
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Verify dotnet info
+        run: dotnet --info
+        
+      - name: dotnet restore 
+        if: matrix.os == 'windows-latest'
+        run: dotnet restore ./ClashGui.sln
+
+      - name: Build Solution ${{ matrix.configuration }}
+        shell: pwsh
+        run: ./build.ps1 -configuration "${{ matrix.configuration }}"
+
+      - name: Upload win-x64 App ${{ matrix.configuration }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'debug'
+          path: ./publish

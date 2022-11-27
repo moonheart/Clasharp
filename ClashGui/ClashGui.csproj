@@ -6,7 +6,6 @@
         <!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
         <TrimMode>copyused</TrimMode>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
 
         <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
         <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
@@ -82,12 +81,6 @@
         <AdditionalFiles Include="Views\ProxyGroupListView.axaml" />
         <AdditionalFiles Include="Views\ProxyProviderListView.axaml" />
         <AdditionalFiles Include="Views\ProxyRulesListView.axaml" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Remove="app.manifest" />
-      <Content Include="app.manifest">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\ClashGui.Common\ClashGui.Common.csproj" />
