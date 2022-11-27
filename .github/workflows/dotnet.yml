@@ -44,5 +44,5 @@ jobs:
         continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
-          name: '${{ env.ProjectName }}_win_x64_${{ matrix.configuration }}_${{ env.GITHUB_SHA_SHORT }}'
+          name: '${{ env.ProjectName }}_win_x64_${{ matrix.configuration }}'
           path: ./publish
