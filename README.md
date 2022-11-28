@@ -41,7 +41,7 @@ This is a WIP project.
     - [x] Close Connection
   - [x] Realtime Logs
   - [x] Clash Process Status
-  - [ ] Profiles
+  - [x] Profiles
     - [x] List
     - [x] Select
     - [x] Edit

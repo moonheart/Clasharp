@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         configuration: [ Debug, Release ]
-        os: [ windows-latest ]
+        os: [ windows-latest, ubuntu-latest]
 
     steps:
       - name: Checkout repository
@@ -33,16 +33,15 @@ jobs:
         run: dotnet --info
         
       - name: dotnet restore 
-        if: matrix.os == 'windows-latest'
         run: dotnet restore ./ClashGui.sln
 
       - name: Build Solution ${{ matrix.configuration }}
         shell: pwsh
         run: ./build.ps1 -configuration "${{ matrix.configuration }}"
 
-      - name: Upload win-x64 App ${{ matrix.configuration }}
+      - name: Upload App ${{ matrix.configuration }}
         continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
-          name: '${{ env.ProjectName }}_win_x64_${{ matrix.configuration }}'
+          name: '${{ env.ProjectName }}_${{ matrix.os }}_${{ matrix.configuration }}'
           path: ./publish
