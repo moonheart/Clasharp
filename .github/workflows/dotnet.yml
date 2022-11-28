@@ -14,8 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configuration: [ Debug, Release ]
-        os: [ windows-latest, ubuntu-latest]
+        configuration: [ Debug]
+        os: [ windows-latest]
 
     steps:
       - name: Checkout repository
@@ -39,9 +39,18 @@ jobs:
         shell: pwsh
         run: ./build.ps1 -configuration "${{ matrix.configuration }}"
 
-      - name: Upload App ${{ matrix.configuration }}
+      - name: Upload Win App ${{ matrix.configuration }}
         continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
-          name: '${{ env.ProjectName }}_${{ matrix.os }}_${{ matrix.configuration }}'
-          path: ./publish
+          name: '${{ env.ProjectName }}_win_x64_${{ matrix.configuration }}'
+          path: ./publish-win
+          
+      - name: Upload Linux App ${{ matrix.configuration }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v3
+        with:
+          name: '${{ env.ProjectName }}_linux_x64_${{ matrix.configuration }}'
+          path: ./publish-linux
+          
+          
