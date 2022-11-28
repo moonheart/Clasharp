@@ -1,0 +1,33 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Clasharp.ViewModels"
+             xmlns:designTime="clr-namespace:Clasharp.DesignTime"
+             xmlns:views="clr-namespace:Clasharp.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Clasharp.Views.ProxiesView">
+    <Design.DataContext>
+        <designTime:DesignProxiesViewModel />
+    </Design.DataContext>
+    <ScrollViewer>
+        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*">
+            <Grid.Styles>
+                <Style Selector="StackPanel TextBlock.header">
+                    <Setter Property="FontSize" Value="22"></Setter>
+                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                    <Setter Property="Margin" Value="0 10"></Setter>
+                </Style>
+            </Grid.Styles>
+            <StackPanel>
+                <TextBlock Classes="header" Text="Policy Groups"></TextBlock>
+                <views:ProxyGroupListView DataContext="{Binding ProxyGroupListViewModel }" />
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <TextBlock Classes="header" Text="Providers"></TextBlock>
+                <views:ProxyProviderListView DataContext="{Binding ProxyProviderListViewModel }" />
+            </StackPanel>
+
+        </Grid>
+    </ScrollViewer>
+</UserControl>

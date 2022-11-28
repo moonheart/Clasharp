@@ -1,0 +1,32 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:designTime="clr-namespace:Clasharp.DesignTime"
+             xmlns:utils="clr-namespace:Clasharp.Utils"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Clasharp.Views.ClashInfoView">
+    <Design.DataContext>
+        <designTime:DesignClashInfoViewModel />
+    </Design.DataContext>
+    <StackPanel>
+        <TextBlock TextAlignment="Center" Text="{Binding RealtimeSpeed}"></TextBlock>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <utils:LockableToggleSwitch HorizontalAlignment="Center" Name="ClashToggle"
+                                        OnContent="" OffContent=""
+                                        IsChecked="{Binding IsRunning, Mode=OneWay}"
+                                        Command="{Binding ToggleClash}"
+                                        CommandParameter="{Binding RequestChecked, ElementName=ClashToggle}" />
+            <TextBlock Text="{Binding RunningState}" VerticalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Classes="ClashVersion" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Clash "></TextBlock>
+            <TextBlock Text="{Binding Version}"></TextBlock>
+        </StackPanel>
+    </StackPanel>
+    <UserControl.Styles>
+        <Style Selector="StackPanel.ClashVersion TextBlock">
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+    </UserControl.Styles>
+</UserControl>
