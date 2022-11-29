@@ -17,8 +17,7 @@ public class CoreServiceHelper
     public async Task Install()
     {
 #if DEBUG
-        var path =
-            @"D:\Git_Github\Clasharp\Clasharp\Clasharp.WindowsService\bin\Debug\net6.0\Clasharp.WindowsService.exe";
+        var path = System.IO.Path.Combine(Environment.CurrentDirectory, "../../../../../Clasharp.Service/bin/Debug/net6.0/Clasharp.Service");
 #else
         var path = System.IO.Path.Combine(Environment.CurrentDirectory, "Clasharp.WindowsService");
 #endif
