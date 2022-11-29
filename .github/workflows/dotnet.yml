@@ -31,9 +31,6 @@ jobs:
 
       - name: Verify dotnet info
         run: dotnet --info
-        
-      - name: dotnet restore 
-        run: dotnet restore ./ClashGui.sln
 
       - name: Build Solution ${{ matrix.configuration }}
         shell: pwsh
