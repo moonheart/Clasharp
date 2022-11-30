@@ -45,7 +45,7 @@
         <PackageReference Include="Refit" Version="6.3.2" />
         <PackageReference Include="Splat.Autofac" Version="14.4.1" />
         <PackageReference Include="System.ServiceProcess.ServiceController" Version="6.0.0" />
-        <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
+<!--        <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />-->
         <PackageReference Include="YamlDotNet" Version="12.0.2" />
     </ItemGroup>
     <ItemGroup>
