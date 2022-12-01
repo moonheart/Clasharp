@@ -3,6 +3,7 @@ using Autofac;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Logging;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
@@ -16,6 +17,7 @@ using Clasharp.Views;
 using Clasharp.Common;
 using ReactiveUI;
 using Refit;
+using Serilog;
 using Splat;
 using Splat.Autofac;
 
@@ -38,6 +40,7 @@ namespace Clasharp
 
         public override void OnFrameworkInitializationCompleted()
         {
+            Log.Information("OnFrameworkInitializationCompleted");
             SetupSuspensionHost();
             SetupAutofac();
             SetupLifetime();

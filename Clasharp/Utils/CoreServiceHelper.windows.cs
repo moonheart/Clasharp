@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using Clasharp.Models.ServiceMode;
+using Serilog;
 
 namespace Clasharp.Utils;
 
@@ -47,6 +48,7 @@ public class CoreServiceHelper
 
     public async Task<ServiceStatus> Status()
     {
+        Log.Information("start check win status");
         try
         {
             var serviceController = new ServiceController("clash_gui_service");

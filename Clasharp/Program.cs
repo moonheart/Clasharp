@@ -2,6 +2,7 @@
 using Avalonia.ReactiveUI;
 using System;
 using Avalonia.Logging;
+using Serilog;
 
 namespace Clasharp
 {
@@ -16,9 +17,15 @@ namespace Clasharp
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.File("log.log", Serilog.Events.LogEventLevel.Debug, flushToDiskInterval: TimeSpan.FromSeconds(1))
+                .CreateLogger();
+            return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace(LogEventLevel.Debug)
                 .UseReactiveUI();
+        }
     }
 }

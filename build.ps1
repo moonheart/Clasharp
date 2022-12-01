@@ -1,5 +1,4 @@
 param([string]$configuration='Release')
-
         
 dotnet restore
 dotnet build
