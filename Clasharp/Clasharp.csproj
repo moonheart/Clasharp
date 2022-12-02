@@ -7,11 +7,18 @@
         <TrimMode>copyused</TrimMode>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 
+        <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
+        <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
+        <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
     </PropertyGroup>
-    <PropertyGroup>
-        <DefineConstants Condition="'$(RuntimeIdentifier)'=='win-x64'">$(DefineConstants);Windows</DefineConstants>
-        <DefineConstants Condition="'$(RuntimeIdentifier)'=='osx-x64'">$(DefineConstants);OSX</DefineConstants>
-        <DefineConstants Condition="'$(RuntimeIdentifier)'=='linux-x64'">$(DefineConstants);Linux</DefineConstants>
+    <PropertyGroup Condition="'$(IsWindows)'=='true'">
+        <DefineConstants>Windows</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(IsOSX)'=='true'">
+        <DefineConstants>OSX</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(IsLinux)'=='true'">
+        <DefineConstants>Linux</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
         <Folder Include="Models\" />

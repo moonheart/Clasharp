@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         configuration: [ Debug]
-        os: [ windows-latest]
+        os: [ windows-latest, ubuntu-latest]
 
     steps:
       - name: Checkout repository
@@ -32,22 +32,30 @@ jobs:
       - name: Verify dotnet info
         run: dotnet --info
 
-      - name: Build Solution ${{ matrix.configuration }}
+      - name: Build for Windows ${{ matrix.configuration }}
+        if: matrix.os == 'windows-latest'
         shell: pwsh
-        run: ./build.ps1 -configuration "${{ matrix.configuration }}"
+        run: ./build.ps1 -configuration "${{ matrix.configuration }}" -rid 'win-x64'
+
+      - name: Build for Linux ${{ matrix.configuration }}
+        if: matrix.os == 'ubuntu-latest'
+        shell: pwsh
+        run: ./build.ps1 -configuration "${{ matrix.configuration }}" -rid 'linux-x64'
 
       - name: Upload Win App ${{ matrix.configuration }}
+        if: matrix.os == 'windows-latest'
         continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
           name: '${{ env.ProjectName }}_win_x64_${{ matrix.configuration }}'
-          path: ./publish-win
+          path: ./publish
           
       - name: Upload Linux App ${{ matrix.configuration }}
+        if: matrix.os == 'ubuntu-latest'
         continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
           name: '${{ env.ProjectName }}_linux_x64_${{ matrix.configuration }}'
-          path: ./publish-linux
+          path: ./publish
           
           

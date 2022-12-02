@@ -20,7 +20,8 @@ namespace Clasharp
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.File("log.log", Serilog.Events.LogEventLevel.Debug, flushToDiskInterval: TimeSpan.FromSeconds(1))
+                .WriteTo.File("log.log", Serilog.Events.LogEventLevel.Debug,
+                    flushToDiskInterval: TimeSpan.FromSeconds(1), fileSizeLimitBytes: 1024 * 1024 * 10)
                 .CreateLogger();
             return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
