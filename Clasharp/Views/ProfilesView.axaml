@@ -43,7 +43,7 @@
                             </Panel>
                             <Panel>
                                 <TextBlock Text="{Binding Description}"></TextBlock>
-                                <TextBlock Text="{Binding Notes}"></TextBlock>
+                                <TextBlock Foreground="Red" TextAlignment="Right" Text="{Binding Notes}"></TextBlock>
                             </Panel>
                             <Panel>
                                 <TextBlock HorizontalAlignment="Right" Text="{Binding UpdateTime}"></TextBlock>
