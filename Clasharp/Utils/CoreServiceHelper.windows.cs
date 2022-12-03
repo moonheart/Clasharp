@@ -19,7 +19,7 @@ public class CoreServiceHelper
     {
 #if DEBUG
         var path =
-            @"D:\Git_Github\Clasharp\Clasharp\Clasharp.Service\bin\Debug\net6.0\Clasharp.Service.exe";
+            @"D:\Git_Github\Clasharp\Clasharp.Service\bin\Debug\net6.0\Clasharp.Service.exe";
 #else
         var path = System.IO.Path.Combine(Environment.CurrentDirectory, "Clasharp.Service.exe");
 #endif
