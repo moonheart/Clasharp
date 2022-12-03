@@ -63,11 +63,11 @@ public class ClashCli : IClashCli
         switch (_appSettings.SystemProxyMode)
         {
             case SystemProxyMode.Clear:
-                ProxyUtils.UnsetSystemProxy();
+                await ProxyUtils.UnsetSystemProxy();
                 break;
             case SystemProxyMode.SetProxy when _currentConfig != null:
             {
-                ProxyUtils.SetSystemProxy($"http://127.0.0.1:{_currentConfig.MixedPort ?? _currentConfig.Port}", "");
+                await ProxyUtils.SetSystemProxy($"http://127.0.0.1:{_currentConfig.MixedPort ?? _currentConfig.Port}", "");
                 break;
             }
         }
@@ -79,7 +79,7 @@ public class ClashCli : IClashCli
         {
             case SystemProxyMode.SetProxy:
             {
-                ProxyUtils.UnsetSystemProxy();
+                await ProxyUtils.UnsetSystemProxy();
                 break;
             }
         }

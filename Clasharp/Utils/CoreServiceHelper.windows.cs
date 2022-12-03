@@ -2,6 +2,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using Clasharp.Models.ServiceMode;
@@ -51,8 +52,8 @@ public class CoreServiceHelper
         Log.Information("start check win status");
         try
         {
-            var serviceController = new ServiceController("clash_gui_service");
-            return (ServiceStatus) (int) serviceController.Status;
+                var serviceController = new ServiceController("clash_gui_service");
+                return (ServiceStatus) (int) serviceController.Status;
         }
         catch (Exception e)
         {

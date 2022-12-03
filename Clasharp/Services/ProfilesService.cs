@@ -9,6 +9,7 @@ using Clasharp.Models.Profiles;
 using Clasharp.Models.Settings;
 using Clasharp.Services.Base;
 using Clasharp.Common;
+using Clasharp.Utils;
 using DynamicData;
 using ReactiveUI;
 
@@ -135,13 +136,11 @@ public class ProfilesService : IDisposable, IProfilesService
         _profiles.AddOrUpdate(newp);
     }
 
-    private static HttpClient _httpClient = new();
-
     public async Task DownloadProfile(Profile profile)
     {
         try
         {
-            var content = await _httpClient.GetStringAsync(profile.RemoteUrl);
+            var content = await HttpClientHolder.Normal.GetStringAsync(profile.RemoteUrl);
             await File.WriteAllTextAsync(Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename), content);
             profile.UpdateTime = DateTime.Now;
         }
