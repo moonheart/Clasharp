@@ -37,16 +37,13 @@ public class RunEvaluatedCommand : PlatformSpecificOperation<string, string, Run
 
     protected override async Task<Result> DoForLinux(string filename, string arguments)
     {
-        // todo Ask for linux user password
         var process = new Process
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = filename,
-                Arguments = arguments,
-                CreateNoWindow = true,
-                UseShellExecute = true,
-                Verb = "runas"
+                FileName = "pkexec",
+                Arguments = $"{filename} {arguments}",
+                RedirectStandardOutput = true
             }
         };
         process.Start();

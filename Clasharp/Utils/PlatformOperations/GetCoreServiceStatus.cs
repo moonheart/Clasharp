@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Runtime.Versioning;
 using System.ServiceProcess;
 using System.Threading.Tasks;
-using Clasharp.Common;
 using Clasharp.Models.ServiceMode;
 
 namespace Clasharp.Utils.PlatformOperations;
