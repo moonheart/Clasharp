@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace Clasharp.Utils;
 
-public abstract class PlatformSpecificOperation<TResult> : PlatformSpecificOperation<int, TResult>
+public abstract class PlatformSpecificOperation<TResult>
 {
-    public Task<TResult> Exec()
+    public virtual Task<TResult> Exec()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
@@ -46,9 +46,9 @@ public abstract class PlatformSpecificOperation<TResult> : PlatformSpecificOpera
     }
 }
 
-public abstract class PlatformSpecificOperation<T1, TResult> 
+public abstract class PlatformSpecificOperation<T1, TResult>
 {
-    public Task<TResult> Exec(T1 t1)
+    public virtual Task<TResult> Exec(T1 t1)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
@@ -86,12 +86,11 @@ public abstract class PlatformSpecificOperation<T1, TResult>
         throw new InvalidOperationException(
             $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
     }
-
 }
 
-public abstract class PlatformSpecificOperation<T1, T2, TResult> 
+public abstract class PlatformSpecificOperation<T1, T2, TResult>
 {
-    public Task<TResult> Exec(T1 t1, T2 t2)
+    public virtual Task<TResult> Exec(T1 t1, T2 t2)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
@@ -129,12 +128,11 @@ public abstract class PlatformSpecificOperation<T1, T2, TResult>
         throw new InvalidOperationException(
             $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
     }
-
 }
 
 public abstract class PlatformSpecificOperation<T1, T2, T3, TResult>
 {
-    public Task<TResult> Exec(T1 t1, T2 t2, T3 t3)
+    public virtual Task<TResult> Exec(T1 t1, T2 t2, T3 t3)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
