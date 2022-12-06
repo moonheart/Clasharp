@@ -5,6 +5,17 @@ namespace Clasharp.Utils.PlatformOperations;
 
 public class RunEvaluatedCommand : PlatformSpecificOperation<string, string, RunEvaluatedCommand.Result>
 {
+    /// <summary>
+    /// Execute evaluated command
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <param name="arguments"></param>
+    /// <returns></returns>
+    public override Task<Result> Exec(string filename, string arguments)
+    {
+        return base.Exec(filename, arguments);
+    }
+
     protected override async Task<Result> DoForWindows(string filename, string arguments)
     {
         var process = new Process
