@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Clasharp.Utils.PlatformOperations;
 
-public class StopCoreService : PlatformSpecificOperation<string, int>
+public class StopService : PlatformSpecificOperation<string, int>
 {
     protected override async Task<int> DoForWindows(string serviceName)
     {
