@@ -1,0 +1,45 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:designTime="clr-namespace:Clasharp.DesignTime"
+        xmlns:avaloniaProgressRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Clasharp.Views.ClashCoreManageWindow"
+        Width="500"
+        Height="300"
+        WindowStartupLocation="CenterOwner"
+        Title="Manage Clash Meta Core">
+    <Design.DataContext>
+        <designTime:DesignClashCoreManageViewModel />
+    </Design.DataContext>
+    <StackPanel>
+        <StackPanel Classes="SettingLine">
+            <TextBlock Classes="SettingHeader" Text="Current Version" />
+            <TextBlock Text="{Binding CurrentVersion}"></TextBlock>
+        </StackPanel>
+        <StackPanel Classes="SettingLine">
+            <TextBlock Classes="SettingHeader" Text="Download From" />
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton IsChecked="{Binding !UseCustomUrl, Mode=TwoWay}" GroupName="customUrl" Content="MetaCubeX/Clash.Meta"></RadioButton>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <RadioButton IsChecked="{Binding UseCustomUrl, Mode=TwoWay}" GroupName="customUrl" Content="custom url"></RadioButton>
+                    <TextBox Text="{Binding CustomUrl}" IsEnabled="{Binding UseCustomUrl}"></TextBox>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Classes="SettingLine">
+            <TextBlock Classes="SettingHeader" Text="" />
+            <Button Command="{Binding Download}" Content="Download"></Button>
+            <avaloniaProgressRing:ProgressRing Width="16"
+                                               Height="16"
+                                               IsActive="{Binding IsDownloading }"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Foreground="Green"
+                                               Margin="0,0,0,0" />
+        </StackPanel>
+    </StackPanel>
+</Window>

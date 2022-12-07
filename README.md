@@ -56,24 +56,24 @@ This is a WIP project.
     - [x] External Controller
     - [x] Mixed Port
     - [ ] Start With System
-    - [ ] Clash Core Management
+    - [x] Clash Core Management
   - [x] Subscriptions
     - [x] Update
 - [x] Service Mode
   - [x] Install Core Service
   - [x] Uninstall Core Service
-- [ ] Service Mode (Linux)
-  - [ ] Install Core Service
-  - [ ] Uninstall Core Service
+- [x] Service Mode (Linux)
+  - [x] Install Core Service
+  - [x] Uninstall Core Service
 - [ ] Start with System
   - [ ] Windows
   - [ ] Linux
 - [ ] Builtin SubConverter
 - [ ] Connect To Remote Backend
 - [ ] Dark Theme
-- [ ] Clash Meta Core Management
-  - [ ] Download Core
-  - [ ] Custom Download Url
+- [x] Clash Meta Core Management
+  - [x] Download Core
+  - [x] Custom Download Url
   - [ ] Check for Update
 - [ ] Self Update
 - [x] Tray Icon

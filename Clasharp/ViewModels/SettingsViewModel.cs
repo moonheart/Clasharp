@@ -34,6 +34,11 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
         serviceStatus.Select(d => d == ServiceStatus.Uninstalled).ToPropertyEx(this, d => d.IsUninstalled);
         serviceStatus.Select(d => d == ServiceStatus.Running).ToPropertyEx(this, d => d.IsCoreServiceRunning);
 
+        OpenManageCoreWindow = new Interaction<Unit, Unit>();
+        ManageCore = ReactiveCommand.CreateFromTask(async _ =>
+        {
+            await OpenManageCoreWindow.Handle(Unit.Default);
+        });
         InstallService = ReactiveCommand.CreateFromTask(async _ =>
         {
             try
@@ -100,4 +105,6 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     public ReactiveCommand<Unit, Unit> UninstallService { get; }
     public ReactiveCommand<Unit, Unit> StartService { get; }
     public ReactiveCommand<Unit, Unit> StopService { get; }
+    public ReactiveCommand<Unit, Unit> ManageCore { get; }
+    public Interaction<Unit, Unit> OpenManageCoreWindow { get; }
 }

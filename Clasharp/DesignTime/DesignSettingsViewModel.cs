@@ -24,4 +24,6 @@ public class DesignSettingsViewModel:ViewModelBase, ISettingsViewModel
     public ReactiveCommand<Unit, Unit> UninstallService { get; }
     public ReactiveCommand<Unit, Unit> StartService { get; }
     public ReactiveCommand<Unit, Unit> StopService { get; }
+    public ReactiveCommand<Unit, Unit> ManageCore { get; }
+    public Interaction<Unit, Unit> OpenManageCoreWindow { get; }
 }

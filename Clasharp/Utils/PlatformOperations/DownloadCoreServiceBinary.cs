@@ -7,11 +7,16 @@ using Clasharp.Common;
 
 namespace Clasharp.Utils.PlatformOperations;
 
-public class DownloadCoreServiceBinary : PlatformSpecificOperation<string?, int>
+public class DownloadCoreServiceBinary : PlatformSpecificOperation<string?, string>
 {
     private readonly RunEvaluatedCommand _runEvaluatedCommand = new();
 
-    public override Task<int> Exec(string? downloadUrl)
+    /// <summary>
+    /// Download Clash meta binary
+    /// </summary>
+    /// <param name="downloadUrl">optional download url</param>
+    /// <returns>Downloaded file location</returns>
+    public override Task<string> Exec(string? downloadUrl)
     {
         return base.Exec(downloadUrl);
     }
@@ -25,7 +30,7 @@ public class DownloadCoreServiceBinary : PlatformSpecificOperation<string?, int>
                throw new Exception($"Failed to get release info from {releasesLatest}");
     }
 
-    protected override async Task<int> DoForWindows(string? downloadUrl)
+    protected override async Task<string> DoForWindows(string? downloadUrl)
     {
         if (string.IsNullOrWhiteSpace(downloadUrl))
         {
@@ -44,12 +49,10 @@ public class DownloadCoreServiceBinary : PlatformSpecificOperation<string?, int>
         }
 
         var sourceFileName = Path.Combine(tempPath, "Clash.Meta-windows-amd64.exe");
-        var destFileName = Path.Combine(GlobalConfigs.ProgramHome, "clash-meta.exe");
-        File.Move(sourceFileName, destFileName, true);
-        return 0;
+        return sourceFileName;
     }
 
-    protected override async Task<int> DoForLinux(string? downloadUrl)
+    protected override async Task<string> DoForLinux(string? downloadUrl)
     {
         if (string.IsNullOrWhiteSpace(downloadUrl))
         {
@@ -70,9 +73,7 @@ public class DownloadCoreServiceBinary : PlatformSpecificOperation<string?, int>
             }
         }
 
-        var destFileName = Path.Combine(GlobalConfigs.ProgramHome, "clash-meta");
-        File.Move(tempFileName, destFileName, true);
-        await _runEvaluatedCommand.Exec("chmod", $"+x {destFileName}");
-        return 0;
+        await _runEvaluatedCommand.Exec("chmod", $"+x {tempFileName}");
+        return tempFileName;
     }
 }

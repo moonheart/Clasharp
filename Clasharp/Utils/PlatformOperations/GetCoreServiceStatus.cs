@@ -10,6 +10,16 @@ namespace Clasharp.Utils.PlatformOperations;
 
 public class GetServiceStatus : PlatformSpecificOperation<string, ServiceStatus>
 {
+    /// <summary>
+    /// GetServiceStatus
+    /// </summary>
+    /// <param name="serviceName">serviceName</param>
+    /// <returns></returns>
+    public override Task<ServiceStatus> Exec(string serviceName)
+    {
+        return base.Exec(serviceName);
+    }
+
     [SupportedOSPlatform("Windows")]
     protected override Task<ServiceStatus> DoForWindows(string serviceName)
     {

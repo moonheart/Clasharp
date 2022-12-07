@@ -43,6 +43,10 @@
                 </ListBox>
             </StackPanel>
             <StackPanel Classes="SettingLine">
+                <TextBlock Classes="SettingHeader" Text="Manage Core Binary" />
+                <Button Command="{Binding ManageCore}" Content="Manage"></Button>
+            </StackPanel>
+            <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="Core Service Status" />
                 <TextBlock Text="{Binding CoreServiceStatus}" />
                 <Button
@@ -64,7 +68,8 @@
             </StackPanel>
             <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.ExternalControllerPort.Hide}">
                 <TextBlock Classes="SettingHeader" Text="External Controller" />
-                <NumericUpDown Minimum="1025" Maximum="65534" Value="{Binding ManagedFields.ExternalControllerPort.Value}" />
+                <NumericUpDown Minimum="1025" Maximum="65534"
+                               Value="{Binding ManagedFields.ExternalControllerPort.Value}" />
             </StackPanel>
             <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.Tun.Hide}">
                 <TextBlock Classes="SettingHeader" Text="Tun" />
