@@ -16,7 +16,9 @@ This is a WIP project.
 ![logs](images/logs.png)
 ![rules](images/rules.png)
 ![connections](images/connections.png)
+![profiles](images/profiles.png)
 ![settings](images/settings.png)
+![clash-core](images/clash-core.png)
 
 ## Roadmap
 - [x] Clash API
