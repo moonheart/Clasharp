@@ -16,7 +16,7 @@ public class GetCoreServicePath: PlatformSpecificOperation<string>
     protected override Task<string> DoForLinux()
     {
 #if DEBUG
-        return Task.FromResult(System.IO.Path.Combine(System.Environment.CurrentDirectory, "../../../../../Clasharp.Service/bin/Debug/net6.0/Clasharp.Service"));
+        return Task.FromResult("/home/moon/Git_Github/Clasharp/Clasharp.Service/bin/Debug/net6.0/Clasharp.Service");
 #else
         return Task.FromResult(System.IO.Path.Combine(System.Environment.CurrentDirectory, "Clasharp.WindowsService"));
 #endif

@@ -7,6 +7,7 @@ namespace Clasharp.Utils.PlatformOperations;
 public class InstallService : PlatformSpecificOperation<string, string, string, int>
 {
     private readonly RunEvaluatedCommand _evaluatedCommand = new();
+
     /// <summary>
     /// Install service
     /// </summary>
@@ -46,8 +47,12 @@ ExecStart={exePath}
 WantedBy=multi-user.target";
         var tempFile = Path.GetTempFileName();
         await File.WriteAllTextAsync(tempFile, unitFileContent);
-        await _evaluatedCommand.Exec("cp", $"{tempFile} /etc/systemd/system/{serviceName}.service");
-        await _evaluatedCommand.Exec("systemctl", $"enable {serviceName}.service");
+        var result = await _evaluatedCommand.Exec("sh",
+            $"-c 'cp {tempFile} /etc/systemd/system/{serviceName}.service && systemctl daemon-reload && systemctl enable {serviceName}.service'");
+        if (result.ExitCode != 0)
+        {
+            throw new Exception($"Failed to install service {serviceName}: {result.StdOut}");
+        }
         return 0;
     }
 }

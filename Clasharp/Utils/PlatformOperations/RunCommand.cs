@@ -42,14 +42,19 @@ public class RunEvaluatedCommand : PlatformSpecificOperation<string, string, Run
             StartInfo = new ProcessStartInfo
             {
                 FileName = "pkexec",
-                Arguments = $"{filename} {arguments}",
-                RedirectStandardOutput = true
+                ArgumentList = { "sh", "-c", $"{filename} {arguments}" },
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
             }
         };
         process.Start();
         await process.WaitForExitAsync();
-        var output = await process.StandardOutput.ReadToEndAsync();
-        return new Result(process.ExitCode, output);
+        var error = await process.StandardError.ReadToEndAsync();
+        if (string.IsNullOrWhiteSpace(error))
+        {
+            error = await process.StandardOutput.ReadToEndAsync();
+        }
+        return new Result(process.ExitCode, error);
     }
 
     public class Result
