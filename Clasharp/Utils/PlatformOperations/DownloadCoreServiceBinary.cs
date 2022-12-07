@@ -7,10 +7,15 @@ using Clasharp.Common;
 
 namespace Clasharp.Utils.PlatformOperations;
 
-public class DownloadCoreServiceBinary : PlatformSpecificOperation<int>
+public class DownloadCoreServiceBinary : PlatformSpecificOperation<string?, int>
 {
     private readonly RunEvaluatedCommand _runEvaluatedCommand = new();
-    
+
+    public override Task<int> Exec(string? downloadUrl)
+    {
+        return base.Exec(downloadUrl);
+    }
+
     private async Task<string> GetLatestReleases()
     {
         var releasesLatest = "https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/latest";
@@ -20,11 +25,15 @@ public class DownloadCoreServiceBinary : PlatformSpecificOperation<int>
                throw new Exception($"Failed to get release info from {releasesLatest}");
     }
 
-    protected override async Task<int> DoForWindows()
+    protected override async Task<int> DoForWindows(string? downloadUrl)
     {
-        var release = await GetLatestReleases();
-        var downloadUrl =
-            $"https://github.com/MetaCubeX/Clash.Meta/releases/download/{release}/Clash.Meta-windows-amd64-{release}.zip";
+        if (string.IsNullOrWhiteSpace(downloadUrl))
+        {
+            var release = await GetLatestReleases();
+            downloadUrl =
+                $"https://github.com/MetaCubeX/Clash.Meta/releases/download/{release}/Clash.Meta-windows-amd64-{release}.zip";
+        }
+
         var tempPath = Path.GetTempPath();
         await using (var stream = await HttpClientHolder.Normal.GetStreamAsync(downloadUrl))
         {
@@ -40,11 +49,15 @@ public class DownloadCoreServiceBinary : PlatformSpecificOperation<int>
         return 0;
     }
 
-    protected override async Task<int> DoForLinux()
+    protected override async Task<int> DoForLinux(string? downloadUrl)
     {
-        var release = await GetLatestReleases();
-        var downloadUrl =
-            $"https://github.com/MetaCubeX/Clash.Meta/releases/download/{release}/Clash.Meta-linux-amd64-{release}.gz";
+        if (string.IsNullOrWhiteSpace(downloadUrl))
+        {
+            var release = await GetLatestReleases();
+            downloadUrl =
+                $"https://github.com/MetaCubeX/Clash.Meta/releases/download/{release}/Clash.Meta-linux-amd64-{release}.gz";
+        }
+
         var tempFileName = Path.GetTempFileName();
         await using (var stream = await HttpClientHolder.Normal.GetStreamAsync(downloadUrl))
         {
