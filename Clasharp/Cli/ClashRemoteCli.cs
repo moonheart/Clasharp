@@ -40,7 +40,6 @@ public class ClashRemoteCli : ClashCliBase
         _runningState.OnNext(Cli.RunningState.Stopped);
     }
 
-
     private CancellationTokenSource? _cancellationTokenSource;
 
     protected override async Task DoStart(string configPath)
@@ -52,9 +51,9 @@ public class ClashRemoteCli : ClashCliBase
             throw new Exception("Core service not installed or running");
         }
 
-        await _remoteClash.StartClash(new ClashLaunchInfo()
+        await _remoteClash.StartClash(new ClashLaunchInfo
         {
-            ExecutablePath = GlobalConfigs.ClashExe,
+            ExecutablePath = await GetClashExePath.Exec(),
             WorkDir = GlobalConfigs.ProgramHome,
             ConfigPath = configPath
         });

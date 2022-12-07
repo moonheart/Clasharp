@@ -18,9 +18,9 @@ public class ClashLocalCli : ClashCliBase
     protected override async Task DoStart(string configPath)
     {
         _clashWrapper?.Stop();
-        _clashWrapper = new ClashWrapper(new ClashLaunchInfo()
+        _clashWrapper = new ClashWrapper(new ClashLaunchInfo
         {
-            ConfigPath = configPath, ExecutablePath = GlobalConfigs.ClashExe, WorkDir = GlobalConfigs.ProgramHome
+            ConfigPath = configPath, ExecutablePath = await GetClashExePath.Exec(), WorkDir = GlobalConfigs.ProgramHome
         })
         {
             OnNewLog = CliLogProcessor

@@ -11,6 +11,7 @@ using Clasharp.Models.Settings;
 using Clasharp.Services;
 using Clasharp.Common;
 using Clasharp.Utils;
+using Clasharp.Utils.PlatformOperations;
 using YamlDotNet.Serialization;
 using LogLevel = Clasharp.Clash.Models.Logs.LogLevel;
 
@@ -31,6 +32,7 @@ public abstract class ClashCliBase : IClashCli
     protected Regex _logMetaRegex = new(@"time=""(.+?) level=(?<level>.+?) msg=""(?<payload>.+)""");
 
     protected IClashApiFactory _clashApiFactory;
+    protected GetClashExePath GetClashExePath = new();
     private IProfilesService _profilesService;
     private AppSettings _appSettings;
 
@@ -73,7 +75,7 @@ public abstract class ClashCliBase : IClashCli
 
             var clashWrapper = new ClashWrapper(new ClashLaunchInfo
             {
-                ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = GlobalConfigs.ClashExe,
+                ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = await GetClashExePath.Exec(),
                 WorkDir = GlobalConfigs.ProgramHome
             });
             clashWrapper.Test();

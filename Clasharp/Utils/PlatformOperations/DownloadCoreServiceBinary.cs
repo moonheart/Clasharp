@@ -9,6 +9,8 @@ namespace Clasharp.Utils.PlatformOperations;
 
 public class DownloadCoreServiceBinary : PlatformSpecificOperation<int>
 {
+    private readonly RunEvaluatedCommand _runEvaluatedCommand = new();
+    
     private async Task<string> GetLatestReleases()
     {
         var releasesLatest = "https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/latest";
@@ -57,6 +59,7 @@ public class DownloadCoreServiceBinary : PlatformSpecificOperation<int>
 
         var destFileName = Path.Combine(GlobalConfigs.ProgramHome, "clash-meta");
         File.Move(tempFileName, destFileName, true);
+        await _runEvaluatedCommand.Exec("chmod", $"+x {destFileName}");
         return 0;
     }
 }
