@@ -37,6 +37,9 @@ public class RawConfig
 
     [YamlMember(Alias = "ipv6")]
     public bool? IPv6 { get; set; }
+    
+    [YamlMember(Alias = "sniffer")]
+    public RawSniffer? Sniffer { get; set; }
 
     [YamlMember(Alias = "external-controller")]
     public string? ExternalController { get; set; }
