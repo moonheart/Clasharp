@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Clasharp.Clash;
 using Refit;
@@ -28,12 +29,16 @@ public class ClashApiFactory : IClashApiFactory
 
     public void SetPort(int port)
     {
-        _api = RestService.For<IClashControllerApi>($"http://localhost:{port}", new RefitSettings()
+        _api = RestService.For<IClashControllerApi>(new HttpClient()
+        {
+            BaseAddress = new Uri($"http://localhost:{port}"),
+            Timeout = TimeSpan.FromSeconds(1)
+        }, new RefitSettings()
         {
             ExceptionFactory = message =>
             {
                 return Task.FromResult<Exception?>(null);
-            }
+            },
         });
     }
 }
