@@ -28,7 +28,6 @@ public class ProfilesViewModel : ViewModelBase, IProfilesViewModel
 
         this.WhenAnyValue(d => d.SelectedProfile)
             .WhereNotNull()
-            .Skip(1)
             .Subscribe(d =>
             {
                 appSettings.SelectedProfile = d.Filename;
