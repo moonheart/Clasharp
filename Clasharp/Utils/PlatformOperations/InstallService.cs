@@ -23,7 +23,7 @@ public class InstallService : PlatformSpecificOperation<string, string, string, 
     protected override async Task<int> DoForWindows(string serviceName, string desc, string exePath)
     {
         var result = await _evaluatedCommand.Exec("sc",
-            $"create ${serviceName} binPath=\"{exePath}\" start=auto DisplayName=\"{desc}\"");
+            $"create {serviceName} binPath=\"{exePath}\" start=auto DisplayName=\"{desc}\"");
         if (result.ExitCode != 0)
         {
             throw new Exception($"Failed to install service {serviceName}: {result.StdOut}");
