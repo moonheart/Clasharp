@@ -36,9 +36,17 @@ jobs:
         shell: bash
         run: chmod +x ./publish.sh && ./publish.sh "${{ matrix.configuration }}"
 
-      - name: Upload App ${{ matrix.configuration }}
+      - name: Upload Windows App ${{ matrix.configuration }}
         continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
-          path: ./clasharp-*.zip
+          name: '${{ env.ProjectName }}-win-x64-${{ matrix.configuration }}'
+          path: ./${{ env.ProjectName }}-win-x64-${{ matrix.configuration }}.zip
+          
+      - name: Upload Linux App ${{ matrix.configuration }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v3
+        with:
+          name: '${{ env.ProjectName }}-linux-x64-${{ matrix.configuration }}'
+          path: ./${{ env.ProjectName }}-linux-x64-${{ matrix.configuration }}.zip
           
