@@ -24,12 +24,20 @@ public class Worker : BackgroundService
     {
         _httpListenerWrapper.AddRoute("/start_clash", HandleStart);
         _httpListenerWrapper.AddRoute("/stop_clash", HandleStop);
+        _httpListenerWrapper.AddRoute("/is_running", HandleIsRunning);
         _httpListenerWrapper.AddRoute("/logs", HandleLogs);
         _httpListenerWrapper.AddRoute("/hello", HandleHello);
         var httpLocalhost = $"http://localhost:{GlobalConfigs.ClashServicePort}/";
         _logger.LogInformation($"Listening at {httpLocalhost}");
         stoppingToken.Register(() => _clashWrapper?.Stop());
         await _httpListenerWrapper.Listen(httpLocalhost, stoppingToken);
+    }
+
+    private Task HandleIsRunning(HttpListenerContext context, CancellationToken cancellationToken)
+    {
+        var running = _clashWrapper?.IsRunning() ?? false;
+        context.Return(running.ToString());
+        return Task.CompletedTask;
     }
 
     private Task HandleHello(HttpListenerContext context, CancellationToken cancellationToken)

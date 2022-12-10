@@ -20,6 +20,9 @@ public interface IRemoteClash
     [Post("/stop_clash")]
     Task StopClash();
 
+    [Get("/is_running")]
+    Task<bool> IsRunning();
+
     IAsyncEnumerable<string> GetRealtimeLogs() =>
         new Streamer($"http://localhost:{GlobalConfigs.ClashServicePort}", "/logs");
 }

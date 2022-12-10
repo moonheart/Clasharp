@@ -17,7 +17,7 @@ public class ClashWrapper
 
     public void Start()
     {
-        _process = new Process()
+        var tmp = new Process()
         {
             StartInfo = new ProcessStartInfo()
             {
@@ -32,13 +32,15 @@ public class ClashWrapper
             }
         };
         
-        _process.OutputDataReceived += (_, args) =>
+        tmp.OutputDataReceived += (_, args) =>
         {
             if (string.IsNullOrEmpty(args.Data)) return;
             OnNewLog?.Invoke(args.Data);
         };
         
-        _process.Start();
+        tmp.Start();
+        _process?.Dispose();
+        _process = tmp;
         _process.PriorityClass = ProcessPriorityClass.High;
         _process.BeginOutputReadLine();
         
@@ -73,6 +75,10 @@ public class ClashWrapper
         }
     }
 
+    public bool IsRunning()
+    {
+        return !_process?.HasExited ?? false;
+    }
     public void Stop()
     {
         _process?.Kill(true);
