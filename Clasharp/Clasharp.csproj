@@ -6,6 +6,9 @@
         <!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
         <TrimMode>copyused</TrimMode>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <ApplicationIcon>./Assets/clasharp.ico</ApplicationIcon>
+        <Authors>moonheart</Authors>
+        <Product>Clasharp</Product>
     </PropertyGroup>
     <ItemGroup>
         <Folder Include="Models\" />
