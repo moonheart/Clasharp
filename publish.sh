@@ -5,6 +5,8 @@ configuration=$1
 dotnet restore
 dotnet build
 
+mkdir -p ./release-dir/
+
 function publish() {
   local configuration=$1
   local rid=$2
@@ -17,7 +19,7 @@ function publish() {
   # shellcheck disable=SC2086
   dotnet publish Clasharp.Service/Clasharp.Service.csproj $publishArgs
   
-  zip -r clasharp-"$rid"-"$configuration".zip clasharp-"$rid"
+  zip -r ./release-dir/clasharp-"$rid"-"$configuration".zip clasharp-"$rid"
 }
 
 publish "$configuration" win-x64
