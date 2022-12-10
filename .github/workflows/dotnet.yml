@@ -34,7 +34,7 @@ jobs:
 
       - name: Publish for ${{ matrix.configuration }}
         shell: bash
-        run: ./publish.sh "${{ matrix.configuration }}"
+        run: chmod +x ./publish.sh && ./publish.sh "${{ matrix.configuration }}"
 
       - name: Upload App ${{ matrix.configuration }}
         continue-on-error: true
