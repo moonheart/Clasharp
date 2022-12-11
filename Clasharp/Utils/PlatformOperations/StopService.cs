@@ -8,7 +8,8 @@ public class StopService : PlatformSpecificOperation<string, int>
     protected override async Task<int> DoForWindows(string serviceName)
     {
         var result = await new RunEvaluatedCommand().Exec("sc", $"stop {serviceName}");
-        if (result.ExitCode != 0)
+        // exit code 1062: service is not started
+        if (result.ExitCode != 1062 && result.ExitCode != 0)
         {
             throw new Exception($"Failed to stop service {serviceName}: {result.StdOut}");
         }

@@ -32,15 +32,16 @@ public class RunEvaluatedCommand : PlatformSpecificOperation<string, string, Com
             {
                 FileName = filename,
                 Arguments = arguments,
-                CreateNoWindow = true,
+                CreateNoWindow = false,
                 UseShellExecute = true,
                 Verb = "runas"
             }
         };
         process.Start();
         await process.WaitForExitAsync();
-        var output = await process.StandardOutput.ReadToEndAsync();
-        return new CommandResult(process.ExitCode, output);
+        // var output = await process.StandardError.ReadToEndAsync();
+        // var output = await process.StandardOutput.ReadToEndAsync();
+        return new CommandResult(process.ExitCode, "cannot get output");
     }
 
     protected override async Task<CommandResult> DoForLinux(string filename, string arguments)
