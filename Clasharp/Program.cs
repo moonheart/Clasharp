@@ -23,14 +23,8 @@ namespace Clasharp
                     flushToDiskInterval: TimeSpan.FromSeconds(1), fileSizeLimitBytes: 1024 * 1024 * 10)
                 .CreateLogger();
 
-            TaskScheduler.UnobservedTaskException += (sender, eventArgs) =>
-            {
-                Log.Error(eventArgs.Exception, "Exception from TaskScheduler.UnobservedTaskException");
-            };
-            RxApp.DefaultExceptionHandler = Observer.Create<Exception>(e =>
-            {
-                Log.Error(e, "Exception from RxApp.DefaultExceptionHandler");
-            });
+            TaskScheduler.UnobservedTaskException += ExceptionHandler.Handler;
+            RxApp.DefaultExceptionHandler = ExceptionHandler.RxHandler;
             
             try
             {

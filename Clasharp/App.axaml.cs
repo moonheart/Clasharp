@@ -17,7 +17,6 @@ using Clasharp.Views;
 using Clasharp.Common;
 using ReactiveUI;
 using Refit;
-using Serilog;
 using Splat;
 using Splat.Autofac;
 
