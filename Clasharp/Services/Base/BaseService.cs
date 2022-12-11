@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Clasharp.Cli;
@@ -23,7 +24,11 @@ public abstract class BaseService<T> : IAutoFreshable
     {
         return Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
             .CombineLatest(_clashCli.RunningState)
-            .Where(tuple => tuple.Second == RunningState.Started && EnableAutoFresh)
+            .Where(tuple =>
+            {
+                Debug.WriteLine($"{tuple.Second}, {EnableAutoFresh}, BaseService<{typeof(T)}> Timer Triggered");
+                return tuple.Second == RunningState.Started && EnableAutoFresh;
+            })
             .SelectMany(_ => GetObj());
     }
 }

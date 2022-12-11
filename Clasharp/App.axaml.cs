@@ -3,7 +3,6 @@ using Autofac;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Logging;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
@@ -50,10 +49,7 @@ namespace Clasharp
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.ShutdownRequested += (sender, args) =>
-                {
-                    Locator.Current.GetService<IClashCli>()?.Stop();
-                };
+                desktop.ShutdownRequested += (sender, args) => { Locator.Current.GetService<IClashCli>()?.Stop(); };
                 desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             }
         }
@@ -98,8 +94,9 @@ namespace Clasharp
             builder.RegisterType<ProfilesViewModel>().As<IProfilesViewModel>().SingleInstance();
             builder.RegisterType<ProfileEditViewModel>().As<IProfileEditViewModel>().SingleInstance();
             builder.RegisterInstance(RxApp.SuspensionHost.GetAppState<AppSettings>()).SingleInstance();
-            builder.RegisterInstance(
-                RestService.For<IRemoteClash>($"http://localhost:{GlobalConfigs.ClashServicePort}/")).SingleInstance();
+            builder.RegisterInstance(RestService.For<IRemoteClash>(
+                HttpClientHolder.For($"http://localhost:{GlobalConfigs.ClashServicePort}/"),
+                new RefitSettings().AddExceptionHandler())).SingleInstance();
 
             builder.RegisterType<ProxyGroupService>().As<IProxyGroupService>().SingleInstance();
             builder.RegisterType<ProxyProviderService>().As<IProxyProviderService>().SingleInstance();

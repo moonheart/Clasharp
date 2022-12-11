@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using MessageBox.Avalonia;
 using ReactiveUI;
+using Refit;
 using Serilog;
 
 namespace Clasharp;
@@ -23,6 +24,21 @@ public static class ExceptionHandler
             }
         }
         arg.SetOutput(Unit.Default);
+    }
+
+    public static RefitSettings AddExceptionHandler(this RefitSettings refitSettings)
+    {
+        refitSettings.ExceptionFactory = async message =>
+        {
+            var exception = await new DefaultApiExceptionFactory(refitSettings).CreateAsync(message);
+            if (exception != null)
+            {
+                Log.Error(exception, "Failed to execute Api request");
+            }
+
+            return exception;
+        };
+        return refitSettings;
     }
 
     public static void Handler(object? o, UnobservedTaskExceptionEventArgs eventArgs)

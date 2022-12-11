@@ -1,5 +1,5 @@
-﻿using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System;
+using System.Net.Http;
 
 namespace Clasharp.Utils;
 
@@ -15,4 +15,13 @@ public static class HttpClientHolder
             {"User-Agent", "Clasharp/1.0 (Prefer clash format)"}
         }
     };
+
+    public static HttpClient For(string url, int timeoutSeconds = 1)
+    {
+        return new HttpClient
+        {
+            BaseAddress = new Uri(url),
+            Timeout = TimeSpan.FromSeconds(timeoutSeconds)
+        };
+    }
 }
