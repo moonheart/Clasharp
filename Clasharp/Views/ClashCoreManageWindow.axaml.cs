@@ -5,7 +5,7 @@ using Clasharp.ViewModels;
 
 namespace Clasharp.Views;
 
-public partial class ClashCoreManageWindow : ReactiveWindow<ClashCoreManageViewModel>
+public partial class ClashCoreManageWindow : WindowBase<ClashCoreManageViewModel>
 {
     public ClashCoreManageWindow()
     {

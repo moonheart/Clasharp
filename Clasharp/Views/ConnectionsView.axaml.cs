@@ -13,7 +13,7 @@ using Clasharp.Models.Connections;
 
 namespace Clasharp.Views;
 
-public partial class ConnectionsView : ReactiveUserControl<ConnectionsViewModel>
+public partial class ConnectionsView : UserControlBase<ConnectionsViewModel>
 {
     public ConnectionsView()
     {

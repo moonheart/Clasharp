@@ -10,7 +10,7 @@ using ReactiveUI;
 
 namespace Clasharp.Views;
 
-public partial class ClashLogsView : ReactiveUserControl<ClashLogsViewModel>
+public partial class ClashLogsView : UserControlBase<ClashLogsViewModel>
 {
     public ClashLogsView()
     {

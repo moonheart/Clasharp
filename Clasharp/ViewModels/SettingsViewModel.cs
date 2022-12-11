@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using Avalonia;
 using Clasharp.Interfaces;
 using Clasharp.Models.ServiceMode;
 using Clasharp.Models.Settings;
@@ -47,7 +48,7 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
             }
             catch (Exception e)
             {
-                MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Error", e.Message);
+                await ShowError.Handle((e, false));
             }
         });
         UninstallService = ReactiveCommand.CreateFromTask(async _ =>
@@ -58,7 +59,7 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
             }
             catch (Exception e)
             {
-                MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Error", e.Message);
+                await ShowError.Handle((e, false));
             }
         });
         StartService = ReactiveCommand.CreateFromTask(async _ =>
@@ -69,7 +70,7 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
             }
             catch (Exception e)
             {
-                MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Error", e.Message);
+                await ShowError.Handle((e, false));
             }
         });
         StopService = ReactiveCommand.CreateFromTask(async _ =>
@@ -80,7 +81,7 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
             }
             catch (Exception e)
             {
-                MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Error", e.Message);
+                await ShowError.Handle((e, false));
             }
         });
     }

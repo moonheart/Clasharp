@@ -39,9 +39,7 @@ public class RunEvaluatedCommand : PlatformSpecificOperation<string, string, Com
         };
         process.Start();
         await process.WaitForExitAsync();
-        // var output = await process.StandardError.ReadToEndAsync();
-        // var output = await process.StandardOutput.ReadToEndAsync();
-        return new CommandResult(process.ExitCode, "cannot get output");
+        return new CommandResult(process.ExitCode, "cannot get output of evaluated process output on windows");
     }
 
     protected override async Task<CommandResult> DoForLinux(string filename, string arguments)

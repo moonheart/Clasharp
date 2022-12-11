@@ -8,7 +8,7 @@ using ReactiveUI;
 
 namespace Clasharp.Views;
 
-public partial class ProxyGroupListView : ReactiveUserControl<ProxyGroupListViewModel>
+public partial class ProxyGroupListView : UserControlBase<ProxyGroupListViewModel>
 {
     public ProxyGroupListView()
     {

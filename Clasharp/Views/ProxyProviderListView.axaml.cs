@@ -5,7 +5,7 @@ using ReactiveUI;
 
 namespace Clasharp.Views;
 
-public partial class ProxyProviderListView : ReactiveUserControl<ProxyProviderListViewModel>
+public partial class ProxyProviderListView : UserControlBase<ProxyProviderListViewModel>
 {
     public ProxyProviderListView()
     {

@@ -4,7 +4,7 @@ using Clasharp.ViewModels;
 
 namespace Clasharp.Views;
 
-public partial class ClashInfoView : ReactiveUserControl<ClashInfoViewModel>
+public partial class ClashInfoView : UserControlBase<ClashInfoViewModel>
 {
     public ClashInfoView()
     {

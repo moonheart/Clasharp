@@ -4,7 +4,7 @@ using Clasharp.ViewModels;
 
 namespace Clasharp.Views
 {
-    public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
+    public partial class MainWindow : WindowBase<MainWindowViewModel>
     {
         public MainWindow()
         {

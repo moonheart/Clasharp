@@ -10,12 +10,15 @@ using ReactiveUI;
 
 namespace Clasharp.Views;
 
-public partial class SettingsView : ReactiveUserControl<SettingsViewModel>
+public partial class SettingsView : UserControlBase<SettingsViewModel>
 {
     public SettingsView()
     {
         InitializeComponent();
-        this.WhenActivated(d => d(ViewModel?.OpenManageCoreWindow.RegisterHandler(Handler)!));
+        this.WhenActivated(d =>
+        {
+            d(ViewModel?.OpenManageCoreWindow.RegisterHandler(Handler)!);
+        });
     }
 
     private async Task Handler(InteractionContext<Unit, Unit> arg)

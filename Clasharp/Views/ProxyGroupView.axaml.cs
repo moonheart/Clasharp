@@ -6,7 +6,7 @@ using Clasharp.ViewModels;
 
 namespace Clasharp.Views;
 
-public partial class ProxyGroupView : ReactiveUserControl<ProxyGroupViewModel>
+public partial class ProxyGroupView : UserControlBase<ProxyGroupViewModel>
 {
     public ProxyGroupView()
     {

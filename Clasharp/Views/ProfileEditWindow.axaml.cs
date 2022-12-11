@@ -11,7 +11,7 @@ using ReactiveUI;
 
 namespace Clasharp.Views;
 
-public partial class ProfileEditWindow : ReactiveWindow<ProfileEditViewModel>
+public partial class ProfileEditWindow : WindowBase<ProfileEditViewModel>
 {
     public ProfileEditWindow()
     {

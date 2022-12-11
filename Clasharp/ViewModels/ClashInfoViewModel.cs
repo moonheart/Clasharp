@@ -41,7 +41,7 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
             }
             catch (Exception e)
             {
-                await MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Error", e.Message).Show();
+                await ShowError.Handle((e, false));
             }
         });
 

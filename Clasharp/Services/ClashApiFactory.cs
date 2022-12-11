@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Clasharp.Clash;
 using Refit;
+using Serilog;
 
 namespace Clasharp.Services;
 
@@ -29,16 +29,21 @@ public class ClashApiFactory : IClashApiFactory
 
     public void SetPort(int port)
     {
+        var refitSettings = new RefitSettings();
+        refitSettings.ExceptionFactory = async message =>
+        {
+            var exception = await new DefaultApiExceptionFactory(refitSettings).CreateAsync(message);
+            if (exception != null)
+            {
+                Log.Error(exception, "Failed to execute Api request");
+            }
+
+            return exception;
+        };
         _api = RestService.For<IClashControllerApi>(new HttpClient()
         {
             BaseAddress = new Uri($"http://localhost:{port}"),
             Timeout = TimeSpan.FromSeconds(1)
-        }, new RefitSettings()
-        {
-            ExceptionFactory = message =>
-            {
-                return Task.FromResult<Exception?>(null);
-            },
-        });
+        }, refitSettings);
     }
 }

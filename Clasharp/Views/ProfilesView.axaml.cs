@@ -11,7 +11,7 @@ using Splat;
 
 namespace Clasharp.Views;
 
-public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
+public partial class ProfilesView : UserControlBase<ProfilesViewModel>
 {
     public ProfilesView()
     {

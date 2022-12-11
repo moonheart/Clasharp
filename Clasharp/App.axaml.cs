@@ -40,7 +40,6 @@ namespace Clasharp
 
         public override void OnFrameworkInitializationCompleted()
         {
-            Log.Information("OnFrameworkInitializationCompleted");
             SetupSuspensionHost();
             SetupAutofac();
             SetupLifetime();

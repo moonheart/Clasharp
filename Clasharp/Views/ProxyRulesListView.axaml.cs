@@ -8,7 +8,7 @@ using Clasharp.ViewModels;
 
 namespace Clasharp.Views;
 
-public partial class ProxyRulesListView : ReactiveUserControl<ProxyRulesListViewModel>
+public partial class ProxyRulesListView : UserControlBase<ProxyRulesListViewModel>
 {
     public ProxyRulesListView()
     {
