@@ -9,5 +9,5 @@ public static class GlobalConfigs
     public static string ProfilesDir = Path.Combine(ProgramHome, "profiles/");
     public const string CoreServiceName = "clasharp-core-service"; 
     public const string CoreServiceDesc = "Clasharp Core Service"; 
-    public const int ClashServicePort = 62134;
+    public const int ClashServicePort = 61234;
 }

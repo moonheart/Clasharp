@@ -34,6 +34,7 @@ public class InstallService : PlatformSpecificOperation<string, string, string, 
 
     protected override async Task<int> DoForLinux(string serviceName, string desc, string exePath)
     {
+        var workDir = Path.GetDirectoryName(exePath);
         var unitFileContent = @$"
 [Unit]
 Description={desc}
@@ -43,12 +44,13 @@ Wants=network-online.target
 Restart=always
 Type=simple
 ExecStart={exePath}
+WorkingDirectory={workDir}
 [Install]
 WantedBy=multi-user.target";
         var tempFile = Path.GetTempFileName();
         await File.WriteAllTextAsync(tempFile, unitFileContent);
         var result = await _evaluatedCommand.Exec("sh",
-            $"-c 'cp {tempFile} /etc/systemd/system/{serviceName}.service && systemctl daemon-reload && systemctl enable {serviceName}.service'");
+            $"-c 'install -m 644 {tempFile} /etc/systemd/system/{serviceName}.service && systemctl daemon-reload && systemctl enable {serviceName}.service'");
         if (result.ExitCode != 0)
         {
             throw new Exception($"Failed to install service {serviceName}: {result.StdOut}");
