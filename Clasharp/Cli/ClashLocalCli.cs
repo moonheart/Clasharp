@@ -12,7 +12,6 @@ public class ClashLocalCli : ClashCliBase
     public ClashLocalCli(IClashApiFactory clashApiFactory, IProfilesService profilesService, AppSettings appSettings)
         : base(clashApiFactory, profilesService, appSettings)
     {
-        _runningState.OnNext(Cli.RunningState.Stopped);
     }
 
     protected override async Task DoStart(string configPath)

@@ -55,6 +55,7 @@ public abstract class ClashCliBase : IClashCli
         _clashApiFactory = clashApiFactory;
         _profilesService = profilesService;
         _appSettings = appSettings;
+        _runningState.OnNext(Cli.RunningState.Stopped);
     }
 
     public async Task Start()

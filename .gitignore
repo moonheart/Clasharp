@@ -5,3 +5,5 @@ obj
 publish
 *.user
 .vscode
+clasharp-*/
+release-dir

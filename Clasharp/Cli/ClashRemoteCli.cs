@@ -40,7 +40,6 @@ public class ClashRemoteCli : ClashCliBase
         _clashApiFactory = clashApiFactory;
         _remoteClash = remoteClash;
         _coreServiceHelper = coreServiceHelper;
-        _runningState.OnNext(Cli.RunningState.Stopped);
     }
 
     private CancellationTokenSource? _cancellationTokenSource;
