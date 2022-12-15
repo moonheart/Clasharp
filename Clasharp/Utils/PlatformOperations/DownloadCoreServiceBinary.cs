@@ -73,7 +73,7 @@ public class DownloadCoreServiceBinary : PlatformSpecificOperation<string?, stri
             }
         }
 
-        await _runEvaluatedCommand.Exec("chmod", $"+x {tempFileName}");
+        await _runEvaluatedCommand.Exec($"chmod +x {tempFileName}");
         return tempFileName;
     }
 }

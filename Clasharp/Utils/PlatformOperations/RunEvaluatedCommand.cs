@@ -4,19 +4,18 @@ using System.Threading.Tasks;
 
 namespace Clasharp.Utils.PlatformOperations;
 
-public class RunEvaluatedCommand : PlatformSpecificOperation<string, string, CommandResult>
+public class RunEvaluatedCommand : PlatformSpecificOperation<string, CommandResult>
 {
     /// <summary>
     /// Execute evaluated command
     /// </summary>
-    /// <param name="filename"></param>
-    /// <param name="arguments"></param>
+    /// <param name="command"></param>
     /// <returns></returns>
-    public override async Task<CommandResult> Exec(string filename, string arguments)
+    public override async Task<CommandResult> Exec(string command)
     {
         try
         {
-            return await base.Exec(filename, arguments);
+            return await base.Exec(command);
         }
         catch (Exception e)
         {
@@ -24,14 +23,14 @@ public class RunEvaluatedCommand : PlatformSpecificOperation<string, string, Com
         }
     }
 
-    protected override async Task<CommandResult> DoForWindows(string filename, string arguments)
+    protected override async Task<CommandResult> DoForWindows(string command)
     {
         var process = new Process
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = filename,
-                Arguments = arguments,
+                FileName = "cmd",
+                Arguments = $"/c {command}",
                 CreateNoWindow = false,
                 UseShellExecute = true,
                 Verb = "runas"
@@ -42,14 +41,14 @@ public class RunEvaluatedCommand : PlatformSpecificOperation<string, string, Com
         return new CommandResult(process.ExitCode, "cannot get output of evaluated process output on windows");
     }
 
-    protected override async Task<CommandResult> DoForLinux(string filename, string arguments)
+    protected override async Task<CommandResult> DoForLinux(string command)
     {
         var process = new Process
         {
             StartInfo = new ProcessStartInfo
             {
                 FileName = "pkexec",
-                ArgumentList = { "sh", "-c", $"{filename} {arguments}" },
+                ArgumentList = { "bash", "-c", $"{command}" },
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             }

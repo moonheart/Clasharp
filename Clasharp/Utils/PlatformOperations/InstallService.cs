@@ -22,8 +22,7 @@ public class InstallService : PlatformSpecificOperation<string, string, string, 
 
     protected override async Task<int> DoForWindows(string serviceName, string desc, string exePath)
     {
-        var result = await _evaluatedCommand.Exec("sc",
-            $"create {serviceName} binPath=\"{exePath}\" start=auto DisplayName=\"{desc}\"");
+        var result = await _evaluatedCommand.Exec($"sc create {serviceName} binPath=\"{exePath}\" start=auto DisplayName=\"{desc}\"");
         if (result.ExitCode != 0)
         {
             throw new Exception($"Failed to install service {serviceName}: {result.StdOut}");
@@ -49,8 +48,7 @@ WorkingDirectory={workDir}
 WantedBy=multi-user.target";
         var tempFile = Path.GetTempFileName();
         await File.WriteAllTextAsync(tempFile, unitFileContent);
-        var result = await _evaluatedCommand.Exec("sh",
-            $"-c 'install -m 644 {tempFile} /etc/systemd/system/{serviceName}.service && systemctl daemon-reload && systemctl enable {serviceName}.service'");
+        var result = await _evaluatedCommand.Exec($"install -m 644 {tempFile} /etc/systemd/system/{serviceName}.service && systemctl daemon-reload && systemctl enable {serviceName}.service");
         if (result.ExitCode != 0)
         {
             throw new Exception($"Failed to install service {serviceName}: {result.StdOut}");

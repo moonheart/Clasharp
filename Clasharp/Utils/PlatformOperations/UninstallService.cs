@@ -20,8 +20,7 @@ public class UninstallService : PlatformSpecificOperation<string, int>
 
     protected override async Task<int> DoForWindows(string serviceName)
     {
-        await _stopService.Exec(serviceName);
-        var result = await _evaluatedCommand.Exec("sc", $"delete {serviceName}");
+        var result = await _evaluatedCommand.Exec($"sc stop {serviceName} && sc delete {serviceName}");
         if (result.ExitCode != 0)
         {
             throw new Exception($"Failed to uninstall service {serviceName}: {result.StdOut}");
@@ -32,8 +31,7 @@ public class UninstallService : PlatformSpecificOperation<string, int>
 
     protected override async Task<int> DoForLinux(string serviceName)
     {
-        await _stopService.Exec(serviceName);
-        var result = await _evaluatedCommand.Exec("sh", $"-c 'rm /etc/systemd/system/{serviceName}.service && systemctl daemon-reload'");
+        var result = await _evaluatedCommand.Exec($"systemctl stop {serviceName} && rm /etc/systemd/system/{serviceName}.service && systemctl daemon-reload");
         if (result.ExitCode != 0)
         {
             throw new Exception($"Failed to uninstall service {serviceName}: {result.StdOut}");
