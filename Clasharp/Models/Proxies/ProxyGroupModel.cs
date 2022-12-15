@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using ReactiveUI;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Clasharp.Clash.Models.Proxies;
@@ -13,12 +11,12 @@ using ReactiveUI.Fody.Helpers;
 
 namespace Clasharp.ViewModels;
 
-public class ProxyGroupViewModel : ViewModelBase, IProxyGroupViewModel
+public class ProxyGroupModel : ReactiveObject
 {
     private readonly ProxyGroup _proxyGroup;
     private Func<string, string, Task> _setProxy;
 
-    public ProxyGroupViewModel(ProxyGroup proxyGroup, Func<string, string, Task> setProxy)
+    public ProxyGroupModel(ProxyGroup proxyGroup, Func<string, string, Task> setProxy)
     {
         _proxyGroup = proxyGroup;
         _setProxy = setProxy;
@@ -51,7 +49,7 @@ public class ProxyGroupViewModel : ViewModelBase, IProxyGroupViewModel
 
     public override bool Equals(object? obj)
     {
-        if (obj is ProxyGroupViewModel other)
+        if (obj is ProxyGroupModel other)
         {
             return _proxyGroup.All.SequenceEqual(other._proxyGroup.All)
                    && Equals(_proxyGroup.Name, other._proxyGroup.Name)

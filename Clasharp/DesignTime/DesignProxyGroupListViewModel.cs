@@ -6,5 +6,5 @@ namespace Clasharp.DesignTime;
 
 public class DesignProxyGroupListViewModel : ViewModelBase, IProxyGroupListViewModel
 {
-    public ReadOnlyObservableCollection<IProxyGroupViewModel> ProxyGroupViewModels { get; }
+    public ReadOnlyObservableCollection<ProxyGroupModel> ProxyGroupViewModels { get; }
 }
