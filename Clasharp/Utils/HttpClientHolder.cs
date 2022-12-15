@@ -16,7 +16,7 @@ public static class HttpClientHolder
         }
     };
 
-    public static HttpClient For(string url, int timeoutSeconds = 1)
+    public static HttpClient For(string url, int timeoutSeconds = 10)
     {
         return new HttpClient
         {
