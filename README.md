@@ -9,6 +9,12 @@ Clasharp uses [Meta Kernel](https://github.com/MetaCubeX/Clash.Meta) as backend.
 
 This is a WIP project.
 
+## Disclaimer
+
+This is a learning project for C# / Avalonia cross platform gui practice.
+
+Please comply with local laws and regulations.
+
 ## Screenshots
 
 ![dashboard](images/dashboard.png)
