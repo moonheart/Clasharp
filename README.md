@@ -83,6 +83,7 @@ Please comply with local laws and regulations.
   - [x] Download Core
   - [x] Custom Download Url
   - [ ] Check for Update
+  - [ ] Auto Update for Alpha Kernel
 - [ ] Self Update
 - [x] Tray Icon
 - [ ] Set System Proxy
