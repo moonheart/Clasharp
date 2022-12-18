@@ -27,6 +27,6 @@ function publish([string]$configuration, [string]$rid)
     Compress-Archive -Force -Path clasharp-"$rid" -DestinationPath ./release-dir/clasharp-"$rid"-"$configuration".zip
 }
 
-#publish -configuration $configuration -rid "win-x64"
+publish -configuration $configuration -rid "win-x64"
 publish -configuration $configuration -rid "linux-x64"
 
