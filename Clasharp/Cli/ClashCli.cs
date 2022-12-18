@@ -67,7 +67,7 @@ public class ClashCli : IClashCli
                 break;
             case SystemProxyMode.SetProxy when _currentConfig != null:
             {
-                await ProxyUtils.SetSystemProxy($"http://127.0.0.1:{_currentConfig.MixedPort ?? _currentConfig.Port}", "");
+                await ProxyUtils.SetSystemProxy("127.0.0.1", _currentConfig.MixedPort ?? _currentConfig.Port ?? throw new Exception("No valid proxy port"), Array.Empty<string>());
                 break;
             }
         }

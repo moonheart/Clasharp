@@ -4,19 +4,18 @@ using System.Threading.Tasks;
 
 namespace Clasharp.Utils.PlatformOperations;
 
-public class RunNormalCommand : PlatformSpecificOperation<string, string, CommandResult>
+public class RunNormalCommand : PlatformSpecificOperation<string, CommandResult>
 {
     /// <summary>
-    /// Execute evaluated command
+    /// Execute normal command
     /// </summary>
-    /// <param name="filename"></param>
-    /// <param name="arguments"></param>
+    /// <param name="command"></param>
     /// <returns></returns>
-    public override async Task<CommandResult> Exec(string filename, string arguments)
+    public override async Task<CommandResult> Exec(string command)
     {
         try
         {
-            return await base.Exec(filename, arguments);
+            return await base.Exec(command);
         }
         catch (Exception e)
         {
@@ -24,14 +23,14 @@ public class RunNormalCommand : PlatformSpecificOperation<string, string, Comman
         }
     }
 
-    protected override async Task<CommandResult> DoForWindows(string filename, string arguments)
+    protected override async Task<CommandResult> DoForWindows(string command)
     {
         var process = new Process
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = filename,
-                Arguments = arguments,
+                FileName = "cmd",
+                Arguments = $"/c {command}",
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
@@ -44,14 +43,14 @@ public class RunNormalCommand : PlatformSpecificOperation<string, string, Comman
         return new CommandResult(process.ExitCode, output);
     }
 
-    protected override async Task<CommandResult> DoForLinux(string filename, string arguments)
+    protected override async Task<CommandResult> DoForLinux(string command)
     {
         var process = new Process
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = filename,
-                Arguments = arguments,
+                FileName = "sh",
+                Arguments = $"-c '{command}'",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             }
