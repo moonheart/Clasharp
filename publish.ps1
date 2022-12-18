@@ -2,10 +2,14 @@
 
 $ErrorActionPreference = "Stop"
 
+
+Remove-Item -Recurse -Force ./release-dir/ -ErrorAction Ignore
+Remove-Item -Recurse -Force ./clasharp-win-x64/ -ErrorAction Ignore
+Remove-Item -Recurse -Force ./clasharp-linux-x64/ -ErrorAction Ignore
+New-Item -Force -Path ./release-dir/ -Type Directory
+
 dotnet restore
 dotnet build
-
-mkdir -Force ./release-dir/
 
 function publish([string]$configuration, [string]$rid)
 {
@@ -23,6 +27,6 @@ function publish([string]$configuration, [string]$rid)
     Compress-Archive -Force -Path clasharp-"$rid" -DestinationPath ./release-dir/clasharp-"$rid"-"$configuration".zip
 }
 
-publish -configuration $configuration -rid "win-x64"
+#publish -configuration $configuration -rid "win-x64"
 publish -configuration $configuration -rid "linux-x64"
 

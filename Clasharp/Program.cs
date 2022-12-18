@@ -4,6 +4,7 @@ using System;
 using System.Reactive;
 using System.Threading.Tasks;
 using Avalonia.Logging;
+using Avalonia.Media;
 using ReactiveUI;
 using Serilog;
 
@@ -48,6 +49,10 @@ namespace Clasharp
             return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace(LogEventLevel.Debug)
+                .With(new FontManagerOptions()
+                {
+                    DefaultFamilyName = "Noto Sans"
+                })
                 .UseReactiveUI();
         }
     }
