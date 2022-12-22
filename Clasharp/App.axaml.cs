@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Autofac;
 using Avalonia;
 using Avalonia.Controls;
@@ -41,7 +42,13 @@ namespace Clasharp
             SetupSuspensionHost();
             SetupAutofac();
             SetupLifetime();
-            StartMainWindow();
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                if (desktop.Args.Length <= 0 || desktop.Args.All(d => d != "--autostart"))
+                {
+                    StartMainWindow(desktop);
+                }
+            }
             base.OnFrameworkInitializationCompleted();
         }
 
@@ -54,10 +61,9 @@ namespace Clasharp
             }
         }
 
-        private void StartMainWindow()
+        private void StartMainWindow(IClassicDesktopStyleApplicationLifetime desktop)
         {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
+                
                 if (desktop.MainWindow is not {IsVisible: true})
                 {
                     desktop.MainWindow = new MainWindow
@@ -68,7 +74,7 @@ namespace Clasharp
 
                 desktop.MainWindow.Show();
                 desktop.MainWindow.Activate();
-            }
+            
         }
 
         private static void SetupAutofac()
@@ -135,7 +141,8 @@ namespace Clasharp
 
         private void TrayIcon_OnClicked(object? sender, EventArgs e)
         {
-            StartMainWindow();
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                StartMainWindow(desktop);
         }
     }
 }
