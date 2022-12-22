@@ -54,7 +54,7 @@ public class ClashCoreManageViewModel : ViewModelBase, IClashCoreManageViewModel
     private async Task<string> GetClashVersion()
     {
         var clashExePath = _getClashExePath.Exec().Result;
-        var result = await new RunNormalCommand().Exec(clashExePath, "-v");
+        var result = await new RunNormalCommand().Exec($"{clashExePath} -v");
         return result.StdOut;
     }
 
