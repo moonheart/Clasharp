@@ -43,6 +43,10 @@
                 </ListBox>
             </StackPanel>
             <StackPanel Classes="SettingLine">
+                <TextBlock Classes="SettingHeader" Text="Start With System" />
+                <Button Command="{Binding SetAutoStart}" Content="Set"></Button>
+            </StackPanel>
+            <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="Manage Core Binary" />
                 <Button Command="{Binding ManageCore}" Content="Manage"></Button>
             </StackPanel>

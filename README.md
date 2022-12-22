@@ -63,7 +63,7 @@ Please comply with local laws and regulations.
     - [x] Ipv6
     - [x] External Controller
     - [x] Mixed Port
-    - [ ] Start With System
+    - [x] Start With System
     - [x] Clash Core Management
   - [x] Subscriptions
     - [x] Update
@@ -75,7 +75,7 @@ Please comply with local laws and regulations.
   - [x] Uninstall Core Service
 - [ ] Start with System
   - [ ] Windows
-  - [ ] Linux
+  - [x] Linux
 - [ ] Builtin SubConverter
 - [ ] Connect To Remote Backend
 - [ ] Dark Theme

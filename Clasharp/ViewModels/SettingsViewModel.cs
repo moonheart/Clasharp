@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using Avalonia;
 using Clasharp.Interfaces;
 using Clasharp.Models.ServiceMode;
 using Clasharp.Models.Settings;
 using Clasharp.Utils;
+using Clasharp.Utils.PlatformOperations;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Path = System.IO.Path;
 
 namespace Clasharp.ViewModels;
 
@@ -84,6 +86,18 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
                 await ShowError.Handle((e, false));
             }
         });
+        SetAutoStart = ReactiveCommand.CreateFromTask(async _ =>
+        {
+            try
+            {
+                await new SetAutoStart().Exec(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Process.GetCurrentProcess().ProcessName));
+                await MessageBox.Show("Success", "Success set auto start ");
+            }
+            catch (Exception e)
+            {
+                await ShowError.Handle((e, false));
+            }
+        });
     }
 
     [Reactive]
@@ -106,6 +120,7 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     public ReactiveCommand<Unit, Unit> UninstallService { get; }
     public ReactiveCommand<Unit, Unit> StartService { get; }
     public ReactiveCommand<Unit, Unit> StopService { get; }
+    public ReactiveCommand<Unit, Unit> SetAutoStart { get; }
     public ReactiveCommand<Unit, Unit> ManageCore { get; }
     public Interaction<Unit, Unit> OpenManageCoreWindow { get; }
 }

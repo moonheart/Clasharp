@@ -30,19 +30,19 @@ public abstract class PlatformSpecificOperation<TResult>
     protected virtual Task<TResult> DoForWindows()
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 
     protected virtual Task<TResult> DoForLinux()
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 
     protected virtual Task<TResult> DoForOsx()
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 }
 
@@ -72,19 +72,19 @@ public abstract class PlatformSpecificOperation<T1, TResult>
     protected virtual Task<TResult> DoForWindows(T1 t1)
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 
     protected virtual Task<TResult> DoForLinux(T1 t1)
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 
     protected virtual Task<TResult> DoForOsx(T1 t1)
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 }
 
@@ -114,19 +114,19 @@ public abstract class PlatformSpecificOperation<T1, T2, TResult>
     protected virtual Task<TResult> DoForWindows(T1 t1, T2 t2)
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 
     protected virtual Task<TResult> DoForLinux(T1 t1, T2 t2)
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 
     protected virtual Task<TResult> DoForOsx(T1 t1, T2 t2)
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 }
 
@@ -156,18 +156,18 @@ public abstract class PlatformSpecificOperation<T1, T2, T3, TResult>
     protected virtual Task<TResult> DoForWindows(T1 t1, T2 t2, T3 t3)
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 
     protected virtual Task<TResult> DoForLinux(T1 t1, T2 t2, T3 t3)
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 
     protected virtual Task<TResult> DoForOsx(T1 t1, T2 t2, T3 t3)
     {
         throw new InvalidOperationException(
-            $"Operation no implemented on current platform: {RuntimeInformation.OSDescription}");
+            $"Operation {GetType().Name} not implemented on current platform: {RuntimeInformation.OSDescription}");
     }
 }
