@@ -35,10 +35,12 @@ public class SetProxy: PlatformSpecificOperation<string, int, string[], int>
     }
     private async Task SetForPlasma(string host, int port, string[] exceptions)
     {
-        await _runNormalCommand.Exec("kwriteconfig --file kioslaverc --group 'Proxy Settings' --key ProxyType 1");
-        await _runNormalCommand.Exec($"kwriteconfig --file kioslaverc --group 'Proxy Settings' --key httpProxy \"http://{host}:{port}\"");
-        await _runNormalCommand.Exec($"kwriteconfig --file kioslaverc --group 'Proxy Settings' --key httpsProxy \"http://{host}:{port}\"");
-        await _runNormalCommand.Exec($"kwriteconfig --file kioslaverc --group 'Proxy Settings' --key ftpProxy \"http://{host}:{port}\"");
-        await _runNormalCommand.Exec($"kwriteconfig --file kioslaverc --group 'Proxy Settings' --key socksProxy \"http://{host}:{port}\"");
+        var kwrite = "kwriteconfig5 --file kioslaverc --group 'Proxy Settings'";
+        await _runNormalCommand.Exec($"{kwrite} --key ProxyType 1");
+        await _runNormalCommand.Exec($"{kwrite} --key httpProxy \"http://{host}:{port}\"");
+        await _runNormalCommand.Exec($"{kwrite} --key httpsProxy \"http://{host}:{port}\"");
+        await _runNormalCommand.Exec($"{kwrite} --key ftpProxy \"http://{host}:{port}\"");
+        await _runNormalCommand.Exec($"{kwrite} --key socksProxy \"http://{host}:{port}\"");
+        await _runNormalCommand.Exec($"{kwrite} --key NoProxyFor \"{string.Join(',', exceptions)}");
     }
 }
