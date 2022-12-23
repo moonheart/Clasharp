@@ -86,6 +86,6 @@ Please comply with local laws and regulations.
   - [ ] Auto Update for Alpha Kernel
 - [ ] Self Update
 - [x] Tray Icon
-- [ ] Set System Proxy
+- [x] Set System Proxy
   - [x] Windows
-  - [ ] Linux
+  - [x] Linux
