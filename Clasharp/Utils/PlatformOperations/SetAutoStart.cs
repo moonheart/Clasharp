@@ -23,7 +23,7 @@ public class SetAutoStart : PlatformSpecificOperation<string, int>
         var startup = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
         var link = Path.Combine(startup, "Clasharp.lnk");
         await _runNormalCommand.Exec(
-            $"powershell \"$s=(New-Object -COM WScript.Shell).CreateShortcut('{link}');$s.TargetPath='{path}';$s.Save()\"");
+            $"powershell \"$s=(New-Object -COM WScript.Shell).CreateShortcut('{link} --autostart');$s.TargetPath='{path}';$s.Save()\"");
         return 0;
     }
 
