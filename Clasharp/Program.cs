@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
-using System.Reactive;
+using System.IO;
 using System.Threading.Tasks;
 using Avalonia.Logging;
 using Avalonia.Media;
@@ -20,13 +20,16 @@ namespace Clasharp
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.File("log.log", Serilog.Events.LogEventLevel.Debug,
-                    flushToDiskInterval: TimeSpan.FromSeconds(1), fileSizeLimitBytes: 1024 * 1024 * 10)
+                .WriteTo.File(
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log.log"),
+                    Serilog.Events.LogEventLevel.Debug,
+                    flushToDiskInterval: TimeSpan.FromSeconds(1),
+                    fileSizeLimitBytes: 1024 * 1024 * 10)
                 .CreateLogger();
 
             TaskScheduler.UnobservedTaskException += ExceptionHandler.Handler;
             RxApp.DefaultExceptionHandler = ExceptionHandler.RxHandler;
-            
+
             try
             {
                 BuildAvaloniaApp()
@@ -40,7 +43,6 @@ namespace Clasharp
             {
                 Log.CloseAndFlush();
             }
-            
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.
