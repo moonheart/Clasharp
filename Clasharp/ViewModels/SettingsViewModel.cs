@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using Avalonia.Themes.Fluent;
 using Clasharp.Interfaces;
 using Clasharp.Models.ServiceMode;
 using Clasharp.Models.Settings;
@@ -26,7 +27,9 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
         SystemProxyModes = EnumHelper.GetAllEnumValues<SystemProxyMode>().ToList();
         UseServiceMode = appSettings.UseServiceMode;
         SystemProxyMode = appSettings.SystemProxyMode;
+        ThemeMode = appSettings.ThemeMode;
 
+        this.WhenAnyValue(d => d.ThemeMode).Subscribe(d => appSettings.ThemeMode = d);
         this.WhenAnyValue(d => d.SystemProxyMode)
             .Subscribe(d => appSettings.SystemProxyMode = d);
         this.WhenAnyValue(d => d.UseServiceMode)
@@ -38,10 +41,7 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
         serviceStatus.Select(d => d == ServiceStatus.Running).ToPropertyEx(this, d => d.IsCoreServiceRunning);
 
         OpenManageCoreWindow = new Interaction<Unit, Unit>();
-        ManageCore = ReactiveCommand.CreateFromTask(async _ =>
-        {
-            await OpenManageCoreWindow.Handle(Unit.Default);
-        });
+        ManageCore = ReactiveCommand.CreateFromTask(async _ => { await OpenManageCoreWindow.Handle(Unit.Default); });
         InstallService = ReactiveCommand.CreateFromTask(async _ =>
         {
             try
@@ -90,7 +90,8 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
         {
             try
             {
-                await new SetAutoStart().Exec(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Process.GetCurrentProcess().ProcessName));
+                await new SetAutoStart().Exec(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    Process.GetCurrentProcess().ProcessName));
                 await MessageBox.Show("Success", "Success set auto start ");
             }
             catch (Exception e)
@@ -99,6 +100,9 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
             }
         });
     }
+
+    [Reactive]
+    public FluentThemeMode ThemeMode { get; set; }
 
     [Reactive]
     public SystemProxyMode SystemProxyMode { get; set; }

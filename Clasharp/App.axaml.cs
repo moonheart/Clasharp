@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+using Avalonia.Themes.Fluent;
 using Avalonia.Threading;
 using Clasharp.Cli;
 using Clasharp.Interfaces;
@@ -42,13 +43,6 @@ namespace Clasharp
             SetupSuspensionHost();
             SetupAutofac();
             SetupLifetime();
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                if (desktop.Args.Length <= 0 || desktop.Args.All(d => d != "--autostart"))
-                {
-                    StartMainWindow(desktop);
-                }
-            }
             base.OnFrameworkInitializationCompleted();
         }
 
@@ -58,23 +52,33 @@ namespace Clasharp
             {
                 desktop.ShutdownRequested += (sender, args) => { Locator.Current.GetService<IClashCli>()?.Stop(); };
                 desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                if (desktop.Args.Length <= 0 || desktop.Args.All(d => d != "--autostart"))
+                {
+                    StartMainWindow(desktop);
+                }
             }
+
+            Locator.Current.GetService<AppSettings>().WhenAnyValue(d => d.ThemeMode).Subscribe(theme =>
+            {
+                if (Styles.FirstOrDefault(d => d is FluentTheme) is FluentTheme fluentTheme)
+                {
+                    fluentTheme.Mode = theme;
+                }
+            });
         }
 
         private void StartMainWindow(IClassicDesktopStyleApplicationLifetime desktop)
         {
-                
-                if (desktop.MainWindow is not {IsVisible: true})
+            if (desktop.MainWindow is not {IsVisible: true})
+            {
+                desktop.MainWindow = new MainWindow
                 {
-                    desktop.MainWindow = new MainWindow
-                    {
-                        DataContext = Locator.Current.GetService<IMainWindowViewModel>(),
-                    };
-                }
+                    DataContext = Locator.Current.GetService<IMainWindowViewModel>(),
+                };
+            }
 
-                desktop.MainWindow.Show();
-                desktop.MainWindow.Activate();
-            
+            desktop.MainWindow.Show();
+            desktop.MainWindow.Activate();
         }
 
         private static void SetupAutofac()

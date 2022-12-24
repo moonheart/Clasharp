@@ -65,6 +65,7 @@ Please comply with local laws and regulations.
     - [x] Mixed Port
     - [x] Start With System
     - [x] Clash Core Management
+    - [x] Light/Dark Theme Switch
   - [x] Subscriptions
     - [x] Update
 - [x] Service Mode
@@ -78,7 +79,7 @@ Please comply with local laws and regulations.
   - [x] Linux
 - [ ] Builtin SubConverter
 - [ ] Connect To Remote Backend
-- [ ] Dark Theme
+- [x] Dark Theme
 - [x] Clash Meta Core Management
   - [x] Download Core
   - [x] Custom Download Url

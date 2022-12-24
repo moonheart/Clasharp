@@ -47,6 +47,11 @@
                 <Button Command="{Binding SetAutoStart}" Content="Set"></Button>
             </StackPanel>
             <StackPanel Classes="SettingLine">
+                <TextBlock Classes="SettingHeader" Text="Theme" />
+                <ComboBox SelectedItem="{Binding ThemeMode, Mode=TwoWay}" x:Name="ThemeComboBox">
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="Manage Core Binary" />
                 <Button Command="{Binding ManageCore}" Content="Manage"></Button>
             </StackPanel>

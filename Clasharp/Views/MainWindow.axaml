@@ -33,7 +33,7 @@
                     </ListBox.ItemTemplate>
                     <ListBox.Styles>
                         <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                            <Setter Property="Background" Value="White"></Setter>
+                            <Setter Property="Background" Value="{DynamicResource ListBoxItemSelectedBackgroundThemeBrush}"></Setter>
                         </Style>
                     </ListBox.Styles>
                 </ListBox>

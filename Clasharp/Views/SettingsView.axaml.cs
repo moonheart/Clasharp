@@ -1,10 +1,11 @@
-﻿using System.Reactive;
+﻿using System.Collections.Generic;
+using System.Reactive;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
+using Avalonia.Themes.Fluent;
 using Clasharp.ViewModels;
 using ReactiveUI;
 
@@ -19,6 +20,8 @@ public partial class SettingsView : UserControlBase<SettingsViewModel>
         {
             d(ViewModel?.OpenManageCoreWindow.RegisterHandler(Handler)!);
         });
+        this.FindControl<ComboBox>("ThemeComboBox").Items = new List<FluentThemeMode>()
+            {FluentThemeMode.Dark, FluentThemeMode.Light};
     }
 
     private async Task Handler(InteractionContext<Unit, Unit> arg)

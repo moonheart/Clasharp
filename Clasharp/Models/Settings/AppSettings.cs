@@ -1,11 +1,18 @@
 ﻿using System.Collections.Generic;
+using Avalonia.Themes.Fluent;
 using Clasharp.Models.Profiles;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Clasharp.Models.Settings;
 
 public class AppSettings: ReactiveObject
 {
+    public AppSettings()
+    {
+        ThemeMode = FluentThemeMode.Light;
+    }
+
     public SystemProxyMode SystemProxyMode { get; set; }
     public bool UseServiceMode { get; set; }
     public List<Profile> Profiles { get; set; } = new();
@@ -14,6 +21,8 @@ public class AppSettings: ReactiveObject
 
     public ManagedConfigs ManagedFields { get; set; } = new();
 
+    [Reactive]
+    public FluentThemeMode ThemeMode { get; set; }
 }
 
 public class ManagedConfigs: ReactiveObject

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reactive;
-using System.ServiceProcess;
+using Avalonia.Themes.Fluent;
 using Clasharp.Interfaces;
 using Clasharp.Models.ServiceMode;
 using Clasharp.Models.Settings;
@@ -14,6 +14,7 @@ public class DesignSettingsViewModel:ViewModelBase, ISettingsViewModel
     public override string Name => "Settings";
     public string ClashApiAddress { get; set; }
     public ManagedConfigs ManagedFields { get; set; }
+    public FluentThemeMode ThemeMode { get; set; }
     public SystemProxyMode SystemProxyMode { get; set; }
     public bool UseServiceMode { get; set; }
     public bool IsUninstalled { get; set; }
