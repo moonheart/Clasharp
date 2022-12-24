@@ -24,7 +24,7 @@
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
-                    TintColor="Black"
+                    TintColor="{Binding TintColor}"
                     TintOpacity="1"
                     MaterialOpacity="0.8" />
             </ExperimentalAcrylicBorder.Material>
@@ -36,7 +36,7 @@
                     <ExperimentalAcrylicBorder.Material>
                         <ExperimentalAcrylicMaterial
                             BackgroundSource="Digger"
-                            TintColor="Black"
+                            TintColor="{Binding TintColor}"
                             TintOpacity="1"
                             MaterialOpacity="0.6" />
                     </ExperimentalAcrylicBorder.Material>

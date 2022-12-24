@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using System.Reactive;
+using Avalonia.Media;
 using Clasharp.Interfaces;
 using Clasharp.ViewModels;
 using DynamicData;
-using ReactiveUI;
 
 namespace Clasharp.DesignTime
 {
@@ -41,5 +40,6 @@ namespace Clasharp.DesignTime
         public ISettingsViewModel SettingsViewModel { get; }
         public IProfilesViewModel ProfilesViewModel { get; }
         public ObservableCollection<IViewModelBase> Selections { get; }
+        public Color TintColor { get; }
     }
 }

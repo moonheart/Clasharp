@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Avalonia.Media;
 
 namespace Clasharp.Interfaces;
 
@@ -18,4 +19,6 @@ public interface IMainWindowViewModel: IViewModelBase
     IProfilesViewModel ProfilesViewModel { get; }
     
     ObservableCollection<IViewModelBase> Selections { get; }
+    
+    Color TintColor { get; }
 }

@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using System.Reactive;
 using System.Reactive.Linq;
+using Avalonia.Media;
+using Avalonia.Themes.Fluent;
 using Clasharp.Cli;
 using Clasharp.Interfaces;
+using Clasharp.Models.Settings;
 using DynamicData;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -12,16 +14,18 @@ namespace Clasharp.ViewModels
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
         private IClashCli _clashCli;
+
         public MainWindowViewModel(
             IProxiesViewModel proxiesViewModel,
             IClashLogsViewModel clashLogsViewModel,
             IProxyRulesListViewModel proxyRulesListViewModel,
             IConnectionsViewModel connectionsViewModel,
-            IClashInfoViewModel clashInfoViewModel, 
-            IDashboardViewModel dashboardViewModel, 
-            ISettingsViewModel settingsViewModel, 
-            IProfilesViewModel profilesViewModel, 
-            IClashCli clashCli)
+            IClashInfoViewModel clashInfoViewModel,
+            IDashboardViewModel dashboardViewModel,
+            ISettingsViewModel settingsViewModel,
+            IProfilesViewModel profilesViewModel,
+            IClashCli clashCli,
+            AppSettings appSettings)
         {
             _clashCli = clashCli;
             ProxiesViewModel = proxiesViewModel;
@@ -45,7 +49,10 @@ namespace Clasharp.ViewModels
                 SettingsViewModel
             });
             CurrentViewModel = DashboardViewModel;
-            // _ = _clashCli.Start();
+
+            appSettings.WhenAnyValue(d => d.ThemeMode)
+                .Select(d => d == FluentThemeMode.Dark ? Colors.Black : Colors.White)
+                .ToPropertyEx(this, d => d.TintColor);
         }
 
         [Reactive]
@@ -63,5 +70,8 @@ namespace Clasharp.ViewModels
         public IProfilesViewModel ProfilesViewModel { get; }
         public IDashboardViewModel DashboardViewModel { get; }
         public ObservableCollection<IViewModelBase> Selections { get; }
+
+        [ObservableAsProperty]
+        public Color TintColor { get; }
     }
 }
