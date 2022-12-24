@@ -40,24 +40,24 @@
                                 <Setter Property="Background" Value="Transparent"></Setter>
                             </Style>
                             <Style Selector="ListBox ListBoxItem:selected Border">
-                                <Setter Property="Background" Value="Black"></Setter>
+                                <Setter Property="Background" Value="{DynamicResource TextControlForeground}"></Setter>
                             </Style>
                             <Style Selector="ListBox ListBoxItem:selected TextBlock">
-                                <Setter Property="Foreground" Value="White"></Setter>
+                                <Setter Property="Foreground" Value="{DynamicResource TextControlBackground}"></Setter>
                             </Style>
                             <Style Selector="ListBox Border">
                                 <Setter Property="CornerRadius" Value="3"></Setter>
                                 <Setter Property="BorderThickness" Value="1"></Setter>
-                                <Setter Property="BorderBrush" Value="Black"></Setter>
+                                <Setter Property="BorderBrush" Value="{DynamicResource TextControlForeground}"></Setter>
                                 <Setter Property="Padding" Value="2"></Setter>
                             </Style>
                             <Style Selector="ListBox ListBoxItem:disabled TextBlock">
-                                <Setter Property="Foreground" Value="Black"></Setter>
-                                <Setter Property="Background" Value="White"></Setter>
+                                <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}"></Setter>
+                                <Setter Property="Background" Value="{DynamicResource TextControlBackground}"></Setter>
                             </Style>
                             <Style Selector="ListBox ListBoxItem:disabled:selected TextBlock">
-                                <Setter Property="Foreground" Value="White"></Setter>
-                                <Setter Property="Background" Value="Black"></Setter>
+                                <Setter Property="Foreground" Value="{DynamicResource TextControlBackground}"></Setter>
+                                <Setter Property="Background" Value="{DynamicResource TextControlForeground}"></Setter>
                             </Style>
                         </ListBox.Styles>
                     </ListBox>

@@ -20,7 +20,7 @@
             <utils:CustomListBox.ItemTemplate>
                 <DataTemplate>
                     <Border Classes="ProfileContainer" Width="200" CornerRadius="5" BorderThickness="1"
-                            BorderBrush="Black" Margin="3" Padding="3">
+                            BorderBrush="{DynamicResource TextControlForeground}" Margin="3" Padding="3">
                         <Border.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Edit"
@@ -62,18 +62,18 @@
                     <Setter Property="Padding" Value="0"></Setter>
                 </Style>
                 <Style Selector="ListBox ListBoxItem Border.ProfileContainer">
-                    <Setter Property="Background" Value="White"></Setter>
+                    <Setter Property="Background" Value="{DynamicResource TextControlBackground}"></Setter>
                 </Style>
                 <Style Selector="ListBox ListBoxItem:selected Border.ProfileContainer">
                     <Setter Property="Background" Value="Gray"></Setter>
                 </Style>
                 <Style Selector="ListBox ListBoxItem:selected TextBlock">
-                    <Setter Property="Foreground" Value="White"></Setter>
+                    <Setter Property="Foreground" Value="{DynamicResource TextControlBackground}"></Setter>
                 </Style>
                 <Style Selector="ListBox Border">
                     <Setter Property="CornerRadius" Value="3"></Setter>
                     <Setter Property="BorderThickness" Value="1"></Setter>
-                    <Setter Property="BorderBrush" Value="Black"></Setter>
+                    <Setter Property="BorderBrush" Value="{DynamicResource TextControlForeground}"></Setter>
                     <Setter Property="Padding" Value="2"></Setter>
                 </Style>
             </utils:CustomListBox.Styles>

@@ -24,4 +24,8 @@
     <Style Selector="StackPanel.SettingLine TextBox">
         <Setter Property="Width" Value="200"></Setter>
     </Style>
+    <Style Selector="DataGridColumnHeader">
+        <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}"></Setter>
+        <Setter Property="Background" Value="{DynamicResource TextControlBackground}"></Setter>
+    </Style>
 </Styles>

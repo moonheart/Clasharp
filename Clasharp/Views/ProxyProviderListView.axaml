@@ -38,7 +38,7 @@
                                                            Foreground="Green"
                                                            Margin="0,0,0,0" />
                     </StackPanel>
-                    <ItemsControl Background="White" Grid.Row="1" Grid.Column="0" Items="{Binding Proxies}">
+                    <ItemsControl Background="{DynamicResource TextControlBackground}" Grid.Row="1" Grid.Column="0" Items="{Binding Proxies}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border>
@@ -63,7 +63,7 @@
                             <Style Selector="ItemsControl Border">
                                 <Setter Property="CornerRadius" Value="3"></Setter>
                                 <Setter Property="BorderThickness" Value="1"></Setter>
-                                <Setter Property="BorderBrush" Value="Black"></Setter>
+                                <Setter Property="BorderBrush" Value="{DynamicResource TextControlForeground}"></Setter>
                                 <Setter Property="Padding" Value="2"></Setter>
                             </Style>
                         </ItemsControl.Styles>

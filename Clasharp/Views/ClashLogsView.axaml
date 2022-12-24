@@ -10,7 +10,7 @@
         <designTime:DesignClashLogsViewModel />
     </Design.DataContext>
     <ScrollViewer>
-        <ListBox Items="{Binding Logs}" Background="White">
+        <ListBox Items="{Binding Logs}" Background="{DynamicResource TextControlBackground}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
