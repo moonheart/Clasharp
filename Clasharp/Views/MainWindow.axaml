@@ -5,46 +5,69 @@
         xmlns:designTime="clr-namespace:Clasharp.DesignTime"
         xmlns:views="clr-namespace:Clasharp.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        Width="800"
+        Width="810"
         Height="500"
         x:Class="Clasharp.Views.MainWindow"
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/clasharp.ico"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent"
+        ExtendClientAreaToDecorationsHint="True"
         Title="Clasharp">
 
     <Design.DataContext>
         <designTime:DesignMainWindowViewModel />
     </Design.DataContext>
 
-    <Grid
-        ColumnDefinitions="Auto,*">
-        <Grid RowDefinitions="*,Auto"  Width="135">
-                <ListBox Items="{Binding Selections}" SelectedItem="{Binding CurrentViewModel}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border>
-                                <TextBlock
-                                    Text="{Binding Name}"
-                                    FontSize="18"
-                                    FontWeight="DemiBold"
-                                    TextAlignment="Center"
-                                    ></TextBlock>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.Styles>
-                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                            <Setter Property="Background" Value="{DynamicResource ListBoxItemSelectedBackgroundThemeBrush}"></Setter>
-                        </Style>
-                    </ListBox.Styles>
-                </ListBox>
-                <views:ClashInfoView 
-                    Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" 
-                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" 
-                    Grid.Row="1" DataContext="{Binding ClashInfoViewModel}"/>
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    TintColor="Black"
+                    TintOpacity="1"
+                    MaterialOpacity="0.8" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        <Grid
+            ColumnDefinitions="Auto,*">
+            <Panel>
+                <ExperimentalAcrylicBorder IsHitTestVisible="False">
+                    <ExperimentalAcrylicBorder.Material>
+                        <ExperimentalAcrylicMaterial
+                            BackgroundSource="Digger"
+                            TintColor="Black"
+                            TintOpacity="1"
+                            MaterialOpacity="0.6" />
+                    </ExperimentalAcrylicBorder.Material>
+                </ExperimentalAcrylicBorder>
+                <Grid RowDefinitions="*,Auto" Width="135">
+                    <ListBox
+                        Background="Transparent"
+                        Items="{Binding Selections}"
+                        SelectedItem="{Binding CurrentViewModel}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border>
+                                    <TextBlock
+                                        Text="{Binding Name}"
+                                        FontSize="18"
+                                        FontWeight="DemiBold"
+                                        TextAlignment="Center">
+                                    </TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <views:ClashInfoView
+                        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                        Background="Transparent"
+                        Grid.Row="1" DataContext="{Binding ClashInfoViewModel}" />
+                </Grid>
+            </Panel>
+            <Panel Grid.Column="1" DataContext="{Binding CurrentViewModel}" Margin="15 30 15 5">
+                <ContentControl Padding="10 0 10 0" Content="{Binding}"></ContentControl>
+            </Panel>
         </Grid>
-        <Panel Grid.Column="1" DataContext="{Binding CurrentViewModel}">
-            <ContentControl Padding="10 0 10 0" Content="{Binding}"></ContentControl>
-        </Panel>
-    </Grid>
+    </Panel>
 </Window>

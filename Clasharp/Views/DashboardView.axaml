@@ -12,7 +12,7 @@
     <UserControl.Styles>
         <Style Selector="Border.Card">
             <Setter Property="CornerRadius" Value="5" />
-            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderBrush" Value="{DynamicResource TextControlForeground}" />
             <Setter Property="MinWidth" Value="120" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Padding" Value="3" />
@@ -27,10 +27,7 @@
         </Style>
     </UserControl.Styles>
     <Grid RowDefinitions="Auto,Auto,Auto,Auto">
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <!-- <TextBlock Text="{Binding ExternalController}"></TextBlock> -->
-        </StackPanel>
-        <WrapPanel Grid.Row="1">
+        <WrapPanel Grid.Row="0">
             <Border Classes="Card">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Classes="Title" Text="Upload"></TextBlock>
@@ -62,7 +59,7 @@
                 </StackPanel>
             </Border>
         </WrapPanel>
-        <StackPanel Grid.Row="2">
+        <StackPanel Grid.Row="1">
             <lvc:CartesianChart
                 Series="{Binding Series}"
                 YAxes="{Binding YAxes}"
