@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Clasharp.Models.ServiceMode;
 
 namespace Clasharp.Utils.PlatformOperations;
 
 public class UninstallService : PlatformSpecificOperation<string, int>
 {
     private readonly RunEvaluatedCommand _evaluatedCommand = new();
-    private readonly StopService _stopService = new();
+    private readonly GetServiceStatus _getServiceStatus = new();
 
     /// <summary>
     /// Uninstall service
@@ -20,7 +21,14 @@ public class UninstallService : PlatformSpecificOperation<string, int>
 
     protected override async Task<int> DoForWindows(string serviceName)
     {
-        var result = await _evaluatedCommand.Exec($"sc stop {serviceName} && sc delete {serviceName}");
+        CommandResult result;
+
+        var serviceStatus = await _getServiceStatus.Exec(serviceName);
+        if (serviceStatus == ServiceStatus.Running)
+            result = await _evaluatedCommand.Exec($"sc stop {serviceName} && sc delete {serviceName}");
+        else
+            result = await _evaluatedCommand.Exec($"sc delete {serviceName}");
+
         if (result.ExitCode != 0)
         {
             throw new Exception($"Failed to uninstall service {serviceName}: {result.StdOut}");
@@ -31,7 +39,8 @@ public class UninstallService : PlatformSpecificOperation<string, int>
 
     protected override async Task<int> DoForLinux(string serviceName)
     {
-        var result = await _evaluatedCommand.Exec($"systemctl stop {serviceName} && rm /etc/systemd/system/{serviceName}.service && systemctl daemon-reload");
+        var result = await _evaluatedCommand.Exec(
+            $"systemctl stop {serviceName} && rm /etc/systemd/system/{serviceName}.service && systemctl daemon-reload");
         if (result.ExitCode != 0)
         {
             throw new Exception($"Failed to uninstall service {serviceName}: {result.StdOut}");
