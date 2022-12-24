@@ -73,8 +73,8 @@ Please comply with local laws and regulations.
 - [x] Service Mode (Linux)
   - [x] Install Core Service
   - [x] Uninstall Core Service
-- [ ] Start with System
-  - [ ] Windows
+- [x] Start with System
+  - [x] Windows
   - [x] Linux
 - [ ] Builtin SubConverter
 - [ ] Connect To Remote Backend
