@@ -1,5 +1,5 @@
+using Avalonia;
 using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
 using Clasharp.ViewModels;
 
 namespace Clasharp.Views
@@ -9,6 +9,9 @@ namespace Clasharp.Views
         public MainWindow()
         {
             InitializeComponent();
+#if DEBUG
+            this.AttachDevTools();
+#endif
         }
 
         private void InitializeComponent()
