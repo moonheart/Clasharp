@@ -24,10 +24,10 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
-      - name: Setup .NET 6
+      - name: Setup .NET
         uses: actions/setup-dotnet@v3.0.2
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
 
       - name: Verify dotnet info
         run: dotnet --info
