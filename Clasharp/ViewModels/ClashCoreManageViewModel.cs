@@ -3,9 +3,12 @@ using System.IO;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Avalonia.Media;
+using Avalonia.Themes.Fluent;
 using Clasharp.Common;
 using Clasharp.Interfaces;
 using Clasharp.Models.ServiceMode;
+using Clasharp.Models.Settings;
 using Clasharp.Utils.PlatformOperations;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -20,7 +23,7 @@ public class ClashCoreManageViewModel : ViewModelBase, IClashCoreManageViewModel
     private readonly StopService _stopService = new();
     private readonly GetClashExePath _getClashExePath = new();
 
-    public ClashCoreManageViewModel()
+    public ClashCoreManageViewModel(AppSettings appSettings)
     {
         CustomUrl = "";
         Observable.Timer(TimeSpan.Zero)
@@ -49,6 +52,10 @@ public class ClashCoreManageViewModel : ViewModelBase, IClashCoreManageViewModel
             }
         });
         Download.IsExecuting.ToPropertyEx(this, d => d.IsDownloading);
+
+        appSettings.WhenAnyValue(d => d.ThemeMode)
+            .Select(d => d == FluentThemeMode.Dark ? Colors.Black : Colors.White)
+            .ToPropertyEx(this, d => d.TintColor);
     }
 
     private async Task<string> GetClashVersion()
@@ -71,4 +78,7 @@ public class ClashCoreManageViewModel : ViewModelBase, IClashCoreManageViewModel
 
     [ObservableAsProperty]
     public bool IsDownloading { get; }
+
+    [ObservableAsProperty]
+    public Color TintColor { get; }
 }

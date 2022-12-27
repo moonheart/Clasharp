@@ -1,4 +1,5 @@
 ﻿using System.Reactive;
+using Avalonia.Media;
 using Clasharp.Interfaces;
 using Clasharp.ViewModels;
 using ReactiveUI;
@@ -12,4 +13,5 @@ public class DesignClashCoreManageViewModel: ViewModelBase, IClashCoreManageView
     public string CustomUrl { get; set; }
     public ReactiveCommand<Unit, Unit> Download { get; }
     public bool IsDownloading { get; }
+    public Color TintColor { get; }
 }

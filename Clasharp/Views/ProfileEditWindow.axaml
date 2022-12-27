@@ -8,43 +8,60 @@
         Width="500"
         Height="300"
         WindowStartupLocation="CenterOwner"
+        Icon="/Assets/clasharp.ico"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent"
+        ExtendClientAreaToDecorationsHint="True"
         Title="ProfileEditWindow">
     <Design.DataContext>
         <designTime:DesignProfileEditViewModel />
     </Design.DataContext>
-    <StackPanel>
-        <StackPanel Classes="SettingLine">
-            <TextBlock Classes="SettingHeader" Text="Type" />
-            <ComboBox Items="{Binding ProfileTypes}" SelectedItem="{Binding ProfileType, Mode=TwoWay}" />
-        </StackPanel>
-        <StackPanel Classes="SettingLine">
-            <TextBlock Classes="SettingHeader" Text="Name" />
-            <TextBox Text="{Binding Profile.Name, Mode=TwoWay}" />
-        </StackPanel>
-        <StackPanel Classes="SettingLine">
-            <TextBlock Classes="SettingHeader" Text="Description" />
-            <TextBox Text="{Binding Profile.Description, Mode=TwoWay}" />
-        </StackPanel>
-        <StackPanel IsVisible="{Binding IsLocalProfile}">
-            <StackPanel Classes="SettingLine">
-                <TextBlock Classes="SettingHeader" Text="Import From" />
-                <Button Command="{Binding OpenFile}" Content="Select File" />
-                <TextBlock Text="{Binding FromFile}" />
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False" x:Name="AcrylicBorder">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    TintColor="{Binding TintColor}"
+                    TintOpacity="1"
+                    MaterialOpacity="0.8" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        <Border Padding="20 30">
+            <StackPanel>
+                <StackPanel Classes="SettingLine">
+                    <TextBlock Classes="SettingHeader" Text="Type" />
+                    <ComboBox Items="{Binding ProfileTypes}" SelectedItem="{Binding ProfileType, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Classes="SettingLine">
+                    <TextBlock Classes="SettingHeader" Text="Name" />
+                    <TextBox Text="{Binding Profile.Name, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Classes="SettingLine">
+                    <TextBlock Classes="SettingHeader" Text="Description" />
+                    <TextBox Text="{Binding Profile.Description, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel IsVisible="{Binding IsLocalProfile}">
+                    <StackPanel Classes="SettingLine">
+                        <TextBlock Classes="SettingHeader" Text="Import From" />
+                        <Button Command="{Binding OpenFile}" Content="Select File" />
+                        <TextBlock Text="{Binding FromFile}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel IsVisible="{Binding IsRemoteProfile}">
+                    <StackPanel Classes="SettingLine">
+                        <TextBlock Classes="SettingHeader" Text="Url" />
+                        <TextBox Text="{Binding Profile.RemoteUrl, Mode=TwoWay}" />
+                    </StackPanel>
+                    <StackPanel Classes="SettingLine">
+                        <TextBlock Classes="SettingHeader" Text="Auto Update Minute" />
+                        <TextBox Text="{Binding Profile.UpdateInterval, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Classes="SettingLine">
+                    <TextBlock Classes="SettingHeader" Text="" />
+                    <Button Command="{Binding Save}" Content="Save" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <StackPanel IsVisible="{Binding IsRemoteProfile}">
-            <StackPanel Classes="SettingLine">
-                <TextBlock Classes="SettingHeader" Text="Url" />
-                <TextBox Text="{Binding Profile.RemoteUrl, Mode=TwoWay}" />
-            </StackPanel>
-            <StackPanel Classes="SettingLine">
-                <TextBlock Classes="SettingHeader" Text="Auto Update Minute" />
-                <TextBox Text="{Binding Profile.UpdateInterval, Mode=TwoWay}" />
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Classes="SettingLine">
-            <TextBlock Classes="SettingHeader" Text="" />
-            <Button Command="{Binding Save}" Content="Save" />
-        </StackPanel>
-    </StackPanel>
+        </Border>
+    </Panel>
 </Window>

@@ -5,11 +5,14 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Avalonia.Media;
+using Avalonia.Themes.Fluent;
 using Clasharp.Interfaces;
 using Clasharp.Models.Profiles;
 using Clasharp.Services;
 using Clasharp.Utils;
 using Clasharp.Common;
+using Clasharp.Models.Settings;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -61,12 +64,15 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
     // ReSharper disable once UnassignedGetOnlyAutoProperty
     public bool IsLocalProfile { get; }
 
+    [ObservableAsProperty]
+    public Color TintColor { get; }
+
     public ReactiveCommand<Unit, Profile?> Save { get; }
     private Profile? _profileBase;
 
     private IProfilesService _profilesService;
 
-    public ProfileEditViewModel(Profile? profile, IProfilesService profilesService)
+    public ProfileEditViewModel(Profile? profile, IProfilesService profilesService, AppSettings appSettings)
     {
         _profileBase = profile;
         _profilesService = profilesService;
@@ -96,6 +102,10 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
                 FromFile = filename;
             }
         });
+        appSettings.WhenAnyValue(d => d.ThemeMode)
+            .Select(d => d == FluentThemeMode.Dark ? Colors.Black : Colors.White)
+            .ToPropertyEx(this, d => d.TintColor);
+
     }
 
     private async Task<Profile?> SaveProfile()

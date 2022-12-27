@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reactive;
+using Avalonia.Media;
 using Clasharp.Interfaces;
 using Clasharp.Models.Profiles;
 using Clasharp.ViewModels;
@@ -20,4 +20,5 @@ public class DesignProfileEditViewModel:ViewModelBase, IProfileEditViewModel
     public List<ProfileType> ProfileTypes { get; }
     public bool IsRemoteProfile { get; }
     public bool IsLocalProfile { get; }
+    public Color TintColor { get; }
 }

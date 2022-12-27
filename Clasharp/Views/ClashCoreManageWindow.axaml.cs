@@ -1,6 +1,7 @@
-﻿using Avalonia;
+﻿using System.Runtime.InteropServices;
+using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
 using Clasharp.ViewModels;
 
 namespace Clasharp.Views;
@@ -13,6 +14,10 @@ public partial class ClashCoreManageWindow : WindowBase<ClashCoreManageViewModel
 #if DEBUG
         this.AttachDevTools();
 #endif
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            this.FindControl<ExperimentalAcrylicBorder>("AcrylicBorder").IsVisible = false;
+        }
     }
 
     private void InitializeComponent()

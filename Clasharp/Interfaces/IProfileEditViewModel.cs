@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reactive;
+using Avalonia.Media;
 using Clasharp.Models.Profiles;
 using ReactiveUI;
 
@@ -22,4 +22,5 @@ public interface IProfileEditViewModel : IViewModelBase
     bool IsRemoteProfile { get; }
     bool IsLocalProfile { get; }
 
+    Color TintColor { get; }
 }

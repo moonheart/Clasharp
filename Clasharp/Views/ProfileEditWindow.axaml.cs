@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reactive;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -25,6 +26,10 @@ public partial class ProfileEditWindow : WindowBase<ProfileEditViewModel>
             d(ViewModel.ShowOpenFileDialog.RegisterHandler(ShowFileDialog));
             Title = ViewModel.IsCreate ? "Create Profile" : "Edit Profle";
         });
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            this.FindControl<ExperimentalAcrylicBorder>("AcrylicBorder").IsVisible = false;
+        }
     }
 
     private async Task ShowFileDialog(InteractionContext<Unit, string?> interaction)
