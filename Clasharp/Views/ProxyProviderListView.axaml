@@ -38,7 +38,7 @@
                                                            Foreground="Green"
                                                            Margin="0,0,0,0" />
                     </StackPanel>
-                    <ItemsControl Background="{DynamicResource TextControlBackground}" Grid.Row="1" Grid.Column="0" Items="{Binding Proxies}">
+                    <ItemsControl Grid.Row="1" Grid.Column="0" Items="{Binding Proxies}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border>
