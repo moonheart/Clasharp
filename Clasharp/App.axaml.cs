@@ -56,6 +56,11 @@ namespace Clasharp
                 {
                     StartMainWindow(desktop);
                 }
+
+                if (desktop.Args.Any(d => d == "--autostart"))
+                {
+                    Locator.Current.GetService<IClashCli>()?.Start();
+                }
             }
 
             Locator.Current.GetService<AppSettings>().WhenAnyValue(d => d.ThemeMode).Subscribe(theme =>
