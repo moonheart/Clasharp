@@ -96,6 +96,10 @@
                 <TextBlock Classes="SettingHeader" Text="Mixed Port" />
                 <NumericUpDown Minimum="1025" Maximum="65534" Value="{Binding ManagedFields.MixedPort.Value}" />
             </StackPanel>
+            <StackPanel Classes="SettingLine">
+                <TextBlock Classes="SettingHeader" Text="" />
+                <Button Command="{Binding ReloadConfig}" Content="Apply Config"></Button>
+            </StackPanel>
         </StackPanel>
     </Border>
 </UserControl>

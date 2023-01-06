@@ -31,10 +31,10 @@ public abstract class ClashCliBase : IClashCli
     protected Regex _logRegex = new(@"\d{2}\:\d{2}\:\d{2}\s+(?<level>\S+)\s*(?<module>\[.+?\])?\s*(?<payload>.+)");
     protected Regex _logMetaRegex = new(@"time=""(.+?) level=(?<level>.+?) msg=""(?<payload>.+)""");
 
-    protected IClashApiFactory _clashApiFactory;
+    protected IClashApiFactory ClashApiFactory;
     protected GetClashExePath GetClashExePath = new();
-    private IProfilesService _profilesService;
-    private AppSettings _appSettings;
+    private readonly IProfilesService _profilesService;
+    private readonly AppSettings _appSettings;
 
     protected Dictionary<string, LogLevel> _levelsMap = new()
     {
@@ -52,7 +52,7 @@ public abstract class ClashCliBase : IClashCli
 
     protected ClashCliBase(IClashApiFactory clashApiFactory, IProfilesService profilesService, AppSettings appSettings)
     {
-        _clashApiFactory = clashApiFactory;
+        ClashApiFactory = clashApiFactory;
         _profilesService = profilesService;
         _appSettings = appSettings;
         _runningState.OnNext(Cli.RunningState.Stopped);
@@ -63,29 +63,13 @@ public abstract class ClashCliBase : IClashCli
         _runningState.OnNext(Cli.RunningState.Starting);
         try
         {
-            var configYaml = await File.ReadAllTextAsync(await EnsureConfig());
-            var configDic =
-                new DeserializerBuilder().Build().Deserialize(new StringReader(configYaml)) as
-                    Dictionary<object, object>;
-            MergeManagedFields(configDic);
-
-            var mergedYaml = new SerializerBuilder().ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
-                .Build().Serialize(configDic);
-            await File.WriteAllTextAsync(GlobalConfigs.RuntimeClashConfig, mergedYaml);
-            var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(mergedYaml);
-
-            var clashWrapper = new ClashWrapper(new ClashLaunchInfo
-            {
-                ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = await GetClashExePath.Exec(),
-                WorkDir = GlobalConfigs.ProgramHome
-            });
-            clashWrapper.Test();
+            var rawConfig = await GenerateConfig();
 
             await DoStart(GlobalConfigs.RuntimeClashConfig);
 
             var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries)
                 .Last();
-            _clashApiFactory.SetPort(int.Parse(port));
+            ClashApiFactory.SetPort(int.Parse(port));
             _config.OnNext(rawConfig);
             _runningState.OnNext(Cli.RunningState.Started);
         }
@@ -94,6 +78,29 @@ public abstract class ClashCliBase : IClashCli
             _runningState.OnNext(Cli.RunningState.Stopped);
             throw;
         }
+    }
+
+    public async Task<RawConfig> GenerateConfig()
+    {
+        var configYaml = await File.ReadAllTextAsync(await EnsureConfig());
+        var configDic =
+            new DeserializerBuilder().Build().Deserialize(new StringReader(configYaml)) as
+                Dictionary<object, object>;
+        MergeManagedFields(configDic);
+
+        var mergedYaml = new SerializerBuilder().ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
+            .Build().Serialize(configDic);
+        await File.WriteAllTextAsync(GlobalConfigs.RuntimeClashConfig, mergedYaml);
+        var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(mergedYaml);
+
+        var clashWrapper = new ClashWrapper(new ClashLaunchInfo
+        {
+            ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = await GetClashExePath.Exec(),
+            WorkDir = GlobalConfigs.ProgramHome
+        });
+        clashWrapper.Test();
+
+        return rawConfig;
     }
 
     private void MergeManagedFields(Dictionary<object, object> rawConfig)
@@ -144,13 +151,13 @@ public abstract class ClashCliBase : IClashCli
         var filename = _profilesService.GetActiveProfile();
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new Exception("No selected profile");
+            throw new InvalidDataException("No selected profile");
         }
 
         var fulPath = Path.Combine(GlobalConfigs.ProfilesDir, filename);
         if (!File.Exists(fulPath))
         {
-            throw new Exception("Selected profile file not exist");
+            throw new InvalidDataException("Selected profile file not exist");
         }
 
         return fulPath;

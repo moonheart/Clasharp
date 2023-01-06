@@ -14,5 +14,8 @@ public interface IClashCli
     IObservable<LogEntry> ConsoleLog { get; }
 
     Task Start();
+
+    Task<RawConfig> GenerateConfig();
+
     Task Stop();
 }

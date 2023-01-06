@@ -23,5 +23,6 @@ public interface ISettingsViewModel: IViewModelBase
     ReactiveCommand<Unit, Unit> StopService { get; }
     ReactiveCommand<Unit, Unit> SetAutoStart { get; }
     ReactiveCommand<Unit, Unit> ManageCore { get; }
+    ReactiveCommand<Unit, Unit> ReloadConfig { get; }
     Interaction<Unit, Unit> OpenManageCoreWindow { get; }
 }

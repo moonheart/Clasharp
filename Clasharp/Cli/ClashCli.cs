@@ -14,19 +14,19 @@ namespace Clasharp.Cli;
 
 public class ClashCli : IClashCli
 {
-    public IObservable<RawConfig> Config => _config;
-    public IObservable<RunningState> RunningState => _runningState;
-    public IObservable<LogEntry> ConsoleLog => _consoleLog;
+    public IObservable<RawConfig> Config => ConfigSubject;
+    public IObservable<RunningState> RunningState => RunningStateSubject;
+    public IObservable<LogEntry> ConsoleLog => ConsoleLogSubject;
 
-    protected ReplaySubject<RunningState> _runningState = new(1);
-    protected ReplaySubject<LogEntry> _consoleLog = new(1);
-    protected ReplaySubject<RawConfig> _config = new(1);
+    protected readonly ReplaySubject<RunningState> RunningStateSubject = new(1);
+    protected readonly ReplaySubject<LogEntry> ConsoleLogSubject = new(1);
+    protected readonly ReplaySubject<RawConfig> ConfigSubject = new(1);
 
 
-    private IClashCli _local;
-    private IClashCli _remote;
+    private readonly IClashCli _local;
+    private readonly IClashCli _remote;
 
-    private AppSettings _appSettings;
+    private readonly AppSettings _appSettings;
     private RawConfig? _currentConfig;
 
     public ClashCli(AppSettings appSettings)
@@ -35,12 +35,12 @@ public class ClashCli : IClashCli
         _local = ContainerProvider.Container.ResolveNamed<IClashCli>("local");
         _remote = ContainerProvider.Container.ResolveNamed<IClashCli>("remote");
 
-        Sub(_local.Config, _remote.Config, _config);
-        Sub(_local.ConsoleLog, _remote.ConsoleLog, _consoleLog);
-        MessageBus.Current.Listen<LogEntry>().Subscribe(_consoleLog.OnNext);
-        Sub(_local.RunningState, _remote.RunningState, _runningState);
+        Sub(_local.Config, _remote.Config, ConfigSubject);
+        Sub(_local.ConsoleLog, _remote.ConsoleLog, ConsoleLogSubject);
+        MessageBus.Current.Listen<LogEntry>().Subscribe(ConsoleLogSubject.OnNext);
+        Sub(_local.RunningState, _remote.RunningState, RunningStateSubject);
 
-        _config.Subscribe(d => _currentConfig = d);
+        ConfigSubject.Subscribe(d => _currentConfig = d);
     }
 
     private void Sub<T>(IObservable<T> sourceLocal, IObservable<T> sourceRemote, ReplaySubject<T> target)
@@ -67,10 +67,17 @@ public class ClashCli : IClashCli
                 break;
             case SystemProxyMode.SetProxy when _currentConfig != null:
             {
-                await ProxyUtils.SetSystemProxy("127.0.0.1", _currentConfig.MixedPort ?? _currentConfig.Port ?? throw new Exception("No valid proxy port"), Array.Empty<string>());
+                await ProxyUtils.SetSystemProxy("127.0.0.1",
+                    _currentConfig.MixedPort ?? _currentConfig.Port ?? throw new Exception("No valid proxy port"),
+                    Array.Empty<string>());
                 break;
             }
         }
+    }
+
+    public async Task<RawConfig> GenerateConfig()
+    {
+        return _appSettings.UseServiceMode ? await _remote.GenerateConfig() : await _local.GenerateConfig();
     }
 
     public async Task Stop()
@@ -83,6 +90,7 @@ public class ClashCli : IClashCli
                 break;
             }
         }
+
         await (_appSettings.UseServiceMode ? _remote.Stop() : _local.Stop());
     }
 }

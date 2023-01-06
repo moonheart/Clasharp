@@ -29,15 +29,15 @@ public interface IRemoteClash
 
 public class ClashRemoteCli : ClashCliBase
 {
-    private IRemoteClash _remoteClash;
-    private CoreServiceHelper _coreServiceHelper;
+    private readonly IRemoteClash _remoteClash;
+    private readonly CoreServiceHelper _coreServiceHelper;
 
     public ClashRemoteCli(IClashApiFactory clashApiFactory, IProfilesService profilesService, AppSettings appSettings,
         IRemoteClash remoteClash,
         CoreServiceHelper coreServiceHelper)
         : base(clashApiFactory, profilesService, appSettings)
     {
-        _clashApiFactory = clashApiFactory;
+        ClashApiFactory = clashApiFactory;
         _remoteClash = remoteClash;
         _coreServiceHelper = coreServiceHelper;
     }
@@ -50,7 +50,7 @@ public class ClashRemoteCli : ClashCliBase
         if (status != ServiceStatus.Running)
         {
             _runningState.OnNext(Cli.RunningState.Stopped);
-            throw new Exception("Core service not installed or running");
+            throw new InvalidOperationException("Core service not installed or running");
         }
 
         await _remoteClash.StartClash(new ClashLaunchInfo

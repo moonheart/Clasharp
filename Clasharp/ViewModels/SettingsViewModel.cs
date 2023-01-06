@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using Avalonia.Themes.Fluent;
+using Clasharp.Cli;
 using Clasharp.Interfaces;
 using Clasharp.Models.ServiceMode;
 using Clasharp.Models.Settings;
@@ -21,7 +22,8 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     public override string Name => "Settings";
     public ManagedConfigs ManagedFields { get; set; }
 
-    public SettingsViewModel(AppSettings appSettings, CoreServiceHelper coreServiceHelper)
+    public SettingsViewModel(AppSettings appSettings, CoreServiceHelper coreServiceHelper,
+        IClashCli clashCli)
     {
         ManagedFields = appSettings.ManagedFields;
         SystemProxyModes = EnumHelper.GetAllEnumValues<SystemProxyMode>().ToList();
@@ -99,6 +101,18 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
                 await ShowError.Handle((e, false));
             }
         });
+        ReloadConfig = ReactiveCommand.CreateFromTask(async _ =>
+        {
+            try
+            {
+                await clashCli.Stop();
+                await clashCli.Start();
+            }
+            catch (Exception e)
+            {
+                await ShowError.Handle((e, false));
+            }
+        });
     }
 
     [Reactive]
@@ -126,5 +140,6 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     public ReactiveCommand<Unit, Unit> StopService { get; }
     public ReactiveCommand<Unit, Unit> SetAutoStart { get; }
     public ReactiveCommand<Unit, Unit> ManageCore { get; }
+    public ReactiveCommand<Unit, Unit> ReloadConfig { get; }
     public Interaction<Unit, Unit> OpenManageCoreWindow { get; }
 }
