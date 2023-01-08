@@ -64,8 +64,15 @@ public interface IClashControllerApi
     /// <param name="updateConfigRequest"></param>
     /// <param name="force"></param>
     /// <returns></returns>
-    [Put("/configs?force={force}")]
-    Task UpdateConfigs(UpdateConfigRequest updateConfigRequest, bool force = false);
+    [Put("/configs")]
+    Task UpdateConfigs([Body] UpdateConfigRequest updateConfigRequest, [Query] bool force = false);
+
+    /// <summary>
+    /// Update Geo Databases
+    /// </summary>
+    /// <returns></returns>
+    [Post("/configs/geo")]
+    Task UpdateGeoDatabases();
 
     /// <summary>
     /// Update base configs
@@ -73,10 +80,9 @@ public interface IClashControllerApi
     /// <param name="configs"></param>
     /// <returns></returns>
     [Patch("/configs")]
-    Task UpdateBaseConfigs(Configs configs);
+    Task UpdateBaseConfigs([Body] Configs configs);
 
     #endregion
-
 
     #region Proxies
 
@@ -92,7 +98,7 @@ public interface IClashControllerApi
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    [Get("/proxies/{name}")]
+    [Get("/proxies/{name}/")]
     Task<ProxyGroup?> GetProxyInfo(string name);
 
     /// <summary>
@@ -109,7 +115,35 @@ public interface IClashControllerApi
     /// </summary>
     /// <returns></returns>
     [Get("/proxies/{name}/delay")]
-    Task<ProxyDelayInfo?> GetProxyDelay(string name, [AliasAs("timeout")] int timeoutMillisecond = 1000);
+    Task<ProxyDelayInfo?> GetProxyDelay(
+        string name,
+        [Query] string url = "http://www.gstatic.com/generate_204",
+        [Query] [AliasAs("timeout")] int timeoutMillisecond = 1000);
+
+    #endregion
+
+    #region Group
+
+    /// <summary>
+    /// Get specific group information
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    [Get("/group/{name}/")]
+    Task<ProxyGroup?> GetGroup(string name);
+
+    /// <summary>
+    /// Get specific group delay
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="url"></param>
+    /// <param name="timeoutMillisecond"></param>
+    /// <returns></returns>
+    [Get("/group/{name}/delay")]
+    Task<ProxyGroup?> GetGroupDelay(
+        string name,
+        [Query] string url = "http://www.gstatic.com/generate_204",
+        [Query] [AliasAs("timeout")] int timeoutMillisecond = 1000);
 
     #endregion
 
@@ -150,7 +184,7 @@ public interface IClashControllerApi
 
     #endregion
 
-    #region providers proxies
+    #region proxies providers
 
     /// <summary>
     /// Get all proxies information for all proxy-providers
@@ -184,7 +218,7 @@ public interface IClashControllerApi
 
     #endregion
 
-    #region rules proxies
+    #region rules providers
 
     /// <summary>
     /// Get all rules information for all rule-providers
@@ -194,13 +228,6 @@ public interface IClashControllerApi
     Task<ProviderData<RuleProvider>?> GetRuleProviders();
 
     /// <summary>
-    /// Get rules information for specific rule-provider
-    /// </summary>
-    /// <returns></returns>
-    [Get("/providers/rules/{name}")]
-    Task<ProxyProvider?> GetRuleProvider(string name);
-
-    /// <summary>
     /// Update specific rule-provider
     /// </summary>
     /// <param name="name"></param>
@@ -208,13 +235,16 @@ public interface IClashControllerApi
     [Put("/providers/rules/{name}")]
     Task UpdateRuleProvider(string name);
 
+    #endregion
+
+    #region Cache
+
     /// <summary>
-    /// HealthCheck specific rule-provider
+    /// Flush Fake IP Pool
     /// </summary>
-    /// <param name="name"></param>
     /// <returns></returns>
-    [Get("/providers/rules/{name}/healthcheck")]
-    Task HealthCheckRuleProvider(string name);
+    [Post("/cache/fakeip/flush")]
+    Task FlushFakeIpPool();
 
     #endregion
 }
