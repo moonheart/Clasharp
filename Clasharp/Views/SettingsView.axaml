@@ -98,7 +98,7 @@
             </StackPanel>
             <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="" />
-                <Button Command="{Binding ReloadConfig}" Content="Apply Config"></Button>
+                <Button Command="{Binding ReloadConfig}" Content="Reload Config"></Button>
             </StackPanel>
         </StackPanel>
     </Border>

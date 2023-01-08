@@ -62,6 +62,7 @@ public interface IClashControllerApi
     /// Reloading base configs
     /// </summary>
     /// <param name="updateConfigRequest"></param>
+    /// <param name="force"></param>
     /// <returns></returns>
     [Put("/configs?force={force}")]
     Task UpdateConfigs(UpdateConfigRequest updateConfigRequest, bool force = false);

@@ -5,10 +5,13 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using Avalonia.Themes.Fluent;
+using Clasharp.Clash.Models;
 using Clasharp.Cli;
+using Clasharp.Common;
 using Clasharp.Interfaces;
 using Clasharp.Models.ServiceMode;
 using Clasharp.Models.Settings;
+using Clasharp.Services;
 using Clasharp.Utils;
 using Clasharp.Utils.PlatformOperations;
 using ReactiveUI;
@@ -23,7 +26,8 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     public ManagedConfigs ManagedFields { get; set; }
 
     public SettingsViewModel(AppSettings appSettings, CoreServiceHelper coreServiceHelper,
-        IClashCli clashCli)
+        IClashCli clashCli,
+        IClashApiFactory clashApiFactory)
     {
         ManagedFields = appSettings.ManagedFields;
         SystemProxyModes = EnumHelper.GetAllEnumValues<SystemProxyMode>().ToList();
@@ -105,8 +109,11 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
         {
             try
             {
-                await clashCli.Stop();
-                await clashCli.Start();
+                await clashCli.GenerateConfig();
+                await clashApiFactory.Get().UpdateConfigs(new UpdateConfigRequest()
+                {
+                    Path = GlobalConfigs.RuntimeClashConfig
+                });
             }
             catch (Exception e)
             {
