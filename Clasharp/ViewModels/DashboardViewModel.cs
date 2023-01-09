@@ -89,10 +89,10 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
     [Reactive]
     public int ConnectionsCount { get; set; }
 
-    public override string Name => "Dashboard";
+    public override string Name => Resources.Dashboard;
 
-    private ObservableCollection<long> _upSpeeds = new();
-    private ObservableCollection<long> _downSpeeds = new();
+    private readonly ObservableCollection<long> _upSpeeds = new();
+    private readonly ObservableCollection<long> _downSpeeds = new();
 
 
     [Reactive]

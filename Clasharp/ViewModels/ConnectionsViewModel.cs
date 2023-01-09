@@ -16,7 +16,7 @@ namespace Clasharp.ViewModels;
 
 public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
 {
-    public override string Name => "Connections";
+    public override string Name => Resources.Connections;
 
     public ConnectionsViewModel(IConnectionService connectionService)
     {
