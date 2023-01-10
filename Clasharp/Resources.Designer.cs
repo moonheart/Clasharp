@@ -60,20 +60,128 @@ namespace Clasharp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active Connections.
+        /// </summary>
+        public static string dashActiveConnections {
+            get {
+                return ResourceManager.GetString("dashActiveConnections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string dashDownload {
+            get {
+                return ResourceManager.GetString("dashDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Total.
+        /// </summary>
+        public static string dashDownloadTotal {
+            get {
+                return ResourceManager.GetString("dashDownloadTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        public static string dashUpload {
+            get {
+                return ResourceManager.GetString("dashUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Total.
+        /// </summary>
+        public static string dashUploadTotal {
+            get {
+                return ResourceManager.GetString("dashUploadTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Started.
+        /// </summary>
+        public static string switchStarted {
+            get {
+                return ResourceManager.GetString("switchStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stopped.
+        /// </summary>
+        public static string switchStopped {
+            get {
+                return ResourceManager.GetString("switchStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connections.
         /// </summary>
-        public static string Connections {
+        public static string titleConnections {
             get {
-                return ResourceManager.GetString("Connections", resourceCulture);
+                return ResourceManager.GetString("titleConnections", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
-        public static string Dashboard {
+        public static string titleDashboard {
             get {
-                return ResourceManager.GetString("Dashboard", resourceCulture);
+                return ResourceManager.GetString("titleDashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logs.
+        /// </summary>
+        public static string titleLogs {
+            get {
+                return ResourceManager.GetString("titleLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profiles.
+        /// </summary>
+        public static string titleProfiles {
+            get {
+                return ResourceManager.GetString("titleProfiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proxies.
+        /// </summary>
+        public static string titleProxies {
+            get {
+                return ResourceManager.GetString("titleProxies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rules.
+        /// </summary>
+        public static string titleRules {
+            get {
+                return ResourceManager.GetString("titleRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string titleSettings {
+            get {
+                return ResourceManager.GetString("titleSettings", resourceCulture);
             }
         }
     }

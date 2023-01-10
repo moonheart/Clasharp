@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:designTime="clr-namespace:Clasharp.DesignTime"
              xmlns:utils="clr-namespace:Clasharp.Utils"
+             xmlns:clasharp="clr-namespace:Clasharp"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Clasharp.Views.ClashInfoView">
     <Design.DataContext>
@@ -13,7 +14,7 @@
         <TextBlock TextAlignment="Center" Text="{Binding RealtimeSpeed}"></TextBlock>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <utils:LockableToggleSwitch HorizontalAlignment="Center" Name="ClashToggle"
-                                        OnContent="" OffContent=""
+                                        OnContent="{x:Static clasharp:Resources.switchStarted}" OffContent="{x:Static clasharp:Resources.switchStopped}"
                                         IsChecked="{Binding IsRunning, Mode=OneWay}"
                                         Command="{Binding ToggleClash}"
                                         CommandParameter="{Binding RequestChecked, ElementName=ClashToggle}" />

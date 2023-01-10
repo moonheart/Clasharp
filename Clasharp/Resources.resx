@@ -18,10 +18,46 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="Dashboard" xml:space="preserve">
+    <data name="titleDashboard" xml:space="preserve">
         <value>Dashboard</value>
     </data>
-    <data name="Connections" xml:space="preserve">
+    <data name="titleConnections" xml:space="preserve">
         <value>Connections</value>
+    </data>
+    <data name="titleProxies" xml:space="preserve">
+        <value>Proxies</value>
+    </data>
+    <data name="titleLogs" xml:space="preserve">
+        <value>Logs</value>
+    </data>
+    <data name="titleProfiles" xml:space="preserve">
+        <value>Profiles</value>
+    </data>
+    <data name="titleSettings" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="titleRules" xml:space="preserve">
+        <value>Rules</value>
+    </data>
+    <data name="switchStopped" xml:space="preserve">
+        <value>Stopped</value>
+    </data>
+    <data name="switchStarted" xml:space="preserve">
+        <value>Started</value>
+    </data>
+    <data name="dashUpload" xml:space="preserve">
+        <value>Upload</value>
+    </data>
+    <data name="dashDownload" xml:space="preserve">
+        <value>Download</value>
+    </data>
+    <data name="dashUploadTotal" xml:space="preserve">
+        <value>Upload Total</value>
+    </data>
+    <data name="dashDownloadTotal" xml:space="preserve">
+        <value>Download Total</value>
+    </data>
+    <data name="dashActiveConnections" xml:space="preserve">
+        <value>Active Connections</value>
     </data>
 </root>

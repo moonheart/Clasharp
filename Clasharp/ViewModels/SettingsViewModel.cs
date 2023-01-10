@@ -22,7 +22,7 @@ namespace Clasharp.ViewModels;
 
 public class SettingsViewModel : ViewModelBase, ISettingsViewModel
 {
-    public override string Name => "Settings";
+    public override string Name => Resources.titleSettings;
     public ManagedConfigs ManagedFields { get; set; }
 
     public SettingsViewModel(AppSettings appSettings, CoreServiceHelper coreServiceHelper,

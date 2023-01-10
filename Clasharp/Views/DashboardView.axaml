@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:designTime="clr-namespace:Clasharp.DesignTime"
              xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             xmlns:clasharp="clr-namespace:Clasharp"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Clasharp.Views.DashboardView">
     <Design.DataContext>
@@ -30,31 +31,31 @@
         <WrapPanel Grid.Row="0">
             <Border Classes="Card">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Classes="Title" Text="Upload"></TextBlock>
+                    <TextBlock Classes="Title" Text="{x:Static clasharp:Resources.dashUpload}"></TextBlock>
                     <TextBlock Classes="Content" Text="{Binding Upload}"></TextBlock>
                 </StackPanel>
             </Border>
             <Border Classes="Card">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Classes="Title" Text="Download"></TextBlock>
+                    <TextBlock Classes="Title" Text="{x:Static clasharp:Resources.dashDownload}"></TextBlock>
                     <TextBlock Classes="Content" Text="{Binding Download}"></TextBlock>
                 </StackPanel>
             </Border>
             <Border Classes="Card">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Classes="Title" Text="Upload Total"></TextBlock>
+                    <TextBlock Classes="Title" Text="{x:Static clasharp:Resources.dashUploadTotal}"></TextBlock>
                     <TextBlock Classes="Content" Text="{Binding UploadTotal}"></TextBlock>
                 </StackPanel>
             </Border>
             <Border Classes="Card">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Classes="Title" Text="Download Total"></TextBlock>
+                    <TextBlock Classes="Title" Text="{x:Static clasharp:Resources.dashDownloadTotal}"></TextBlock>
                     <TextBlock Classes="Content" Text="{Binding DownloadTotal}"></TextBlock>
                 </StackPanel>
             </Border>
             <Border Classes="Card">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Classes="Title" Text="Active Connections"></TextBlock>
+                    <TextBlock Classes="Title" Text="{x:Static clasharp:Resources.dashActiveConnections}"></TextBlock>
                     <TextBlock Classes="Content" Text="{Binding ConnectionsCount}"></TextBlock>
                 </StackPanel>
             </Border>

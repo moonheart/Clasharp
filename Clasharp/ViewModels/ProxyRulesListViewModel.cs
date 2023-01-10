@@ -13,7 +13,7 @@ namespace Clasharp.ViewModels;
 
 public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
 {
-    public override string Name => "Rules";
+    public override string Name => Resources.titleRules;
 
     public ProxyRulesListViewModel(IProxyRuleProviderService proxyRuleProviderService,
         IProxyRuleService proxyRuleService)
@@ -30,11 +30,11 @@ public class ProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewModel
     // [ObservableAsProperty]
     public ReadOnlyObservableCollection<RuleInfo> Rules => _ruleInfos;
 
-    private ReadOnlyObservableCollection<RuleInfo> _ruleInfos;
+    private readonly ReadOnlyObservableCollection<RuleInfo> _ruleInfos;
 
     // [ObservableAsProperty]
     public ReadOnlyObservableCollection<RuleProvider> Providers => _ruleProviders;
-    private ReadOnlyObservableCollection<RuleProvider> _ruleProviders;
+    private readonly ReadOnlyObservableCollection<RuleProvider> _ruleProviders;
 
     public ReactiveCommand<string, Unit> UpdateCommand { get; }
 }

@@ -16,7 +16,7 @@ namespace Clasharp.ViewModels;
 
 public class ClashLogsViewModel : ViewModelBase, IClashLogsViewModel
 {
-    public override string Name => "Logs";
+    public override string Name => Resources.titleLogs;
     public ClashLogsViewModel(IClashCli clashCli)
     {
         LogsSource = new ObservableCollectionExtended<LogEntryExt>();

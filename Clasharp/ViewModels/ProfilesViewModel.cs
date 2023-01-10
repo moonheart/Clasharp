@@ -16,7 +16,7 @@ namespace Clasharp.ViewModels;
 
 public class ProfilesViewModel : ViewModelBase, IProfilesViewModel
 {
-    public override string Name => "Profiles";
+    public override string Name => Resources.titleProfiles;
 
     public ProfilesViewModel(IProfilesService profilesService, AppSettings appSettings)
     {
@@ -67,7 +67,7 @@ public class ProfilesViewModel : ViewModelBase, IProfilesViewModel
     [Reactive]
     public Profile? SelectedProfile { get; set; }
 
-    private ReadOnlyObservableCollection<Profile> _profiles;
+    private readonly ReadOnlyObservableCollection<Profile> _profiles;
 
     public ReactiveCommand<Profile?, Unit> OpenCreateBox { get; }
     public ReactiveCommand<Profile, Unit> DeleteProfile { get; }

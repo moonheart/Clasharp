@@ -7,7 +7,7 @@ namespace Clasharp.ViewModels;
 
 public class ProxiesViewModel : ViewModelBase, IProxiesViewModel
 {
-    public override string Name => "Proxies";
+    public override string Name => Resources.titleProxies;
     public ProxiesViewModel(IProxyGroupListViewModel proxyGroupListViewModel, IProxyProviderListViewModel proxyProviderListViewModel)
     {
         ProxyGroupListViewModel = proxyGroupListViewModel;
