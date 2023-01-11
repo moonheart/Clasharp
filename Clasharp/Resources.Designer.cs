@@ -105,6 +105,114 @@ namespace Clasharp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow Lan.
+        /// </summary>
+        public static string settingAllowLan {
+            get {
+                return ResourceManager.GetString("settingAllowLan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Core Service Status.
+        /// </summary>
+        public static string settingCoreServiceStatus {
+            get {
+                return ResourceManager.GetString("settingCoreServiceStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to External Controller.
+        /// </summary>
+        public static string settingExternalController {
+            get {
+                return ResourceManager.GetString("settingExternalController", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ipv6.
+        /// </summary>
+        public static string settingIpv6 {
+            get {
+                return ResourceManager.GetString("settingIpv6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Core Library.
+        /// </summary>
+        public static string settingManageCoreLibrary {
+            get {
+                return ResourceManager.GetString("settingManageCoreLibrary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mixed Port.
+        /// </summary>
+        public static string settingMixedPort {
+            get {
+                return ResourceManager.GetString("settingMixedPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reload Config.
+        /// </summary>
+        public static string settingReloadConfig {
+            get {
+                return ResourceManager.GetString("settingReloadConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start With System.
+        /// </summary>
+        public static string settingStartWithSystem {
+            get {
+                return ResourceManager.GetString("settingStartWithSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Proxy.
+        /// </summary>
+        public static string settingSystemProxy {
+            get {
+                return ResourceManager.GetString("settingSystemProxy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme.
+        /// </summary>
+        public static string settingTheme {
+            get {
+                return ResourceManager.GetString("settingTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tun.
+        /// </summary>
+        public static string settingTun {
+            get {
+                return ResourceManager.GetString("settingTun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Core Service.
+        /// </summary>
+        public static string settingUseCoreService {
+            get {
+                return ResourceManager.GetString("settingUseCoreService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Started.
         /// </summary>
         public static string switchStarted {
@@ -150,11 +258,29 @@ namespace Clasharp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Policy Groups.
+        /// </summary>
+        public static string titlePolicyGroups {
+            get {
+                return ResourceManager.GetString("titlePolicyGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profiles.
         /// </summary>
         public static string titleProfiles {
             get {
                 return ResourceManager.GetString("titleProfiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Providers.
+        /// </summary>
+        public static string titleProviders {
+            get {
+                return ResourceManager.GetString("titleProviders", resourceCulture);
             }
         }
         

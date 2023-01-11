@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:designTime="clr-namespace:Clasharp.DesignTime"
+             xmlns:clasharp="clr-namespace:Clasharp"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Clasharp.Views.SettingsView">
     <Design.DataContext>
@@ -11,7 +12,7 @@
     <Border Padding="10">
         <StackPanel>
             <StackPanel Classes="SettingLine">
-                <TextBlock Classes="SettingHeader" Text="System Proxy" />
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingSystemProxy}" />
                 <ListBox
                     Background="Transparent"
                     Items="{Binding SystemProxyModes}"
@@ -43,20 +44,20 @@
                 </ListBox>
             </StackPanel>
             <StackPanel Classes="SettingLine">
-                <TextBlock Classes="SettingHeader" Text="Start With System" />
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingStartWithSystem}" />
                 <Button Command="{Binding SetAutoStart}" Content="Set"></Button>
             </StackPanel>
             <StackPanel Classes="SettingLine">
-                <TextBlock Classes="SettingHeader" Text="Theme" />
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingTheme}" />
                 <ComboBox SelectedItem="{Binding ThemeMode, Mode=TwoWay}" x:Name="ThemeComboBox">
                 </ComboBox>
             </StackPanel>
             <StackPanel Classes="SettingLine">
-                <TextBlock Classes="SettingHeader" Text="Manage Core Binary" />
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingManageCoreLibrary}" />
                 <Button Command="{Binding ManageCore}" Content="Manage"></Button>
             </StackPanel>
             <StackPanel Classes="SettingLine">
-                <TextBlock Classes="SettingHeader" Text="Core Service Status" />
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingCoreServiceStatus}" />
                 <TextBlock Text="{Binding CoreServiceStatus}" />
                 <Button
                     IsVisible="{Binding IsUninstalled}"
@@ -72,33 +73,33 @@
                     Command="{Binding StartService}" Content="Start" />
             </StackPanel>
             <StackPanel Classes="SettingLine">
-                <TextBlock Classes="SettingHeader" Text="Use Core Service" />
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingUseCoreService}" />
                 <ToggleSwitch IsChecked="{Binding UseServiceMode}" />
             </StackPanel>
             <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.ExternalControllerPort.Hide}">
-                <TextBlock Classes="SettingHeader" Text="External Controller" />
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingExternalController}" />
                 <NumericUpDown Minimum="1025" Maximum="65534"
                                Value="{Binding ManagedFields.ExternalControllerPort.Value}" />
             </StackPanel>
             <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.Tun.Hide}">
-                <TextBlock Classes="SettingHeader" Text="Tun" />
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingTun}" />
                 <ToggleSwitch IsChecked="{Binding ManagedFields.Tun.Value}" />
             </StackPanel>
             <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.AllowLan.Hide}">
-                <TextBlock Classes="SettingHeader" Text="Allow Lan" />
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingAllowLan}" />
                 <ToggleSwitch IsChecked="{Binding ManagedFields.AllowLan.Value}" />
             </StackPanel>
             <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.Ipv6.Hide}">
-                <TextBlock Classes="SettingHeader" Text="Ipv6" />
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingIpv6}" />
                 <ToggleSwitch IsChecked="{Binding ManagedFields.Ipv6.Value}" />
             </StackPanel>
             <StackPanel Classes="SettingLine" IsVisible="{Binding !ManagedFields.MixedPort.Hide}">
-                <TextBlock Classes="SettingHeader" Text="Mixed Port" />
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingMixedPort}" />
                 <NumericUpDown Minimum="1025" Maximum="65534" Value="{Binding ManagedFields.MixedPort.Value}" />
             </StackPanel>
             <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="" />
-                <Button Command="{Binding ReloadConfig}" Content="Reload Config"></Button>
+                <Button Command="{Binding ReloadConfig}" Content="{x:Static clasharp:Resources.settingReloadConfig}"></Button>
             </StackPanel>
         </StackPanel>
     </Border>

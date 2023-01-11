@@ -14,7 +14,7 @@
         <TextBlock TextAlignment="Center" Text="{Binding RealtimeSpeed}"></TextBlock>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <utils:LockableToggleSwitch HorizontalAlignment="Center" Name="ClashToggle"
-                                        OnContent="{x:Static clasharp:Resources.switchStarted}" OffContent="{x:Static clasharp:Resources.switchStopped}"
+                                        OnContent="" OffContent=""
                                         IsChecked="{Binding IsRunning, Mode=OneWay}"
                                         Command="{Binding ToggleClash}"
                                         CommandParameter="{Binding RequestChecked, ElementName=ClashToggle}" />

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:designTime="clr-namespace:Clasharp.DesignTime"
              xmlns:views="clr-namespace:Clasharp.Views"
+             xmlns:clasharp="clr-namespace:Clasharp"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Clasharp.Views.ProxiesView">
     <Design.DataContext>
@@ -19,11 +20,11 @@
                 </Style>
             </Grid.Styles>
             <StackPanel>
-                <TextBlock Classes="header" Text="Policy Groups"></TextBlock>
+                <TextBlock Classes="header" Text="{x:Static clasharp:Resources.titlePolicyGroups}"></TextBlock>
                 <views:ProxyGroupListView DataContext="{Binding ProxyGroupListViewModel }" />
             </StackPanel>
             <StackPanel Grid.Row="1">
-                <TextBlock Classes="header" Text="Providers"></TextBlock>
+                <TextBlock Classes="header" Text="{x:Static clasharp:Resources.titleProviders}"></TextBlock>
                 <views:ProxyProviderListView DataContext="{Binding ProxyProviderListViewModel }" />
             </StackPanel>
 

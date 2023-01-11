@@ -60,4 +60,46 @@
     <data name="dashActiveConnections" xml:space="preserve">
         <value>Active Connections</value>
     </data>
+    <data name="titlePolicyGroups" xml:space="preserve">
+        <value>Policy Groups</value>
+    </data>
+    <data name="titleProviders" xml:space="preserve">
+        <value>Providers</value>
+    </data>
+    <data name="settingSystemProxy" xml:space="preserve">
+        <value>System Proxy</value>
+    </data>
+    <data name="settingStartWithSystem" xml:space="preserve">
+        <value>Start With System</value>
+    </data>
+    <data name="settingTheme" xml:space="preserve">
+        <value>Theme</value>
+    </data>
+    <data name="settingManageCoreLibrary" xml:space="preserve">
+        <value>Manage Core Library</value>
+    </data>
+    <data name="settingCoreServiceStatus" xml:space="preserve">
+        <value>Core Service Status</value>
+    </data>
+    <data name="settingUseCoreService" xml:space="preserve">
+        <value>Use Core Service</value>
+    </data>
+    <data name="settingExternalController" xml:space="preserve">
+        <value>External Controller</value>
+    </data>
+    <data name="settingTun" xml:space="preserve">
+        <value>Tun</value>
+    </data>
+    <data name="settingAllowLan" xml:space="preserve">
+        <value>Allow Lan</value>
+    </data>
+    <data name="settingIpv6" xml:space="preserve">
+        <value>Ipv6</value>
+    </data>
+    <data name="settingMixedPort" xml:space="preserve">
+        <value>Mixed Port</value>
+    </data>
+    <data name="settingReloadConfig" xml:space="preserve">
+        <value>Reload Config</value>
+    </data>
 </root>

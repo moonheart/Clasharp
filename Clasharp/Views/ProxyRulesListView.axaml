@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:designTime="clr-namespace:Clasharp.DesignTime"
              xmlns:providers="clr-namespace:Clasharp.Clash.Models.Providers"
+             xmlns:clasharp="clr-namespace:Clasharp"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Clasharp.Views.ProxyRulesListView">
     <Design.DataContext>
@@ -19,12 +20,12 @@
                 </Style>
             </Grid.Styles>
             <StackPanel>
-                <TextBlock Classes="header" Text="Rules"></TextBlock>
+                <TextBlock Classes="header" Text="{x:Static clasharp:Resources.titleRules}"></TextBlock>
                 <DataGrid Items="{Binding Rules}" AutoGenerateColumns="True" IsReadOnly="True" Height="300">
                 </DataGrid>
             </StackPanel>
             <StackPanel Grid.Row="1">
-                <TextBlock Classes="header" Text="Providers"></TextBlock>
+                <TextBlock Classes="header" Text="{x:Static clasharp:Resources.titleProviders}"></TextBlock>
                 <DataGrid Items="{Binding Providers}" AutoGenerateColumns="True" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn>
