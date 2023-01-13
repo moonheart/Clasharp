@@ -18,7 +18,7 @@ public class GetCoreServicePath: PlatformSpecificOperation<string>
 #if DEBUG
         return Task.FromResult("/home/moon/Git_Github/Clasharp/Clasharp.Service/bin/Debug/net6.0/Clasharp.Service");
 #else
-        return Task.FromResult(System.IO.Path.Combine(System.Environment.CurrentDirectory, "Clasharp.WindowsService"));
+        return Task.FromResult(System.IO.Path.Combine(System.Environment.CurrentDirectory, "Clasharp.Service"));
 #endif
 
     }
