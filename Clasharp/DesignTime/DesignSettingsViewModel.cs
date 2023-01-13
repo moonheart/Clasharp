@@ -16,6 +16,7 @@ public class DesignSettingsViewModel:ViewModelBase, ISettingsViewModel
     public ManagedConfigs ManagedFields { get; set; }
     public FluentThemeMode ThemeMode { get; set; }
     public SystemProxyMode SystemProxyMode { get; set; }
+    public bool UseSystemCore { get; set; }
     public bool UseServiceMode { get; set; }
     public bool IsUninstalled { get; set; }
     public bool IsCoreServiceRunning { get; }

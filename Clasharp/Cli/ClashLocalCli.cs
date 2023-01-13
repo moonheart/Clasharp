@@ -14,12 +14,12 @@ public class ClashLocalCli : ClashCliBase
     {
     }
 
-    protected override async Task DoStart(string configPath)
+    protected override async Task DoStart(string configPath, bool useSystemCore)
     {
         _clashWrapper?.Stop();
         _clashWrapper = new ClashWrapper(new ClashLaunchInfo
         {
-            ConfigPath = configPath, ExecutablePath = await GetClashExePath.Exec(), WorkDir = GlobalConfigs.ProgramHome
+            ConfigPath = configPath, ExecutablePath = await GetClashExePath.Exec(useSystemCore), WorkDir = GlobalConfigs.ProgramHome
         })
         {
             OnNewLog = CliLogProcessor

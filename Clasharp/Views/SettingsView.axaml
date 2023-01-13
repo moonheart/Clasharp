@@ -73,6 +73,10 @@
                     Command="{Binding StartService}" Content="Start" />
             </StackPanel>
             <StackPanel Classes="SettingLine">
+                <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingUseSystemCore}" />
+                <ToggleSwitch IsChecked="{Binding UseSystemCore}" />
+            </StackPanel>
+            <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingUseCoreService}" />
                 <ToggleSwitch IsChecked="{Binding UseServiceMode}" />
             </StackPanel>

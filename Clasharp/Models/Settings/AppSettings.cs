@@ -23,6 +23,8 @@ public class AppSettings: ReactiveObject
 
     [Reactive]
     public FluentThemeMode ThemeMode { get; set; }
+    
+    public bool UseSystemCore { get; set; }
 }
 
 public class ManagedConfigs: ReactiveObject

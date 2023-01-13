@@ -65,7 +65,7 @@ public abstract class ClashCliBase : IClashCli
         {
             var rawConfig = await GenerateConfig();
 
-            await DoStart(GlobalConfigs.RuntimeClashConfig);
+            await DoStart(GlobalConfigs.RuntimeClashConfig, _appSettings.UseSystemCore);
 
             var port = (rawConfig.ExternalController ?? "9090").Split(':', StringSplitOptions.RemoveEmptyEntries)
                 .Last();
@@ -95,7 +95,7 @@ public abstract class ClashCliBase : IClashCli
 
         var clashWrapper = new ClashWrapper(new ClashLaunchInfo
         {
-            ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = await GetClashExePath.Exec(),
+            ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = await GetClashExePath.Exec(_appSettings.UseSystemCore),
             WorkDir = GlobalConfigs.ProgramHome
         });
         clashWrapper.Test();
@@ -134,7 +134,7 @@ public abstract class ClashCliBase : IClashCli
             : new LogEntry(LogLevel.INFO, log));
     }
 
-    protected abstract Task DoStart(string configPath);
+    protected abstract Task DoStart(string configPath, bool useSystemCore);
 
     public async Task Stop()
     {

@@ -12,6 +12,7 @@ public interface ISettingsViewModel: IViewModelBase
     ManagedConfigs ManagedFields { get; set; }
     FluentThemeMode ThemeMode { get; set; }
     SystemProxyMode SystemProxyMode { get; set; }
+    bool UseSystemCore { get; set; }
     bool UseServiceMode { get; set; }
     bool IsUninstalled { get; }
     bool IsCoreServiceRunning { get; }

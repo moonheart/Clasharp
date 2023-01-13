@@ -4,15 +4,19 @@ using Clasharp.Common;
 
 namespace Clasharp.Utils.PlatformOperations;
 
-public class GetClashExePath: PlatformSpecificOperation<string>
+public class GetClashExePath : PlatformSpecificOperation<bool, string>
 {
-    protected override Task<string> DoForWindows()
+    protected override Task<string> DoForWindows(bool useSystem)
     {
-        return Task.FromResult(Path.Combine(GlobalConfigs.ProgramHome, "clash-meta.exe"));
+        return Task.FromResult(useSystem
+            ? "clash-meta.exe"
+            : Path.Combine(GlobalConfigs.ProgramHome, "clash-meta.exe"));
     }
 
-    protected override Task<string> DoForLinux()
+    protected override Task<string> DoForLinux(bool useSystem)
     {
-        return Task.FromResult(Path.Combine(GlobalConfigs.ProgramHome, "clash-meta"));
+        return Task.FromResult(useSystem
+            ? "clash-meta"
+            : Path.Combine(GlobalConfigs.ProgramHome, "clash-meta"));
     }
 }

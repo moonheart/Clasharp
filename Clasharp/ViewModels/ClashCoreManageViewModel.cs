@@ -27,7 +27,7 @@ public class ClashCoreManageViewModel : ViewModelBase, IClashCoreManageViewModel
     {
         CustomUrl = "";
         Observable.Timer(TimeSpan.Zero)
-            .SelectMany(async _ => await GetClashVersion())
+            .SelectMany(async _ => await GetClashVersion(appSettings.UseSystemCore))
             .ToPropertyEx(this, d => d.CurrentVersion);
 
         Download = ReactiveCommand.CreateFromTask(async _ =>
@@ -41,10 +41,10 @@ public class ClashCoreManageViewModel : ViewModelBase, IClashCoreManageViewModel
                 needStartService = true;
             }
 
-            var clashExePath = _getClashExePath.Exec().Result;
+            var clashExePath = _getClashExePath.Exec(appSettings.UseSystemCore).Result;
             File.Move(downloadedPath, clashExePath, true);
             Observable.Timer(TimeSpan.Zero)
-                .SelectMany(async _ => await GetClashVersion())
+                .SelectMany(async _ => await GetClashVersion(appSettings.UseSystemCore))
                 .ToPropertyEx(this, d => d.CurrentVersion);
             if (needStartService)
             {
@@ -58,9 +58,9 @@ public class ClashCoreManageViewModel : ViewModelBase, IClashCoreManageViewModel
             .ToPropertyEx(this, d => d.TintColor);
     }
 
-    private async Task<string> GetClashVersion()
+    private async Task<string> GetClashVersion(bool useSystemCore)
     {
-        var clashExePath = _getClashExePath.Exec().Result;
+        var clashExePath = _getClashExePath.Exec(useSystemCore).Result;
         var result = await new RunNormalCommand().Exec($"{clashExePath} -v");
         return result.StdOut;
     }

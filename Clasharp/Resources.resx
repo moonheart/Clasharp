@@ -102,4 +102,7 @@
     <data name="settingReloadConfig" xml:space="preserve">
         <value>Reload Config</value>
     </data>
+    <data name="settingUseSystemCore" xml:space="preserve">
+        <value>Use System Core</value>
+    </data>
 </root>

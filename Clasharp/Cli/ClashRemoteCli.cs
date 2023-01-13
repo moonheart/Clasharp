@@ -44,7 +44,7 @@ public class ClashRemoteCli : ClashCliBase
 
     private CancellationTokenSource? _cancellationTokenSource;
 
-    protected override async Task DoStart(string configPath)
+    protected override async Task DoStart(string configPath, bool useSystemCore)
     {
         var status = await _coreServiceHelper.Status();
         if (status != ServiceStatus.Running)
@@ -55,7 +55,7 @@ public class ClashRemoteCli : ClashCliBase
 
         await _remoteClash.StartClash(new ClashLaunchInfo
         {
-            ExecutablePath = await GetClashExePath.Exec(),
+            ExecutablePath = await GetClashExePath.Exec(useSystemCore),
             WorkDir = GlobalConfigs.ProgramHome,
             ConfigPath = configPath
         });

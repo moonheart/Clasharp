@@ -34,8 +34,10 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
         UseServiceMode = appSettings.UseServiceMode;
         SystemProxyMode = appSettings.SystemProxyMode;
         ThemeMode = appSettings.ThemeMode;
+        UseSystemCore = appSettings.UseSystemCore;
 
         this.WhenAnyValue(d => d.ThemeMode).Subscribe(d => appSettings.ThemeMode = d);
+        this.WhenAnyValue(d => d.UseSystemCore).Subscribe(d => appSettings.UseSystemCore = d);
         this.WhenAnyValue(d => d.SystemProxyMode)
             .Subscribe(d => appSettings.SystemProxyMode = d);
         this.WhenAnyValue(d => d.UseServiceMode)
@@ -127,6 +129,9 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
 
     [Reactive]
     public SystemProxyMode SystemProxyMode { get; set; }
+
+    [Reactive]
+    public bool UseSystemCore { get; set; }
 
     [Reactive]
     public bool UseServiceMode { get; set; }
