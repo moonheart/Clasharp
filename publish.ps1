@@ -20,7 +20,7 @@ function publish([string]$configuration, [string]$rid)
     }
     else
     {
-        dotnet publish Clasharp/Clasharp.csproj -c $configuration -o ./clasharp-$rid/ -r $rid -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true
+        dotnet publish Clasharp/Clasharp.csproj -c $configuration -o ./clasharp-$rid/ -r $rid -p:PublishSingleFile=true -p:PublishTrimmed=false -p:PublishReadyToRun=true
         dotnet publish Clasharp.Service/Clasharp.Service.csproj -c $configuration -o ./clasharp-$rid/ -r $rid -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true
     }
     & 7z a -tzip  "release-dir/clasharp-${rid}-${configuration}.zip" "clasharp-${rid}" -aoa
