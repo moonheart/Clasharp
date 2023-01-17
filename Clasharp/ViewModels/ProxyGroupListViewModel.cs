@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Reactive.Linq;
+using Clasharp.Clash.Models.Proxies;
 using Clasharp.Interfaces;
 using Clasharp.Services;
 using DynamicData;
@@ -15,6 +15,12 @@ public class ProxyGroupListViewModel : ViewModelBase, IProxyGroupListViewModel
     {
         proxyGroupService.List
             .Transform(d => new ProxyGroupModel(d, proxyGroupService.SelectProxy))
+            .Filter(d => d.Type != ProxyGroupType.Vmess &&
+                         d.Type != ProxyGroupType.Trojan &&
+                         d.Type != ProxyGroupType.Shadowsocks &&
+                         d.Type != ProxyGroupType.Socks5 &&
+                         d.Type != ProxyGroupType.ShadowsocksR
+            )
             .ObserveOn(RxApp.MainThreadScheduler)
             .Bind(out _items)
             .Subscribe();
@@ -23,5 +29,5 @@ public class ProxyGroupListViewModel : ViewModelBase, IProxyGroupListViewModel
     // [ObservableAsProperty]
     public ReadOnlyObservableCollection<ProxyGroupModel> ProxyGroupViewModels => _items;
 
-    private ReadOnlyObservableCollection<ProxyGroupModel> _items;
+    private readonly ReadOnlyObservableCollection<ProxyGroupModel> _items;
 }

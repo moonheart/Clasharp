@@ -12,55 +12,112 @@
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <Grid RowDefinitions="Auto,Auto">
-                    <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                        <TextBlock Text="{Binding  Name}" FontSize="20" FontWeight="Bold" Margin="0 0 5 0" />
-                        <TextBlock Text="{Binding Type}" VerticalAlignment="Bottom"></TextBlock>
-                    </StackPanel>
-                    <ListBox Background="Transparent" Grid.Row="1" Grid.Column="0" Items="{Binding Proxies}"
-                             SelectedItem="{Binding SelectedProxy, Mode=TwoWay}"
-                             IsEnabled="{Binding Enabled}"
-                             SelectionMode="Single">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border>
-                                    <TextBlock Text="{Binding  Proxy}"></TextBlock>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.Styles>
-                            <Style Selector="ListBox ListBoxItem">
-                                <Setter Property="Padding" Value="2"></Setter>
+                    <Expander>
+                        <Expander.Header>
+                            <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                                <TextBlock Text="{Binding  Name}" FontSize="20" FontWeight="Bold" Margin="0 0 5 0" />
+                                <TextBlock Text="{Binding Type}" VerticalAlignment="Bottom"></TextBlock>
+                            </StackPanel>
+                        </Expander.Header>
+                        <Expander.Resources>
+                            <Thickness x:Key="ExpanderContentPadding">1</Thickness>
+                            <Thickness x:Key="ExpanderBorderThickness">0</Thickness>
+                            <Thickness x:Key="ExpanderDropdownDownBorderThickness">0</Thickness>
+                        </Expander.Resources>
+                        <Expander.Styles>
+                            <Style Selector="Expander">
+                                <Setter Property="Padding" Value="0"></Setter>
+                                <Setter Property="Margin" Value="0 0 0 10"></Setter>
                             </Style>
-                            <Style Selector="ListBox ListBoxItem:selected ContentPresenter">
-                                <Setter Property="Background" Value="Transparent"></Setter>
+                            <Style Selector="Expander /template/ Border#ExpandCollapseChevronBorder">
+                                <Setter Property="Width" Value="10"></Setter>
+                                <Setter Property="Height" Value="10"></Setter>
                             </Style>
-                            <Style Selector="ListBox ListBoxItem:selected Border">
-                                <Setter Property="Background" Value="{DynamicResource TextControlForeground}"></Setter>
+                            <Style Selector="ToggleButton#ExpanderHeader">
+                                <Setter Property="Template">
+                                    <ControlTemplate>
+                                        <Border x:Name="ToggleButtonBackground">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <ContentPresenter x:Name="PART_ContentPresenter"
+                                                                  Margin="{TemplateBinding Padding}"
+                                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                  VerticalContentAlignment="Center"
+                                                                  Background="Transparent"
+                                                                  BorderBrush="Transparent"
+                                                                  BorderThickness="0"
+                                                                  Content="{TemplateBinding Content}"
+                                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                  TextBlock.Foreground="{DynamicResource ExpanderForeground}" />
+                                                <Border x:Name="ExpandCollapseChevronBorder"
+                                                        Grid.Column="1"
+                                                        Width="16"
+                                                        Height="16"
+                                                        Margin="7"
+                                                        RenderTransformOrigin="50%,50%">
+                                                    <Path x:Name="ExpandCollapseChevron"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"
+                                                          RenderTransformOrigin="50%,50%"
+                                                          Stretch="None"
+                                                          Stroke="{DynamicResource ExpanderChevronForeground}"
+                                                          StrokeThickness="1" />
+                                                    <Border.RenderTransform>
+                                                        <RotateTransform />
+                                                    </Border.RenderTransform>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter>
                             </Style>
-                            <Style Selector="ListBox ListBoxItem:selected TextBlock">
-                                <Setter Property="Foreground" Value="{DynamicResource TextControlBackground}"></Setter>
-                            </Style>
-                            <Style Selector="ListBox Border">
-                                <Setter Property="CornerRadius" Value="3"></Setter>
-                                <Setter Property="BorderThickness" Value="1"></Setter>
-                                <Setter Property="BorderBrush" Value="{DynamicResource TextControlForeground}"></Setter>
-                                <Setter Property="Padding" Value="2"></Setter>
-                            </Style>
-                            <Style Selector="ListBox ListBoxItem:disabled TextBlock">
-                                <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}"></Setter>
-                                <Setter Property="Background" Value="{DynamicResource TextControlBackground}"></Setter>
-                            </Style>
-                            <Style Selector="ListBox ListBoxItem:disabled:selected TextBlock">
-                                <Setter Property="Foreground" Value="{DynamicResource TextControlBackground}"></Setter>
-                                <Setter Property="Background" Value="{DynamicResource TextControlForeground}"></Setter>
-                            </Style>
-                        </ListBox.Styles>
-                    </ListBox>
+                        </Expander.Styles>
+                        <ListBox Background="Transparent" Items="{Binding Proxies}"
+                                 SelectedItem="{Binding SelectedProxy, Mode=TwoWay}"
+                                 IsEnabled="{Binding Enabled}"
+                                 SelectionMode="Single">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border>
+                                        <TextBlock Text="{Binding  Proxy}"></TextBlock>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.Styles>
+                                <Style Selector="ListBox ListBoxItem">
+                                    <Setter Property="Padding" Value="2"></Setter>
+                                </Style>
+                                <Style Selector="ListBox ListBoxItem:selected ContentPresenter">
+                                    <Setter Property="Background" Value="Transparent"></Setter>
+                                </Style>
+                                <Style Selector="ListBox ListBoxItem:selected Border">
+                                    <Setter Property="Background" Value="{DynamicResource TextControlForeground}"></Setter>
+                                </Style>
+                                <Style Selector="ListBox ListBoxItem:selected TextBlock">
+                                    <Setter Property="Foreground" Value="{DynamicResource TextControlBackground}"></Setter>
+                                </Style>
+                                <Style Selector="ListBox Border">
+                                    <Setter Property="CornerRadius" Value="3"></Setter>
+                                    <Setter Property="BorderThickness" Value="1"></Setter>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource TextControlForeground}"></Setter>
+                                    <Setter Property="Padding" Value="2"></Setter>
+                                </Style>
+                                <Style Selector="ListBox ListBoxItem:disabled TextBlock">
+                                    <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}"></Setter>
+                                    <Setter Property="Background" Value="{DynamicResource TextControlBackground}"></Setter>
+                                </Style>
+                                <Style Selector="ListBox ListBoxItem:disabled:selected TextBlock">
+                                    <Setter Property="Foreground" Value="{DynamicResource TextControlBackground}"></Setter>
+                                    <Setter Property="Background" Value="{DynamicResource TextControlForeground}"></Setter>
+                                </Style>
+                            </ListBox.Styles>
+                        </ListBox>
+                    </Expander>
+
                 </Grid>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
