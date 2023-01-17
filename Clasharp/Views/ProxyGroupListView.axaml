@@ -17,6 +17,12 @@
                             <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
                                 <TextBlock Text="{Binding  Name}" FontSize="20" FontWeight="Bold" Margin="0 0 5 0" />
                                 <TextBlock Text="{Binding Type}" VerticalAlignment="Bottom"></TextBlock>
+                                <TextBox Watermark="Filter Proxies" Margin="5 0 0 0" Text="{Binding FilterString}">
+                                    <TextBox.Resources>
+                                        <Thickness x:Key="TextControlThemePadding">5,0,5,0</Thickness>
+                                        <x:Double x:Key="TextControlThemeMinHeight">12</x:Double>
+                                    </TextBox.Resources>
+                                </TextBox>
                             </StackPanel>
                         </Expander.Header>
                         <Expander.Resources>

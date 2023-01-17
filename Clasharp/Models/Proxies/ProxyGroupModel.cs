@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using ReactiveUI;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Clasharp.Clash.Models.Proxies;
-using Clasharp.Interfaces;
 using Clasharp.Models.Proxies;
+using DynamicData;
 using ReactiveUI.Fody.Helpers;
 
 namespace Clasharp.ViewModels;
@@ -14,23 +14,50 @@ namespace Clasharp.ViewModels;
 public class ProxyGroupModel : ReactiveObject
 {
     private readonly ProxyGroup _proxyGroup;
-    private Func<string, string, Task> _setProxy;
 
     public ProxyGroupModel(ProxyGroup proxyGroup, Func<string, string, Task> setProxy)
     {
         _proxyGroup = proxyGroup;
-        _setProxy = setProxy;
         SelectedProxy = _proxyGroup.Now == null
             ? null
             : new SelectProxy {Group = _proxyGroup.Name, Proxy = _proxyGroup.Now};
         Enabled = _proxyGroup.Type == ProxyGroupType.Selector;
+        var proxies = _proxyGroup.All.Select(p => new SelectProxy {Group = _proxyGroup.Name, Proxy = p}).ToList();
+        Proxies.AddRange(proxies);
+
+        var SelectedProxy_b = SelectedProxy;
+        this.WhenAnyValue(d => d.FilterString)
+            .Skip(1)
+            .Throttle(TimeSpan.FromMilliseconds(200))
+            .Subscribe(filter =>
+            {
+                if (string.IsNullOrEmpty(filter))
+                {
+                    foreach (var selectProxy in proxies.Where(selectProxy => !Proxies.Contains(selectProxy)))
+                    {
+                        Proxies.Add(selectProxy);
+                    }
+
+                    SelectedProxy = SelectedProxy_b;
+                    return;
+                }
+
+                foreach (var selectProxy in proxies
+                             .Where(d => !d.Proxy.Contains(filter, StringComparison.OrdinalIgnoreCase))
+                             .Where(Proxies.Contains))
+                {
+                    Proxies.Remove(selectProxy);
+                }
+
+                SelectedProxy = null;
+            });
 
         this.WhenAnyValue(d => d.SelectedProxy)
             .WhereNotNull()
             .Skip(1)
             .Subscribe(d =>
             {
-                _setProxy(d.Group, d.Proxy)
+                setProxy(d.Group, d.Proxy)
                     .ConfigureAwait(false).GetAwaiter().GetResult();
             });
     }
@@ -38,12 +65,13 @@ public class ProxyGroupModel : ReactiveObject
     public string Name => _proxyGroup.Name;
     public ProxyGroupType Type => _proxyGroup.Type;
 
-
-    public IEnumerable<SelectProxy> Proxies =>
-        _proxyGroup.All.Select(p => new SelectProxy {Group = _proxyGroup.Name, Proxy = p}).ToList();
+    public ObservableCollection<SelectProxy> Proxies { get; set; } = new();
 
     [Reactive]
     public SelectProxy? SelectedProxy { get; set; }
+
+    [Reactive]
+    public string FilterString { get; set; }
 
     public bool Enabled { get; }
 
