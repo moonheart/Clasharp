@@ -17,9 +17,10 @@
     </Application.Styles>
     <TrayIcon.Icons>
         <TrayIcons>
-            <TrayIcon Icon="/Assets/clasharp.ico" ToolTipText="Clasharp" Clicked="TrayIcon_OnClicked">
+            <TrayIcon Icon="/Assets/clasharp.ico" ToolTipText="Clasharp" Clicked="OpenMainWindow">
                 <TrayIcon.Menu>
                     <NativeMenu>
+                        <NativeMenuItem Header="Open" Click="OpenMainWindow"></NativeMenuItem>
                         <NativeMenuItem Header="Exit" Click="Exit"></NativeMenuItem>
                     </NativeMenu>
                 </TrayIcon.Menu>

@@ -148,7 +148,7 @@ namespace Clasharp
             suspension.OnFrameworkInitializationCompleted();
         }
 
-        private void TrayIcon_OnClicked(object? sender, EventArgs e)
+        private void OpenMainWindow(object? sender, EventArgs e)
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
                 StartMainWindow(desktop);
