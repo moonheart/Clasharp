@@ -33,12 +33,13 @@ public class ClashRemoteCli : ClashCliBase
     private readonly CoreServiceHelper _coreServiceHelper;
 
     public ClashRemoteCli(IClashApiFactory clashApiFactory, IProfilesService profilesService, AppSettings appSettings,
-        IRemoteClash remoteClash,
         CoreServiceHelper coreServiceHelper)
         : base(clashApiFactory, profilesService, appSettings)
     {
         ClashApiFactory = clashApiFactory;
-        _remoteClash = remoteClash;
+        _remoteClash = RestService.For<IRemoteClash>(
+            HttpClientHolder.For($"http://localhost:{GlobalConfigs.ClashServicePort}/"),
+            new RefitSettings().AddExceptionHandler());
         _coreServiceHelper = coreServiceHelper;
     }
 

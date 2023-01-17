@@ -109,9 +109,6 @@ namespace Clasharp
             builder.RegisterType<ProfilesViewModel>().As<IProfilesViewModel>().SingleInstance();
             builder.RegisterType<ProfileEditViewModel>().As<IProfileEditViewModel>().SingleInstance();
             builder.RegisterInstance(RxApp.SuspensionHost.GetAppState<AppSettings>()).SingleInstance();
-            builder.RegisterInstance(RestService.For<IRemoteClash>(
-                HttpClientHolder.For($"http://localhost:{GlobalConfigs.ClashServicePort}/"),
-                new RefitSettings().AddExceptionHandler())).SingleInstance();
 
             builder.RegisterType<ProxyGroupService>().As<IProxyGroupService>().SingleInstance();
             builder.RegisterType<ProxyProviderService>().As<IProxyProviderService>().SingleInstance();
