@@ -25,7 +25,7 @@ public class ProxyGroupModel : ReactiveObject
         var proxies = _proxyGroup.All.Select(p => new SelectProxy {Group = _proxyGroup.Name, Proxy = p}).ToList();
         Proxies.AddRange(proxies);
 
-        var SelectedProxy_b = SelectedProxy;
+        var selectedProxyB = SelectedProxy;
         this.WhenAnyValue(d => d.FilterString)
             .Skip(1)
             .Throttle(TimeSpan.FromMilliseconds(200))
@@ -38,7 +38,7 @@ public class ProxyGroupModel : ReactiveObject
                         Proxies.Add(selectProxy);
                     }
 
-                    SelectedProxy = SelectedProxy_b;
+                    SelectedProxy = selectedProxyB;
                     return;
                 }
 
@@ -49,7 +49,8 @@ public class ProxyGroupModel : ReactiveObject
                     Proxies.Remove(selectProxy);
                 }
 
-                SelectedProxy = null;
+                SelectedProxy = selectedProxyB != null && Proxies.Contains(selectedProxyB) ? selectedProxyB : null;
+
             });
 
         this.WhenAnyValue(d => d.SelectedProxy)
