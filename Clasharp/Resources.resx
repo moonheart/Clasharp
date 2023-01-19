@@ -105,4 +105,19 @@
     <data name="settingUseSystemCore" xml:space="preserve">
         <value>Use System Core</value>
     </data>
+    <data name="txtFilterProxies" xml:space="preserve">
+        <value>Filter Proxies</value>
+    </data>
+    <data name="txtHealthCheck" xml:space="preserve">
+        <value>Health Check</value>
+    </data>
+    <data name="txtCheckUpdate" xml:space="preserve">
+        <value>Update</value>
+    </data>
+    <data name="txtCloseAllConnection" xml:space="preserve">
+        <value>Close All Connections</value>
+    </data>
+    <data name="txtTotalTraffic" xml:space="preserve">
+        <value>Total Traffic</value>
+    </data>
 </root>

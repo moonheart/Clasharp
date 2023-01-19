@@ -218,5 +218,35 @@ namespace Clasharp {
                 return ResourceManager.GetString("settingUseSystemCore", resourceCulture);
             }
         }
+        
+        public static string txtFilterProxies {
+            get {
+                return ResourceManager.GetString("txtFilterProxies", resourceCulture);
+            }
+        }
+        
+        public static string txtHealthCheck {
+            get {
+                return ResourceManager.GetString("txtHealthCheck", resourceCulture);
+            }
+        }
+        
+        public static string txtCheckUpdate {
+            get {
+                return ResourceManager.GetString("txtCheckUpdate", resourceCulture);
+            }
+        }
+        
+        public static string txtCloseAllConnection {
+            get {
+                return ResourceManager.GetString("txtCloseAllConnection", resourceCulture);
+            }
+        }
+        
+        public static string txtTotalTraffic {
+            get {
+                return ResourceManager.GetString("txtTotalTraffic", resourceCulture);
+            }
+        }
     }
 }
