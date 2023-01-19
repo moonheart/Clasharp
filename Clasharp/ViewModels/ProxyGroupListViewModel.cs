@@ -21,6 +21,7 @@ public class ProxyGroupListViewModel : ViewModelBase, IProxyGroupListViewModel
                          d.Type != ProxyGroupType.Socks5 &&
                          d.Type != ProxyGroupType.ShadowsocksR
             )
+            .SortBy(d => d.Name)
             .ObserveOn(RxApp.MainThreadScheduler)
             .Bind(out _items)
             .Subscribe();

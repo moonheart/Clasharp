@@ -15,10 +15,11 @@ public class ProxyProviderListViewModel : ViewModelBase, IProxyProviderListViewM
     {
         proxyProviderService.List
             .Transform(d => new ProxyProviderViewModel(d) as IProxyProviderViewModel)
+            .SortBy(d => d.ProxyProvider.Name)
             .ObserveOn(RxApp.MainThreadScheduler)
             .Bind(out _items)
             .Subscribe();
-        
+
         CheckCommand = ReactiveCommand.CreateFromTask<string>(async name =>
             await proxyProviderService.HealthCheckProxyProvider(name));
         UpdateCommand = ReactiveCommand.CreateFromTask<string>(async name =>
@@ -28,10 +29,9 @@ public class ProxyProviderListViewModel : ViewModelBase, IProxyProviderListViewM
     // [ObservableAsProperty]
     public ReadOnlyObservableCollection<IProxyProviderViewModel>? ProxyProviders => _items;
 
-    private ReadOnlyObservableCollection<IProxyProviderViewModel> _items;
+    private readonly ReadOnlyObservableCollection<IProxyProviderViewModel> _items;
 
 
     public ReactiveCommand<string, Unit> CheckCommand { get; }
     public ReactiveCommand<string, Unit> UpdateCommand { get; }
-
 }
