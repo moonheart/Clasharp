@@ -24,7 +24,7 @@ public abstract class BaseService<T> : IAutoFreshable
     {
         return Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(1))
             .CombineLatest(_clashCli.RunningState)
-            .Where(tuple => tuple.Second == RunningState.Started && EnableAutoFresh)
+            .Where(tuple => tuple.Second == Cli.Generated.RunningState.Started && EnableAutoFresh)
             .SelectMany(_ => GetObj());
     }
 }

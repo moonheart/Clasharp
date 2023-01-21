@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clasharp.Service", "Clashar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clasharp.Common", "Clasharp.Common\Clasharp.Common.csproj", "{24086F31-ECCB-436E-B9A3-1C27F9DBC12C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichEnum", "references\RichEnum\RichEnum\RichEnum.csproj", "{B9F0EC84-11CE-4BB2-BE34-4A372D48A081}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{24086F31-ECCB-436E-B9A3-1C27F9DBC12C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24086F31-ECCB-436E-B9A3-1C27F9DBC12C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24086F31-ECCB-436E-B9A3-1C27F9DBC12C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9F0EC84-11CE-4BB2-BE34-4A372D48A081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9F0EC84-11CE-4BB2-BE34-4A372D48A081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9F0EC84-11CE-4BB2-BE34-4A372D48A081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9F0EC84-11CE-4BB2-BE34-4A372D48A081}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

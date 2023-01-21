@@ -45,7 +45,7 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
             }
         });
 
-        clashCli.RunningState.Select(d => d == RunningState.Started).ToPropertyEx(this, d => d.IsRunning);
+        clashCli.RunningState.Select(d => d == Cli.Generated.RunningState.Started).ToPropertyEx(this, d => d.IsRunning);
         clashCli.RunningState.ToPropertyEx(this, d => d.RunningState);
     }
 
@@ -61,5 +61,5 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
     public bool IsRunning { get; }
 
     [ObservableAsProperty]
-    public RunningState RunningState { get; }
+    public Cli.Generated.RunningState RunningState { get; }
 }

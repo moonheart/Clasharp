@@ -1,0 +1,3 @@
+[submodule "references/RichEnum"]
+	path = references/RichEnum
+	url = https://github.com/moonheart/RichEnum.git

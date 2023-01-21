@@ -50,7 +50,7 @@ public class ClashRemoteCli : ClashCliBase
         var status = await _coreServiceHelper.Status();
         if (status != ServiceStatus.Running)
         {
-            _runningState.OnNext(Cli.RunningState.Stopped);
+            _runningState.OnNext(Generated.RunningState.Stopped);
             throw new InvalidOperationException("Core service not installed or running");
         }
 

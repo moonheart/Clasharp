@@ -16,7 +16,7 @@ public class RealtimeTrafficService : IRealtimeTrafficService
     public IObservable<TrafficEntry> Obj => _trafficEntry;
     public bool EnableAutoFresh { get; set; }
 
-    private ReplaySubject<TrafficEntry> _trafficEntry = new();
+    private readonly ReplaySubject<TrafficEntry> _trafficEntry = new();
 
     public RealtimeTrafficService(IClashCli clashCli, IClashApiFactory clashApiFactory)
     {
@@ -25,7 +25,7 @@ public class RealtimeTrafficService : IRealtimeTrafficService
             .CombineLatest(clashCli.Config)
             .Subscribe(d =>
         {
-            if (d.First == RunningState.Started && !string.IsNullOrWhiteSpace(d.Second.ExternalController))
+            if (d.First == Cli.Generated.RunningState.Started && !string.IsNullOrWhiteSpace(d.Second.ExternalController))
             {
                 trafficWatcher.Start(d.Second.ExternalController);
             }
@@ -36,9 +36,9 @@ public class RealtimeTrafficService : IRealtimeTrafficService
         });
     }
 
-    private class TrafficWatcher : Watcher<TrafficEntry>
+    private sealed class TrafficWatcher : Watcher<TrafficEntry>
     {
-        private IClashApiFactory _clashApiFactory;
+        private readonly IClashApiFactory _clashApiFactory;
         public TrafficWatcher(ReplaySubject<TrafficEntry> replaySubject, IClashApiFactory clashApiFactory) : base(replaySubject)
         {
             _clashApiFactory = clashApiFactory;

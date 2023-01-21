@@ -15,10 +15,10 @@ namespace Clasharp.Cli;
 public class ClashCli : IClashCli
 {
     public IObservable<RawConfig> Config => ConfigSubject;
-    public IObservable<RunningState> RunningState => RunningStateSubject;
+    public IObservable<Generated.RunningState> RunningState => RunningStateSubject;
     public IObservable<LogEntry> ConsoleLog => ConsoleLogSubject;
 
-    protected readonly ReplaySubject<RunningState> RunningStateSubject = new(1);
+    protected readonly ReplaySubject<Generated.RunningState> RunningStateSubject = new(1);
     protected readonly ReplaySubject<LogEntry> ConsoleLogSubject = new(1);
     protected readonly ReplaySubject<RawConfig> ConfigSubject = new(1);
 

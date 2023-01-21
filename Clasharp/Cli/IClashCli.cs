@@ -9,7 +9,7 @@ public interface IClashCli
 {
     IObservable<RawConfig> Config { get; }
 
-    IObservable<RunningState> RunningState { get; }
+    IObservable<Generated.RunningState> RunningState { get; }
 
     IObservable<LogEntry> ConsoleLog { get; }
 

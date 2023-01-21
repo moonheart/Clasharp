@@ -20,10 +20,10 @@ namespace Clasharp.Cli;
 public abstract class ClashCliBase : IClashCli
 {
     public IObservable<RawConfig> Config => _config;
-    public IObservable<RunningState> RunningState => _runningState;
+    public IObservable<Generated.RunningState> RunningState => _runningState;
     public IObservable<LogEntry> ConsoleLog => _consoleLog;
 
-    protected ReplaySubject<RunningState> _runningState = new(1);
+    protected ReplaySubject<Generated.RunningState> _runningState = new(1);
     protected ReplaySubject<LogEntry> _consoleLog = new(1);
     protected ReplaySubject<RawConfig> _config = new(1);
 
@@ -55,12 +55,12 @@ public abstract class ClashCliBase : IClashCli
         ClashApiFactory = clashApiFactory;
         _profilesService = profilesService;
         _appSettings = appSettings;
-        _runningState.OnNext(Cli.RunningState.Stopped);
+        _runningState.OnNext(Generated.RunningState.Stopped);
     }
 
     public async Task Start()
     {
-        _runningState.OnNext(Cli.RunningState.Starting);
+        _runningState.OnNext(Generated.RunningState.Starting);
         try
         {
             var rawConfig = await GenerateConfig();
@@ -71,11 +71,11 @@ public abstract class ClashCliBase : IClashCli
                 .Last();
             ClashApiFactory.SetPort(int.Parse(port));
             _config.OnNext(rawConfig);
-            _runningState.OnNext(Cli.RunningState.Started);
+            _runningState.OnNext(Generated.RunningState.Started);
         }
         catch (Exception)
         {
-            _runningState.OnNext(Cli.RunningState.Stopped);
+            _runningState.OnNext(Generated.RunningState.Stopped);
             throw;
         }
     }
@@ -138,9 +138,9 @@ public abstract class ClashCliBase : IClashCli
 
     public async Task Stop()
     {
-        _runningState.OnNext(Cli.RunningState.Stopping);
+        _runningState.OnNext(Generated.RunningState.Stopping);
         await DoStop();
-        _runningState.OnNext(Cli.RunningState.Stopped);
+        _runningState.OnNext(Generated.RunningState.Stopped);
     }
 
     protected abstract Task DoStop();

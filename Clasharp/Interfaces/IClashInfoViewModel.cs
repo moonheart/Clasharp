@@ -1,6 +1,6 @@
 ﻿using System.Reactive;
-using Clasharp.Cli;
 using ReactiveUI;
+using RunningState = Clasharp.Cli.Generated.RunningState;
 
 namespace Clasharp.Interfaces;
 

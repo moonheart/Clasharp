@@ -12,5 +12,5 @@ public class DesignClashInfoViewModel:ViewModelBase, IClashInfoViewModel
     public string RealtimeSpeed => "↑ 12KB/s\n↓ 34KB/s";
     public ReactiveCommand<bool, Unit> ToggleClash { get; }
     public bool IsRunning { get; }
-    public RunningState RunningState { get; }
+    public Cli.Generated.RunningState RunningState { get; }
 }
