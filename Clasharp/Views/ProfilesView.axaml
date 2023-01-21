@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:designTime="clr-namespace:Clasharp.DesignTime"
              xmlns:utils="clr-namespace:Clasharp.Utils"
+             xmlns:clasharp="clr-namespace:Clasharp"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Clasharp.Views.ProfilesView">
     <Design.DataContext>
@@ -11,7 +12,7 @@
     </Design.DataContext>
     <Grid RowDefinitions="Auto,Auto">
         <StackPanel Grid.Row="0">
-            <Button Command="{Binding OpenCreateBox}" Content="New Profile"></Button>
+            <Button Command="{Binding OpenCreateBox}" Content="{x:Static clasharp:Resources.txtNewProfile}"></Button>
         </StackPanel>
         <utils:CustomListBox Grid.Row="1"
                              Items="{Binding Profiles}"

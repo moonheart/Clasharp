@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:designTime="clr-namespace:Clasharp.DesignTime"
+        xmlns:clasharp="clr-namespace:Clasharp"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Clasharp.Views.ProfileEditWindow"
         Width="500"
@@ -29,37 +30,37 @@
         <Border Padding="20 30">
             <StackPanel>
                 <StackPanel Classes="SettingLine">
-                    <TextBlock Classes="SettingHeader" Text="Type" />
+                    <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.txtType}" />
                     <ComboBox Items="{Binding ProfileTypes}" SelectedItem="{Binding ProfileType, Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel Classes="SettingLine">
-                    <TextBlock Classes="SettingHeader" Text="Name" />
+                    <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.txtName}" />
                     <TextBox Text="{Binding Profile.Name, Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel Classes="SettingLine">
-                    <TextBlock Classes="SettingHeader" Text="Description" />
+                    <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.txtDescription}" />
                     <TextBox Text="{Binding Profile.Description, Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel IsVisible="{Binding IsLocalProfile}">
                     <StackPanel Classes="SettingLine">
-                        <TextBlock Classes="SettingHeader" Text="Import From" />
-                        <Button Command="{Binding OpenFile}" Content="Select File" />
+                        <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.txtImportFrom}" />
+                        <Button Command="{Binding OpenFile}" Content="{x:Static clasharp:Resources.txtSelectFile}" />
                         <TextBlock Text="{Binding FromFile}" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel IsVisible="{Binding IsRemoteProfile}">
                     <StackPanel Classes="SettingLine">
-                        <TextBlock Classes="SettingHeader" Text="Url" />
+                        <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.txtUrl}" />
                         <TextBox Text="{Binding Profile.RemoteUrl, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Classes="SettingLine">
-                        <TextBlock Classes="SettingHeader" Text="Auto Update Minute" />
+                        <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.txtAutoUpdateMinutes}" />
                         <TextBox Text="{Binding Profile.UpdateInterval, Mode=TwoWay}" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Classes="SettingLine">
                     <TextBlock Classes="SettingHeader" Text="" />
-                    <Button Command="{Binding Save}" Content="Save" />
+                    <Button Command="{Binding Save}" Content="{x:Static clasharp:Resources.txtSave}" />
                 </StackPanel>
             </StackPanel>
         </Border>

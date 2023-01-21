@@ -24,7 +24,7 @@ public partial class ProfileEditWindow : WindowBase<ProfileEditViewModel>
         {
             d(ViewModel.Save.Subscribe(Close));
             d(ViewModel.ShowOpenFileDialog.RegisterHandler(ShowFileDialog));
-            Title = ViewModel.IsCreate ? "Create Profile" : "Edit Profle";
+            Title = ViewModel.IsCreate ? Clasharp.Resources.txtNewProfile : Clasharp.Resources.txtEditProfile;
         });
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {

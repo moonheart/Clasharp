@@ -120,4 +120,52 @@
     <data name="txtTotalTraffic" xml:space="preserve">
         <value>Total Traffic</value>
     </data>
+    <data name="txtNewProfile" xml:space="preserve">
+        <value>New Profile</value>
+    </data>
+    <data name="txtType" xml:space="preserve">
+        <value>Type</value>
+    </data>
+    <data name="txtName" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="txtDescription" xml:space="preserve">
+        <value>Description</value>
+    </data>
+    <data name="txtImportFrom" xml:space="preserve">
+        <value>Import From</value>
+    </data>
+    <data name="txtSelectFile" xml:space="preserve">
+        <value>Select File</value>
+    </data>
+    <data name="txtSave" xml:space="preserve">
+        <value>Save</value>
+    </data>
+    <data name="txtUrl" xml:space="preserve">
+        <value>Url</value>
+    </data>
+    <data name="txtAutoUpdateMinutes" xml:space="preserve">
+        <value>Auto Update Minutes</value>
+    </data>
+    <data name="txtEditProfile" xml:space="preserve">
+        <value>Edit Profile</value>
+    </data>
+    <data name="txtManage" xml:space="preserve">
+        <value>Manage</value>
+    </data>
+    <data name="txtInstall" xml:space="preserve">
+        <value>Install</value>
+    </data>
+    <data name="txtUninstall" xml:space="preserve">
+        <value>txtUninstall</value>
+    </data>
+    <data name="txtStart" xml:space="preserve">
+        <value>Start</value>
+    </data>
+    <data name="txtStop" xml:space="preserve">
+        <value>Stop</value>
+    </data>
+    <data name="txtSetAutoStart" xml:space="preserve">
+        <value>Set</value>
+    </data>
 </root>

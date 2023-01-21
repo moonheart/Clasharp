@@ -45,7 +45,7 @@
             </StackPanel>
             <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingStartWithSystem}" />
-                <Button Command="{Binding SetAutoStart}" Content="Set"></Button>
+                <Button Command="{Binding SetAutoStart}" Content="{x:Static clasharp:Resources.txtSetAutoStart}"></Button>
             </StackPanel>
             <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingTheme}" />
@@ -54,23 +54,23 @@
             </StackPanel>
             <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingManageCoreLibrary}" />
-                <Button Command="{Binding ManageCore}" Content="Manage"></Button>
+                <Button Command="{Binding ManageCore}" Content="{x:Static clasharp:Resources.txtManage}"></Button>
             </StackPanel>
             <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingCoreServiceStatus}" />
                 <TextBlock Text="{Binding CoreServiceStatus}" />
                 <Button
                     IsVisible="{Binding IsUninstalled}"
-                    Command="{Binding InstallService}" Content="Install" />
+                    Command="{Binding InstallService}" Content="{x:Static clasharp:Resources.txtInstall}" />
                 <Button
                     IsVisible="{Binding !IsUninstalled}"
-                    Command="{Binding UninstallService}" Content="Uninstall" />
+                    Command="{Binding UninstallService}" Content="{x:Static clasharp:Resources.txtUninstall}" />
                 <Button
                     IsVisible="{Binding IsCoreServiceRunning}"
-                    Command="{Binding StopService}" Content="Stop" />
+                    Command="{Binding StopService}" Content="{x:Static clasharp:Resources.txtStop}" />
                 <Button
                     IsVisible="{Binding !IsCoreServiceRunning}"
-                    Command="{Binding StartService}" Content="Start" />
+                    Command="{Binding StartService}" Content="{x:Static clasharp:Resources.txtStart}" />
             </StackPanel>
             <StackPanel Classes="SettingLine">
                 <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingUseSystemCore}" />

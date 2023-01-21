@@ -248,5 +248,101 @@ namespace Clasharp {
                 return ResourceManager.GetString("txtTotalTraffic", resourceCulture);
             }
         }
+        
+        public static string txtNewProfile {
+            get {
+                return ResourceManager.GetString("txtNewProfile", resourceCulture);
+            }
+        }
+        
+        public static string txtType {
+            get {
+                return ResourceManager.GetString("txtType", resourceCulture);
+            }
+        }
+        
+        public static string txtName {
+            get {
+                return ResourceManager.GetString("txtName", resourceCulture);
+            }
+        }
+        
+        public static string txtDescription {
+            get {
+                return ResourceManager.GetString("txtDescription", resourceCulture);
+            }
+        }
+        
+        public static string txtImportFrom {
+            get {
+                return ResourceManager.GetString("txtImportFrom", resourceCulture);
+            }
+        }
+        
+        public static string txtSelectFile {
+            get {
+                return ResourceManager.GetString("txtSelectFile", resourceCulture);
+            }
+        }
+        
+        public static string txtSave {
+            get {
+                return ResourceManager.GetString("txtSave", resourceCulture);
+            }
+        }
+        
+        public static string txtUrl {
+            get {
+                return ResourceManager.GetString("txtUrl", resourceCulture);
+            }
+        }
+        
+        public static string txtAutoUpdateMinutes {
+            get {
+                return ResourceManager.GetString("txtAutoUpdateMinutes", resourceCulture);
+            }
+        }
+        
+        public static string txtEditProfile {
+            get {
+                return ResourceManager.GetString("txtEditProfile", resourceCulture);
+            }
+        }
+        
+        public static string txtManage {
+            get {
+                return ResourceManager.GetString("txtManage", resourceCulture);
+            }
+        }
+        
+        public static string txtInstall {
+            get {
+                return ResourceManager.GetString("txtInstall", resourceCulture);
+            }
+        }
+        
+        public static string txtUninstall {
+            get {
+                return ResourceManager.GetString("txtUninstall", resourceCulture);
+            }
+        }
+        
+        public static string txtStart {
+            get {
+                return ResourceManager.GetString("txtStart", resourceCulture);
+            }
+        }
+        
+        public static string txtStop {
+            get {
+                return ResourceManager.GetString("txtStop", resourceCulture);
+            }
+        }
+        
+        public static string txtSetAutoStart {
+            get {
+                return ResourceManager.GetString("txtSetAutoStart", resourceCulture);
+            }
+        }
     }
 }
