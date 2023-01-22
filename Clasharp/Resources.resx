@@ -168,4 +168,16 @@
     <data name="txtSetAutoStart" xml:space="preserve">
         <value>Set</value>
     </data>
+    <data name="txtStopped" xml:space="preserve">
+        <value>Stopped</value>
+    </data>
+    <data name="txtStarting" xml:space="preserve">
+        <value>Starting</value>
+    </data>
+    <data name="txtStarted" xml:space="preserve">
+        <value>Started</value>
+    </data>
+    <data name="txtStopping" xml:space="preserve">
+        <value>Stopping</value>
+    </data>
 </root>

@@ -344,5 +344,29 @@ namespace Clasharp {
                 return ResourceManager.GetString("txtSetAutoStart", resourceCulture);
             }
         }
+        
+        public static string txtStopped {
+            get {
+                return ResourceManager.GetString("txtStopped", resourceCulture);
+            }
+        }
+        
+        public static string txtStarting {
+            get {
+                return ResourceManager.GetString("txtStarting", resourceCulture);
+            }
+        }
+        
+        public static string txtStarted {
+            get {
+                return ResourceManager.GetString("txtStarted", resourceCulture);
+            }
+        }
+        
+        public static string txtStopping {
+            get {
+                return ResourceManager.GetString("txtStopping", resourceCulture);
+            }
+        }
     }
 }

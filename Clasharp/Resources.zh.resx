@@ -161,4 +161,16 @@
     <data name="txtSetAutoStart" xml:space="preserve">
         <value>设置</value>
     </data>
+    <data name="txtStopped" xml:space="preserve">
+        <value>已停止</value>
+    </data>
+    <data name="txtStarting" xml:space="preserve">
+        <value>启动中</value>
+    </data>
+    <data name="txtStarted" xml:space="preserve">
+        <value>已启动</value>
+    </data>
+    <data name="txtStopping" xml:space="preserve">
+        <value>停止中</value>
+    </data>
 </root>

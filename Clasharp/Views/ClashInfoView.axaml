@@ -18,7 +18,8 @@
                                         IsChecked="{Binding IsRunning, Mode=OneWay}"
                                         Command="{Binding ToggleClash}"
                                         CommandParameter="{Binding RequestChecked, ElementName=ClashToggle}" />
-            <TextBlock Text="{Binding RunningState}" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding RunningState, Converter={x:Static utils:ToStringConverter.Instance}}"
+                       VerticalAlignment="Center" />
         </StackPanel>
         <StackPanel Classes="ClashVersion" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Text="Clash "></TextBlock>
