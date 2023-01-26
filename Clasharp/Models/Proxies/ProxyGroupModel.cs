@@ -22,6 +22,7 @@ public class ProxyGroupModel : ReactiveObject
             ? null
             : new SelectProxy {Group = _proxyGroup.Name, Proxy = _proxyGroup.Now};
         Enabled = _proxyGroup.Type == ProxyGroupType.Selector;
+        Expanded = true;
         var proxies = _proxyGroup.All.Select(p => new SelectProxy {Group = _proxyGroup.Name, Proxy = p}).ToList();
         Proxies.AddRange(proxies);
 
@@ -73,6 +74,9 @@ public class ProxyGroupModel : ReactiveObject
 
     [Reactive]
     public string FilterString { get; set; }
+    
+    [Reactive]
+    public bool Expanded { get; set; }
 
     public bool Enabled { get; }
 

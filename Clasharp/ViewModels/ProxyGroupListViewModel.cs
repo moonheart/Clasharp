@@ -22,6 +22,13 @@ public class ProxyGroupListViewModel : ViewModelBase, IProxyGroupListViewModel
                          d.Type != ProxyGroupType.ShadowsocksR
             )
             .SortBy(d => d.Name)
+            .ForEachChange(change =>
+            {
+                if (change.Previous.HasValue)
+                {
+                    change.Current.Expanded = change.Previous.Value.Expanded;
+                }
+            })
             .ObserveOn(RxApp.MainThreadScheduler)
             .Bind(out _items)
             .Subscribe();
