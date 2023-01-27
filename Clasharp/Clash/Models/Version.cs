@@ -2,7 +2,7 @@
 
 namespace Clasharp.Clash.Models;
 
-public class VersionInfo
+public sealed class VersionInfo
 {
     public bool Meta { get; set; }
 

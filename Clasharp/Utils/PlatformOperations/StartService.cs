@@ -10,7 +10,7 @@ public class StartService : PlatformSpecificOperation<string, int>
         var result = await new RunEvaluatedCommand().Exec($"sc start {serviceName}");
         if (result.ExitCode != 0)
         {
-            throw new Exception($"Failed to start service {serviceName}: {result.StdOut}");
+            throw new InvalidOperationException($"Failed to start service {serviceName}: {result.StdOut}");
         }
 
         return 0;
@@ -21,7 +21,7 @@ public class StartService : PlatformSpecificOperation<string, int>
         var result = await new RunEvaluatedCommand().Exec($"systemctl start {serviceName}");
         if (result.ExitCode != 0)
         {
-            throw new Exception($"Failed to start service {serviceName}: {result.StdOut}");
+            throw new InvalidOperationException($"Failed to start service {serviceName}: {result.StdOut}");
         }
 
         return 0;

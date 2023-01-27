@@ -33,12 +33,12 @@ public class ProfilesService : IDisposable, IProfilesService
     public IObservable<IChangeSet<Profile, string>> List => _profiles.Connect();
     public bool EnableAutoFresh { get; set; }
 
-    private Dictionary<string, (int, IDisposable)> _profileAutoUpdates = new();
+    private readonly Dictionary<string, (int, IDisposable)> _profileAutoUpdates = new();
 
     private readonly SourceCache<Profile, string> _profiles;
-    private FileSystemWatcher _fileSystemWatcher;
+    private readonly FileSystemWatcher _fileSystemWatcher;
 
-    private AppSettings _appSettings;
+    private readonly AppSettings _appSettings;
 
     public ProfilesService(AppSettings appSettings)
     {
@@ -109,10 +109,19 @@ public class ProfilesService : IDisposable, IProfilesService
 
     public void Dispose()
     {
-        _fileSystemWatcher.Dispose();
-        foreach (var (_, (_, disposable)) in _profileAutoUpdates)
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            disposable.Dispose();
+            _fileSystemWatcher.Dispose();
+            foreach (var (_, (_, disposable)) in _profileAutoUpdates)
+            {
+                disposable.Dispose();
+            }
         }
     }
 

@@ -5,7 +5,7 @@ namespace Clasharp.Common;
 
 public class ClashWrapper
 {
-    private ClashLaunchInfo _clashLaunchInfo;
+    private readonly ClashLaunchInfo _clashLaunchInfo;
     private Process? _process;
     
     public Action<string>? OnNewLog { get; set; }
@@ -47,7 +47,7 @@ public class ClashWrapper
         if (_process.WaitForExit(500))
         {
             var readToEnd = _process.StandardError.ReadToEnd();
-            throw new Exception(readToEnd);
+            throw new InvalidOperationException(readToEnd);
         }
     }
     public void Test()
@@ -71,7 +71,7 @@ public class ClashWrapper
         if (process.ExitCode != 0)
         {
             var readToEnd = process.StandardOutput.ReadToEnd();
-            throw new Exception(readToEnd);
+            throw new InvalidOperationException(readToEnd);
         }
     }
 

@@ -2,7 +2,7 @@
 
 namespace Clasharp.Services.Base;
 
-public interface IObservalbeObjService<T>
+public interface IObservalbeObjService<out T>
 {
     IObservable<T> Obj { get; }
 }

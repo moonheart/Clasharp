@@ -10,7 +10,7 @@ using Serilog;
 
 namespace Clasharp
 {
-    class Program
+    static class Program
     {
         // Initialization code. Don't use any Avalonia, third-party APIs or any
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
@@ -27,7 +27,7 @@ namespace Clasharp
                     fileSizeLimitBytes: 1024 * 1024 * 10)
                 .CreateLogger();
 
-            TaskScheduler.UnobservedTaskException += ExceptionHandler.Handler;
+            TaskScheduler.UnobservedTaskException += ExceptionHandler.TaskScheduleExceptionHandler;
             RxApp.DefaultExceptionHandler = ExceptionHandler.RxHandler;
 
             try

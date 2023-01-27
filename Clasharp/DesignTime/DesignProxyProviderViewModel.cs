@@ -11,8 +11,13 @@ using ReactiveUI;
 
 namespace Clasharp.DesignTime;
 
-public class DesignProxyProviderViewModel:ViewModelBase, IProxyProviderViewModel
+public class DesignProxyProviderViewModel : ViewModelBase, IProxyProviderViewModel
 {
+    public DesignProxyProviderViewModel()
+    {
+        Proxies = ProxyProvider.Proxies.Select(pg => new ProxyGroupExt(pg)).ToList();
+    }
+
     public bool IsLoading { get; set; }
     public ReactiveCommand<string, Unit> CheckCommand { get; }
     public ReactiveCommand<string, Unit> UpdateCommand { get; }
@@ -34,5 +39,5 @@ public class DesignProxyProviderViewModel:ViewModelBase, IProxyProviderViewModel
         Type = "trojan", VehicleType = VehicleType.HTTP, UpdatedAt = DateTime.Now
     };
 
-    public List<ProxyGroupExt> Proxies => ProxyProvider.Proxies.Select(pg => new ProxyGroupExt(pg)).ToList();
+    public List<ProxyGroupExt> Proxies { get; }
 }

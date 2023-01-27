@@ -41,7 +41,7 @@ public class GetServiceStatus : PlatformSpecificOperation<string, ServiceStatus>
         {
             RedirectStandardOutput = true
         });
-        if (process == null) throw new Exception("Failed to get service status");
+        if (process == null) throw new InvalidOperationException("Failed to get service status");
 
         await process.WaitForExitAsync();
         var output = await process.StandardOutput.ReadToEndAsync();

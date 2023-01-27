@@ -61,7 +61,7 @@ public class DownloadCoreServiceBinary : PlatformSpecificOperation<string?, stri
                 $"https://github.com/MetaCubeX/Clash.Meta/releases/download/{release}/Clash.Meta-linux-amd64-{release}.gz";
         }
 
-        var tempFileName = Path.GetTempFileName();
+        var tempFileName = Path.GetRandomFileName();
         await using (var stream = await HttpClientHolder.Normal.GetStreamAsync(downloadUrl))
         {
             await using (var gZipStream = new GZipStream(stream, CompressionMode.Decompress))

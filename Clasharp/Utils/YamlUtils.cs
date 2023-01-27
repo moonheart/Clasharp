@@ -26,7 +26,7 @@ public static class YamlUtils
                 }
                 else
                 {
-                    throw new Exception($"config patch failed, {path}");
+                    throw new InvalidOperationException($"config patch failed, {path}");
                 }
             }
             else

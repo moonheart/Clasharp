@@ -28,7 +28,7 @@ public class LogEntryExt
                 LogLevel.WARNING => new SolidColorBrush(Colors.Orange),
                 LogLevel.ERROR => new SolidColorBrush(Colors.Red),
                 LogLevel.SILENT => new SolidColorBrush(Colors.OrangeRed),
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new InvalidCastException($"Unknown _logEntry.Type {_logEntry.Type}")
             };
         }
     }

@@ -31,7 +31,7 @@ public class UninstallService : PlatformSpecificOperation<string, int>
 
         if (result.ExitCode != 0)
         {
-            throw new Exception($"Failed to uninstall service {serviceName}: {result.StdOut}");
+            throw new InvalidOperationException($"Failed to uninstall service {serviceName}: {result.StdOut}");
         }
 
         return 0;
@@ -43,7 +43,7 @@ public class UninstallService : PlatformSpecificOperation<string, int>
             $"systemctl stop {serviceName} && rm /etc/systemd/system/{serviceName}.service && systemctl daemon-reload");
         if (result.ExitCode != 0)
         {
-            throw new Exception($"Failed to uninstall service {serviceName}: {result.StdOut}");
+            throw new InvalidOperationException($"Failed to uninstall service {serviceName}: {result.StdOut}");
         }
 
         return 0;

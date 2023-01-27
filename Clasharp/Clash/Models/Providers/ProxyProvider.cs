@@ -5,7 +5,7 @@ using Clasharp.Clash.Models.Proxies;
 
 namespace Clasharp.Clash.Models.Providers;
 
-public class ProxyProvider
+public sealed class ProxyProvider
 {
     public string Name { get; set; }
     public List<ProxyGroup> Proxies { get; set; }

@@ -5,7 +5,7 @@ using Clasharp.Models.Proxies;
 
 namespace Clasharp.Models.Providers;
 
-public class ProxyProviderExt
+public sealed class ProxyProviderExt
 {
     public ProxyProviderExt(ProxyProvider proxyProvider)
     {

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Clasharp.Clash.Models.Proxies;
 
-public class ProxyGroup
+public sealed class ProxyGroup
 {
     public List<string> All { get; set; } = new();
     public List<ProxyHistory> History { get; set; } = new();

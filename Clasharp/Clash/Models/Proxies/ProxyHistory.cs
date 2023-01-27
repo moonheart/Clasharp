@@ -2,7 +2,7 @@
 
 namespace Clasharp.Clash.Models.Proxies;
 
-public class ProxyHistory
+public sealed class ProxyHistory
 {
     public DateTime Time { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace Clasharp.Service;
 
-class Program
+static class Program
 {
     public static async Task Main(string[] args)
     {

@@ -2,7 +2,7 @@
 
 namespace Clasharp.Clash.Models.Rules;
 
-public class RuleInfo
+public sealed class RuleInfo
 {
     public string Type { get; set; }
 

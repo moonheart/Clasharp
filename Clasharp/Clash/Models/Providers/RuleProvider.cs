@@ -2,7 +2,7 @@
 
 namespace Clasharp.Clash.Models.Providers;
 
-public class RuleProvider
+public sealed class RuleProvider
 {
     public string Behavior { get; set; }
     public string Name { get; set; }

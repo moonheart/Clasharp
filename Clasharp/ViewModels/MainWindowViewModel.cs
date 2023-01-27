@@ -2,7 +2,6 @@
 using System.Reactive.Linq;
 using Avalonia.Media;
 using Avalonia.Themes.Fluent;
-using Clasharp.Cli;
 using Clasharp.Interfaces;
 using Clasharp.Models.Settings;
 using DynamicData;
@@ -13,8 +12,6 @@ namespace Clasharp.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
-        private IClashCli _clashCli;
-
         public MainWindowViewModel(
             IProxiesViewModel proxiesViewModel,
             IClashLogsViewModel clashLogsViewModel,
@@ -24,10 +21,8 @@ namespace Clasharp.ViewModels
             IDashboardViewModel dashboardViewModel,
             ISettingsViewModel settingsViewModel,
             IProfilesViewModel profilesViewModel,
-            IClashCli clashCli,
             AppSettings appSettings)
         {
-            _clashCli = clashCli;
             ProxiesViewModel = proxiesViewModel;
             ClashLogsViewModel = clashLogsViewModel;
             ProxyRulesListViewModel = proxyRulesListViewModel;

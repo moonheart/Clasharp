@@ -11,7 +11,7 @@ public class StopService : PlatformSpecificOperation<string, int>
         // exit code 1062: service is not started
         if (result.ExitCode != 1062 && result.ExitCode != 0)
         {
-            throw new Exception($"Failed to stop service {serviceName}: {result.StdOut}");
+            throw new InvalidOperationException($"Failed to stop service {serviceName}: {result.StdOut}");
         }
 
         return 0;
@@ -22,7 +22,7 @@ public class StopService : PlatformSpecificOperation<string, int>
         var result = await new RunEvaluatedCommand().Exec($"systemctl stop {serviceName}");
         if (result.ExitCode != 0)
         {
-            throw new Exception($"Failed to stop service {serviceName}: {result.StdOut}");
+            throw new InvalidOperationException($"Failed to stop service {serviceName}: {result.StdOut}");
         }
 
         return 0;

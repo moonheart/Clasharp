@@ -20,7 +20,7 @@ public class ClashApiFactory : IClashApiFactory
     {
         if (_api == null)
         {
-            throw new Exception("Port not set");
+            throw new InvalidOperationException("Port not set");
         }
 
         return _api;

@@ -25,7 +25,7 @@ public class InstallService : PlatformSpecificOperation<string, string, string, 
         var result = await _evaluatedCommand.Exec($"sc create {serviceName} binPath=\"{exePath}\" start=auto DisplayName=\"{desc}\"");
         if (result.ExitCode != 0)
         {
-            throw new Exception($"Failed to install service {serviceName}: {result.StdOut}");
+            throw new InvalidOperationException($"Failed to install service {serviceName}: {result.StdOut}");
         }
 
         return 0;
@@ -46,12 +46,12 @@ ExecStart={exePath}
 WorkingDirectory={workDir}
 [Install]
 WantedBy=multi-user.target";
-        var tempFile = Path.GetTempFileName();
+        var tempFile = Path.GetRandomFileName();
         await File.WriteAllTextAsync(tempFile, unitFileContent);
         var result = await _evaluatedCommand.Exec($"install -m 644 {tempFile} /etc/systemd/system/{serviceName}.service && systemctl daemon-reload && systemctl enable {serviceName}.service");
         if (result.ExitCode != 0)
         {
-            throw new Exception($"Failed to install service {serviceName}: {result.StdOut}");
+            throw new InvalidOperationException($"Failed to install service {serviceName}: {result.StdOut}");
         }
         return 0;
     }

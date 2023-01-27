@@ -41,12 +41,12 @@ public static class ExceptionHandler
         return refitSettings;
     }
 
-    public static void Handler(object? o, UnobservedTaskExceptionEventArgs eventArgs)
+    public static void TaskScheduleExceptionHandler(object? o, UnobservedTaskExceptionEventArgs eventArgs)
     {
         Log.Error(eventArgs.Exception, "Exception from TaskScheduler.UnobservedTaskException");
     }
     
-    public static IObserver<Exception> RxHandler = Observer.Create<Exception>(e =>
+    public static readonly IObserver<Exception> RxHandler = Observer.Create<Exception>(e =>
     {
         Log.Error(e, "Exception from RxApp.DefaultExceptionHandler");
     });

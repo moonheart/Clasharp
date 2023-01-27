@@ -68,9 +68,9 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
     public Color TintColor { get; }
 
     public ReactiveCommand<Unit, Profile?> Save { get; }
-    private Profile? _profileBase;
+    private readonly Profile? _profileBase;
 
-    private IProfilesService _profilesService;
+    private readonly IProfilesService _profilesService;
 
     public ProfileEditViewModel(Profile? profile, IProfilesService profilesService, AppSettings appSettings)
     {

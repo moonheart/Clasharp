@@ -10,20 +10,21 @@ using ReactiveUI.Fody.Helpers;
 
 namespace Clasharp.ViewModels;
 
-public class ProxyProviderViewModel : ViewModelBase, IProxyProviderViewModel
+public sealed class ProxyProviderViewModel : ViewModelBase, IProxyProviderViewModel
 {
     private readonly ProxyProvider _proxyProvider;
 
     public ProxyProviderViewModel(ProxyProvider proxyProvider)
     {
         _proxyProvider = proxyProvider;
+        Proxies = _proxyProvider.Proxies.Select(pg => new ProxyGroupExt(pg)).ToList();
     }
 
     public bool IsLoading { [ObservableAsProperty] get; }
 
     public ProxyProvider ProxyProvider => _proxyProvider;
 
-    public List<ProxyGroupExt> Proxies => _proxyProvider.Proxies.Select(pg => new ProxyGroupExt(pg)).ToList();
+    public List<ProxyGroupExt> Proxies { get; }
 
     protected bool Equals(ProxyProviderViewModel other)
     {
