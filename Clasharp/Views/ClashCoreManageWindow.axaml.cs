@@ -16,7 +16,7 @@ public partial class ClashCoreManageWindow : WindowBase<ClashCoreManageViewModel
 #endif
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            this.FindControl<ExperimentalAcrylicBorder>("AcrylicBorder").IsVisible = false;
+            AcrylicBorder.IsVisible = false;
         }
     }
 

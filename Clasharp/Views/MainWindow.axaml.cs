@@ -16,8 +16,8 @@ namespace Clasharp.Views
 #endif
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                this.FindControl<ExperimentalAcrylicBorder>("AcrylicBorder1").IsVisible = false;
-                this.FindControl<ExperimentalAcrylicBorder>("AcrylicBorder2").IsVisible = false;
+                AcrylicBorder1.IsVisible = false;
+                AcrylicBorder2.IsVisible = false;
             }
         }
 

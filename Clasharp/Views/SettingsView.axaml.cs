@@ -22,8 +22,7 @@ public partial class SettingsView : UserControlBase<SettingsViewModel>
         {
             d(ViewModel?.OpenManageCoreWindow.RegisterHandler(Handler)!);
         });
-        this.FindControl<ComboBox>("ThemeComboBox").Items = new List<FluentThemeMode>()
-            {FluentThemeMode.Dark, FluentThemeMode.Light};
+        ThemeComboBox.Items = new List<FluentThemeMode>{FluentThemeMode.Dark, FluentThemeMode.Light};
     }
 
     private async Task Handler(InteractionContext<Unit, Unit> arg)

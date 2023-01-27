@@ -28,7 +28,7 @@ public partial class ProfileEditWindow : WindowBase<ProfileEditViewModel>
         });
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            this.FindControl<ExperimentalAcrylicBorder>("AcrylicBorder").IsVisible = false;
+            AcrylicBorder.IsVisible = false;
         }
     }
 
