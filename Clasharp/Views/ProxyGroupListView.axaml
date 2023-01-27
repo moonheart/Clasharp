@@ -27,6 +27,7 @@
                             </StackPanel>
                         </Expander.Header>
                         <Expander.Resources>
+                            <SolidColorBrush x:Key="ExpanderBackground">#55FFFFFF</SolidColorBrush>
                             <Thickness x:Key="ExpanderContentPadding">1</Thickness>
                             <Thickness x:Key="ExpanderBorderThickness">0</Thickness>
                             <Thickness x:Key="ExpanderDropdownDownBorderThickness">0</Thickness>
