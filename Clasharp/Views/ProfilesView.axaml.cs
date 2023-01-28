@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml;
 using Clasharp.Models.Profiles;
 using Clasharp.Models.Settings;
 using Clasharp.Services;
@@ -23,7 +22,7 @@ public partial class ProfilesView : UserControlBase<ProfilesViewModel>
     {
         var profileEditWindow = new ProfileEditWindow
         {
-            DataContext = new ProfileEditViewModel(obj.Input, 
+            DataContext = new ProfileEditViewModel(obj.Input,
                 Locator.Current.GetService<IProfilesService>(),
                 Locator.Current.GetService<AppSettings>())
         };
@@ -36,10 +35,5 @@ public partial class ProfilesView : UserControlBase<ProfilesViewModel>
         {
             obj.SetOutput(null);
         }
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
     }
 }

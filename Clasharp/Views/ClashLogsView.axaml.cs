@@ -1,12 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
-using Avalonia.Threading;
-using Clasharp.ViewModels;
-using Clasharp.Models.Logs;
-using ReactiveUI;
+﻿using Clasharp.ViewModels;
 
 namespace Clasharp.Views;
 
@@ -15,10 +7,5 @@ public partial class ClashLogsView : UserControlBase<ClashLogsViewModel>
     public ClashLogsView()
     {
         InitializeComponent();
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
     }
 }

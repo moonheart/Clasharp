@@ -1,10 +1,4 @@
-﻿using System.Diagnostics;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
-using Clasharp.ViewModels;
-using Clasharp.Models.Proxies;
-using ReactiveUI;
+﻿using Clasharp.ViewModels;
 
 namespace Clasharp.Views;
 
@@ -13,10 +7,5 @@ public partial class ProxyGroupListView : UserControlBase<ProxyGroupListViewMode
     public ProxyGroupListView()
     {
         InitializeComponent();
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
     }
 }

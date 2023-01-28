@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
-using Avalonia.Threading;
-using Clasharp.ViewModels;
-using Clasharp.Models.Connections;
+﻿using Clasharp.ViewModels;
 
 namespace Clasharp.Views;
 
@@ -19,10 +8,4 @@ public partial class ConnectionsView : UserControlBase<ConnectionsViewModel>
     {
         InitializeComponent();
     }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
-    
 }

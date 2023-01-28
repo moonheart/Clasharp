@@ -1,7 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using Clasharp.ViewModels;
 
 namespace Clasharp.Views;
@@ -18,10 +16,5 @@ public partial class ClashCoreManageWindow : WindowBase<ClashCoreManageViewModel
         {
             AcrylicBorder.IsVisible = false;
         }
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
     }
 }

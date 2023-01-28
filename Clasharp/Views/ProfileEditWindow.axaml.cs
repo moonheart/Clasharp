@@ -5,8 +5,6 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
 using Clasharp.ViewModels;
 using ReactiveUI;
 
@@ -40,11 +38,5 @@ public partial class ProfileEditWindow : WindowBase<ProfileEditViewModel>
         };
         var files = await openFileDialog.ShowAsync(this);
         interaction.SetOutput(files?.FirstOrDefault());
-    }
-
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
     }
 }
