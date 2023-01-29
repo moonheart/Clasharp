@@ -26,6 +26,15 @@ public static class ExceptionHandler
         arg.SetOutput(Unit.Default);
     }
 
+    public static void HandleException(Exception exception, bool exit = false)
+    {
+        Log.Error(exception, exception.Message);
+        if (exit)
+        {
+            Environment.Exit(1);
+        }
+    }
+
     public static RefitSettings AddExceptionHandler(this RefitSettings refitSettings)
     {
         refitSettings.ExceptionFactory = async message =>

@@ -2,6 +2,7 @@ using System;
 using System.Text.RegularExpressions;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Avalonia.Media;
 using Clasharp.ViewModels;
 
 namespace Clasharp
@@ -16,7 +17,15 @@ namespace Clasharp
 
             if (type != null)
             {
-                return (Control) Activator.CreateInstance(type)!;
+                try
+                {
+                    return (Control) Activator.CreateInstance(type)!;
+                }
+                catch (Exception e)
+                {
+                    ExceptionHandler.HandleException(e);
+                    return new TextBlock {Text = "Error: " + e, TextWrapping = TextWrapping.Wrap};
+                }
             }
 
             return new TextBlock {Text = "Not Found: " + name};
