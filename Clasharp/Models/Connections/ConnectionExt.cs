@@ -8,7 +8,7 @@ using ReactiveUI;
 
 namespace Clasharp.Models.Connections;
 
-public class ConnectionExt: ViewModelBase
+public class ConnectionExt : ViewModelBase
 {
     private readonly Connection _connection;
     public Connection Connection => _connection;
@@ -72,7 +72,7 @@ public class ConnectionExt: ViewModelBase
     {
         if (obj is ConnectionExt other)
         {
-            return Equals(_connection.Id, other._connection.Id);
+            return _connection.Id == other._connection.Id;
         }
 
         return false;

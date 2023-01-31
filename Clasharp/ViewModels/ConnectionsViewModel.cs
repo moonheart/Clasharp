@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
 using Clasharp.Interfaces;
@@ -9,6 +10,7 @@ using Clasharp.Models.Connections;
 using Clasharp.Services;
 using Clasharp.Utils;
 using DynamicData;
+using DynamicData.Binding;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -25,41 +27,44 @@ public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
         _uploadTotal = connectionService.Obj.Select(d => $"↑ {d.UploadTotal.ToHumanSize()}")
             .ToProperty(this, d => d.UploadTotal);
 
-        connectionService.Obj.Subscribe(d =>
-        {
-            var previousKeys = _connectionsSource.Keys.ToHashSet();
-            foreach (var connection in d.Connections)
-            {
-                var optional = _connectionsSource.Lookup(connection.Id);
-                if (optional.HasValue)
-                {
-                    optional.Value.Download = connection.Download;
-                    optional.Value.Upload = connection.Upload;
-                }
-                else
-                {
-                    optional = new ConnectionExt(connection);
-                }
-
-                _connectionsSource.AddOrUpdate(optional.Value);
-                previousKeys.Remove(connection.Id);
-            }
-
-            foreach (var previousKey in previousKeys)
-            {
-                _connectionsSource.Remove(previousKey);
-            }
-        });
-
-        _connectionsSource.Connect()
+        connectionService.List
+            .Transform(d => new ConnectionExt(d))
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Bind(out _connections)
+            .Bind(out _connections, adaptor: new ConnectionChangeAdaptor())
             .Subscribe();
 
-        CloseConnection = ReactiveCommand.CreateFromTask<string>(async id => 
+        CloseConnection = ReactiveCommand.CreateFromTask<string>(async id =>
             await connectionService.CloseConnection(id));
         CloseAllConnection = ReactiveCommand.CreateFromTask(async () =>
             await connectionService.CloseAllConnections());
+    }
+
+    private sealed class ConnectionChangeAdaptor : IObservableCollectionAdaptor<ConnectionExt, string>
+    {
+        public void Adapt(IChangeSet<ConnectionExt, string> changes, IObservableCollection<ConnectionExt> collection)
+        {
+            foreach (var change in changes)
+            {
+                switch (change.Reason)
+                {
+                    case ChangeReason.Add:
+                        collection.Add(change.Current);
+                        break;
+                    case ChangeReason.Update:
+                        var indexOf = collection.IndexOf(change.Current);
+                        collection[indexOf].Download = change.Current.Download;
+                        collection[indexOf].Upload = change.Current.Upload;
+                        break;
+                    case ChangeReason.Remove:
+                        collection.Remove(change.Current);
+                        break;
+                    case ChangeReason.Refresh:
+                        break;
+                    case ChangeReason.Moved:
+                        break;
+                }
+            }
+        }
     }
 
     private readonly ObservableAsPropertyHelper<string> _downloadTotal;
@@ -76,8 +81,42 @@ public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
     public ReactiveCommand<string, Unit> CloseConnection { get; }
     public ReactiveCommand<Unit, Unit> CloseAllConnection { get; }
 
-    private readonly SourceCache<ConnectionExt, string> _connectionsSource = new(d => d.Id);
-
-    private readonly ReadOnlyObservableCollection<ConnectionExt> _connections;
+    private readonly MyReadOnlyObservableCollection<ConnectionExt> _connections;
     public ReadOnlyObservableCollection<ConnectionExt> Connections => _connections;
+}
+
+public sealed class MyReadOnlyObservableCollection<T> : ReadOnlyObservableCollection<T>
+{
+    public MyReadOnlyObservableCollection(ObservableCollection<T> list) : base(list)
+    {
+        CollectionChanged += OnCollectionChanged;
+    }
+
+    private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.NewItems != null)
+        {
+            foreach (var eNewItem in e.NewItems)
+            {
+                ((INotifyPropertyChanged) eNewItem).PropertyChanged += OnItemPropertyChanged;
+            }
+        }
+
+        if (e.OldItems != null)
+        {
+            foreach (var eOldItem in e.OldItems)
+            {
+                ((INotifyPropertyChanged) eOldItem).PropertyChanged -= OnItemPropertyChanged;
+            }
+        }
+    }
+
+    private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        Console.WriteLine(e.PropertyName);
+        Debug.WriteLine(e.PropertyName);
+        var args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, sender, sender,
+            IndexOf((T) sender));
+        OnCollectionChanged(args);
+    }
 }
