@@ -17,14 +17,19 @@ using Clasharp.ViewModels;
 using Clasharp.Views;
 using Clasharp.Common;
 using ReactiveUI;
-using Refit;
 using Splat;
 using Splat.Autofac;
+using Splat.ModeDetection;
 
 namespace Clasharp
 {
     public partial class App : Application
     {
+        public App()
+        {
+            ModeDetector.OverrideModeDetector(Mode.Run);
+        }
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);

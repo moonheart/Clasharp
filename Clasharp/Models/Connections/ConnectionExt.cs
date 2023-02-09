@@ -39,6 +39,8 @@ public class ConnectionExt : ViewModelBase
         get => _connection.Download;
         set
         {
+            if (value == _connection.Download && DownloadSpeed == 0)
+                return;
             DownloadSpeed = value - _connection.Download;
             DownloadSpeedDesc = $"↓ {DownloadSpeed.ToHumanSize()}/s";
             _connection.Download = value;
@@ -58,6 +60,8 @@ public class ConnectionExt : ViewModelBase
         get => _connection.Upload;
         set
         {
+            if (value == _connection.Upload && UploadSpeed == 0)
+                return;
             UploadSpeed = value - _connection.Upload;
             UploadSpeedDesc = $"↑ {UploadSpeed.ToHumanSize()}/s";
             _connection.Upload = value;
