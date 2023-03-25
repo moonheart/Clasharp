@@ -22,24 +22,24 @@
         <TrimmableAssembly Include="Avalonia.Themes.Default" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+        <PackageReference Include="Avalonia" Version="0.10.19" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.19" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.19" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.19" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.19" />
         <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.8" />
         <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-beta.516" />
         <PackageReference Include="MessageBox.Avalonia" Version="2.1.0" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.4.0" />
-        <PackageReference Include="ReactiveUI.Fody" Version="18.4.25" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.5.0" />
+        <PackageReference Include="ReactiveUI.Fody" Version="18.4.26" />
         <PackageReference Include="Refit" Version="6.3.2" />
         <PackageReference Include="Serilog" Version="2.12.0" />
         <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
         <PackageReference Include="Splat.Autofac" Version="14.6.8" />
         <PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.0" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
-        <PackageReference Include="YamlDotNet" Version="12.3.1" />
+        <PackageReference Include="YamlDotNet" Version="13.0.2" />
     </ItemGroup>
     <ItemGroup>
         <Compile Update="Views\MainWindowView.axaml.cs">
