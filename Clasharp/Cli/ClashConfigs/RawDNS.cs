@@ -30,7 +30,7 @@ public class RawDNS
     public string EnhancedMode { get; set; }
 
     [YamlMember(Alias = "fake-ip-range")]
-    public bool FakeIPRange { get; set; }
+    public string FakeIPRange { get; set; }
 
     [YamlMember(Alias = "fake-ip-filter")]
     public string[] FakeIPFilter { get; set; }

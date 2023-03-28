@@ -32,6 +32,7 @@ public static class YamlUtils
             else
             {
                 current[p] = new Dictionary<object, object>();
+                current = (Dictionary<object, object>) current[p];
             }
         }
 
