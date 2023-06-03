@@ -39,7 +39,7 @@
         <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
         <PackageReference Include="Splat.Autofac" Version="14.6.8" />
         <PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.0" />
-        <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
+        <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
         <PackageReference Include="YamlDotNet" Version="13.0.2" />
     </ItemGroup>
     <ItemGroup>
