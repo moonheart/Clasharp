@@ -7,7 +7,7 @@ using Avalonia.Styling;
 namespace Clasharp.Utils;
 
 [PseudoClasses(":checked", ":unchecked", ":indeterminate")]
-public class LockableToggleSwitch : ToggleSwitch, IStyleable
+public class LockableToggleSwitch : ToggleSwitch
 {
     protected override void Toggle()
     {
@@ -23,5 +23,5 @@ public class LockableToggleSwitch : ToggleSwitch, IStyleable
         set => SetValue(RequestCheckedProperty, value);
     }
 
-    Type IStyleable.StyleKey => typeof(ToggleSwitch);
+    protected override Type StyleKeyOverride => typeof(ToggleSwitch);
 }

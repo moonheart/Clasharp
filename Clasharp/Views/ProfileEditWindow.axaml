@@ -31,7 +31,7 @@
             <StackPanel>
                 <StackPanel Classes="SettingLine">
                     <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.txtType}" />
-                    <ComboBox Items="{Binding ProfileTypes}" SelectedItem="{Binding ProfileType, Mode=TwoWay}" />
+                    <ComboBox ItemsSource="{Binding ProfileTypes}" SelectedItem="{Binding ProfileType, Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel Classes="SettingLine">
                     <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.txtName}" />

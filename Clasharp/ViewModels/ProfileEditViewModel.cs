@@ -15,6 +15,7 @@ using Clasharp.Common;
 using Clasharp.Models.Settings;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Avalonia.Styling;
 
 namespace Clasharp.ViewModels;
 
@@ -39,7 +40,7 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
 
     public string FromFile
     {
-        get => Profile.FromFile;
+        get => Profile.FromFile ?? string.Empty;
         set
         {
             this.RaisePropertyChanging();
@@ -103,7 +104,7 @@ public class ProfileEditViewModel : ViewModelBase, IProfileEditViewModel
             }
         });
         appSettings.WhenAnyValue(d => d.ThemeMode)
-            .Select(d => d == FluentThemeMode.Dark ? Colors.Black : Colors.White)
+            .Select(d => d == ThemeVariant.Dark ? Colors.Black : Colors.White)
             .ToPropertyEx(this, d => d.TintColor);
 
     }

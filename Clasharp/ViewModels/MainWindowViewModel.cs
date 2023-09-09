@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using Avalonia.Media;
+using Avalonia.Styling;
 using Avalonia.Themes.Fluent;
 using Clasharp.Interfaces;
 using Clasharp.Models.Settings;
@@ -46,7 +47,7 @@ namespace Clasharp.ViewModels
             CurrentViewModel = DashboardViewModel;
 
             appSettings.WhenAnyValue(d => d.ThemeMode)
-                .Select(d => d == FluentThemeMode.Dark ? Colors.Black : Colors.White)
+                .Select(d => d == ThemeVariant.Dark ? Colors.Black : Colors.White)
                 .ToPropertyEx(this, d => d.TintColor);
         }
 

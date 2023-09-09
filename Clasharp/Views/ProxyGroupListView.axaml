@@ -9,7 +9,7 @@
     <Design.DataContext>
         <designTime:DesignProxyGroupListViewModel />
     </Design.DataContext>
-    <ItemsControl Items="{Binding ProxyGroupViewModels}">
+    <ItemsControl ItemsSource="{Binding ProxyGroupViewModels}">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <Grid RowDefinitions="Auto,Auto">
@@ -79,7 +79,7 @@
                                 </Setter>
                             </Style>
                         </Expander.Styles>
-                        <ListBox Background="Transparent" Items="{Binding Proxies}"
+                        <ListBox Background="Transparent" ItemsSource="{Binding Proxies}"
                                  SelectedItem="{Binding SelectedProxy, Mode=TwoWay}"
                                  IsEnabled="{Binding Enabled}"
                                  SelectionMode="Single">

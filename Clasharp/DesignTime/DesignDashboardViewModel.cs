@@ -1,4 +1,5 @@
-﻿using System.Reactive;
+﻿using System;
+using System.Reactive;
 using System.Threading.Tasks;
 using Clasharp.Interfaces;
 using Clasharp.ViewModels;
@@ -12,14 +13,14 @@ namespace Clasharp.DesignTime;
 public class DesignDashboardViewModel : ViewModelBase, IDashboardViewModel
 {
     public override string Name => "Dashboard";
-    public Axis[] YAxes { get; set; }
-    public Axis[] XAxes { get; set; }
+    public Axis[] YAxes { get; set; } = Array.Empty<Axis>();
+    public Axis[] XAxes { get; set; } = Array.Empty<Axis>();
 
     public ISeries[] Series { get; set; } =
     {
         new LineSeries<double>
         {
-            Values = new double[] {2, 1, 3, 5, 3, 4, 6},
+            Values = new double[] { 2, 1, 3, 5, 3, 4, 6 },
             Fill = null
         }
     };

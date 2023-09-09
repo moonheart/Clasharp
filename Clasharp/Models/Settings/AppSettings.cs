@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Avalonia.Styling;
 using Avalonia.Themes.Fluent;
 using Clasharp.Models.Profiles;
 using ReactiveUI;
@@ -10,7 +11,7 @@ public class AppSettings: ReactiveObject
 {
     public AppSettings()
     {
-        ThemeMode = FluentThemeMode.Light;
+        ThemeMode = ThemeVariant.Light;
     }
 
     public SystemProxyMode SystemProxyMode { get; set; }
@@ -22,7 +23,7 @@ public class AppSettings: ReactiveObject
     public ManagedConfigs ManagedFields { get; set; } = new();
 
     [Reactive]
-    public FluentThemeMode ThemeMode { get; set; }
+    public ThemeVariant ThemeMode { get; set; }
     
     public bool UseSystemCore { get; set; }
 }
@@ -41,7 +42,7 @@ public abstract class ManagedConfig: ReactiveObject
     public bool Enabled { get; set; }
     public bool Hide { get; set; }
     
-    public string Path { get; set; }
+    public string Path { get; set; } = string.Empty;
 }
 
 public class ManagedConfigValue<T> : ManagedConfig

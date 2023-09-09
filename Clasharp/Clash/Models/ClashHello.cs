@@ -2,5 +2,5 @@
 
 public class ClashHello
 {
-    public string Hello { get; set; }
+    public string Hello { get; set; } = string.Empty;
 }

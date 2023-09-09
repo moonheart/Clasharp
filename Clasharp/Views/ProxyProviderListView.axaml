@@ -12,7 +12,7 @@
         <designTime:DesignProxyProviderListViewModel />
     </Design.DataContext>
 
-    <ItemsControl Items="{Binding ProxyProviders }">
+    <ItemsControl ItemsSource="{Binding ProxyProviders }">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <Grid RowDefinitions="*,*">
@@ -39,7 +39,7 @@
                                                            Foreground="Green"
                                                            Margin="0,0,0,0" />
                     </StackPanel>
-                    <ItemsControl Grid.Row="1" Grid.Column="0" Items="{Binding Proxies}">
+                    <ItemsControl Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Proxies}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border>

@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Media;
+using Avalonia.Styling;
 using Avalonia.Themes.Fluent;
 using Clasharp.Common;
 using Clasharp.Interfaces;
@@ -26,6 +27,7 @@ public class ClashCoreManageViewModel : ViewModelBase, IClashCoreManageViewModel
     public ClashCoreManageViewModel(AppSettings appSettings)
     {
         CustomUrl = "";
+        CurrentVersion = "";
         Observable.Timer(TimeSpan.Zero)
             .SelectMany(async _ => await GetClashVersion(appSettings.UseSystemCore))
             .ToPropertyEx(this, d => d.CurrentVersion);
@@ -54,7 +56,7 @@ public class ClashCoreManageViewModel : ViewModelBase, IClashCoreManageViewModel
         Download.IsExecuting.ToPropertyEx(this, d => d.IsDownloading);
 
         appSettings.WhenAnyValue(d => d.ThemeMode)
-            .Select(d => d == FluentThemeMode.Dark ? Colors.Black : Colors.White)
+            .Select(d => d == ThemeVariant.Dark ? Colors.Black : Colors.White)
             .ToPropertyEx(this, d => d.TintColor);
     }
 

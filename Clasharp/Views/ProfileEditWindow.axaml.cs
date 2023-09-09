@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using Clasharp.ViewModels;
 using ReactiveUI;
 
@@ -32,11 +33,7 @@ public partial class ProfileEditWindow : WindowBase<ProfileEditViewModel>
 
     private async Task ShowFileDialog(InteractionContext<Unit, string?> interaction)
     {
-        var openFileDialog = new OpenFileDialog
-        {
-            AllowMultiple = false
-        };
-        var files = await openFileDialog.ShowAsync(this);
-        interaction.SetOutput(files?.FirstOrDefault());
+        var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions() { AllowMultiple = false });
+        interaction.SetOutput(files.FirstOrDefault()?.TryGetLocalPath());
     }
 }

@@ -6,7 +6,7 @@ public sealed class VersionInfo
 {
     public bool Meta { get; set; }
 
-    public string Version { get; set; }
+    public string Version { get; set; } = string.Empty;
 
     protected bool Equals(VersionInfo other)
     {

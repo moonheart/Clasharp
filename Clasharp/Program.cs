@@ -51,10 +51,6 @@ namespace Clasharp
             return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace(LogEventLevel.Debug)
-                .With(new FontManagerOptions()
-                {
-                    DefaultFamilyName = "Noto Sans"
-                })
                 .UseReactiveUI();
         }
     }

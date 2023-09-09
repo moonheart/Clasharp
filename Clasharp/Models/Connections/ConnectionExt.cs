@@ -16,6 +16,10 @@ public class ConnectionExt : ViewModelBase
     public ConnectionExt(Connection connection)
     {
         _connection = connection;
+        DownloadSpeedDesc = "N/A";
+        DownloadTotal = "N/A";
+        UploadSpeedDesc = "N/A";
+        UploadTotal = "N/A";
     }
 
     public string Id => _connection.Id;

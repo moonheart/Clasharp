@@ -19,8 +19,6 @@ public class DesignProxyProviderViewModel : ViewModelBase, IProxyProviderViewMod
     }
 
     public bool IsLoading { get; set; }
-    public ReactiveCommand<string, Unit> CheckCommand { get; }
-    public ReactiveCommand<string, Unit> UpdateCommand { get; }
 
     public ProxyProvider ProxyProvider => new ProxyProvider()
     {

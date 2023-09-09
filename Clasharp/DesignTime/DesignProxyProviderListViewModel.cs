@@ -10,6 +10,6 @@ public class DesignProxyProviderListViewModel : ViewModelBase, IProxyProviderLis
 {
     public ReadOnlyObservableCollection<IProxyProviderViewModel>? ProxyProviders { get; }
 
-    public ReactiveCommand<string, Unit> CheckCommand { get; }
-    public ReactiveCommand<string, Unit> UpdateCommand { get; }
+    public ReactiveCommand<string, Unit> CheckCommand { get; } = ReactiveCommand.Create((string s) => { });
+    public ReactiveCommand<string, Unit> UpdateCommand { get; } = ReactiveCommand.Create((string s) => { });
 }

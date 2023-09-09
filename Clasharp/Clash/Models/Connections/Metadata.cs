@@ -2,29 +2,29 @@
 
 public class Metadata
 {
-    public string Network { get; set; }
+    public string Network { get; set; } = string.Empty;
 
 
-    public string Type { get; set; }
+    public string Type { get; set; } = string.Empty;
 
 
-    public string SourceIP { get; set; }
+    public string SourceIP { get; set; } = string.Empty;
 
 
-    public string DestinationIP { get; set; }
+    public string DestinationIP { get; set; } = string.Empty;
 
 
-    public string SourcePort { get; set; }
+    public string SourcePort { get; set; } = string.Empty;
 
 
-    public string DestinationPort { get; set; }
+    public string DestinationPort { get; set; } = string.Empty;
 
 
     public string? Host { get; set; }
 
 
-    public string DnsMode { get; set; }
+    public string DnsMode { get; set; } = string.Empty;
 
 
-    public string ProcessPath { get; set; }
+    public string ProcessPath { get; set; } = string.Empty;
 }

@@ -145,7 +145,7 @@ public abstract class ClashCliBase : IClashCli
 
     protected abstract Task DoStop();
 
-    private async Task<string> EnsureConfig()
+    private Task<string> EnsureConfig()
     {
         Directory.CreateDirectory(GlobalConfigs.ProgramHome);
         var filename = _profilesService.GetActiveProfile();
@@ -160,6 +160,6 @@ public abstract class ClashCliBase : IClashCli
             throw new InvalidDataException("Selected profile file not exist");
         }
 
-        return fulPath;
+        return Task.FromResult(fulPath);
     }
 }

@@ -5,10 +5,10 @@ namespace Clasharp.Clash.Models.Connections;
 
 public class Connection
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = "";
 
 
-    public Metadata Metadata { get; set; }
+    public Metadata Metadata { get; set; } = new();
 
 
     public long Upload { get; set; }
@@ -20,11 +20,11 @@ public class Connection
     public DateTime Start { get; set; }
 
 
-    public List<string> Chains { get; set; }
+    public List<string> Chains { get; set; } = new();
 
 
-    public string Rule { get; set; }
+    public string Rule { get; set; } = "";
 
 
-    public string RulePayload { get; set; }
+    public string RulePayload { get; set; } = "";
 }

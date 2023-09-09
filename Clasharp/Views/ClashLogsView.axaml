@@ -10,7 +10,7 @@
         <designTime:DesignClashLogsViewModel />
     </Design.DataContext>
     <ScrollViewer>
-        <ListBox Items="{Binding Logs}" Background="Transparent">
+        <ListBox ItemsSource="{Binding Logs}" Background="Transparent">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>

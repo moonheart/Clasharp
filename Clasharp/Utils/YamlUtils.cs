@@ -15,9 +15,10 @@ public static class YamlUtils
             var p = paths[i];
             if (i == paths.Length - 1)
             {
-                current[p] = value;
+                if (value != null) current[p] = value;
                 continue;
             }
+
             if (current.ContainsKey(p))
             {
                 if (current[p] is Dictionary<object, object> x)
@@ -32,7 +33,7 @@ public static class YamlUtils
             else
             {
                 current[p] = new Dictionary<object, object>();
-                current = (Dictionary<object, object>) current[p];
+                current = (Dictionary<object, object>)current[p];
             }
         }
 

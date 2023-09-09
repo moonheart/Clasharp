@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Styling;
 using Avalonia.Themes.Fluent;
 using Clasharp.Models.Settings;
 using Clasharp.ViewModels;
@@ -17,7 +18,7 @@ public partial class SettingsView : UserControlBase<SettingsViewModel>
     {
         InitializeComponent();
         this.WhenActivated(d => { d(ViewModel?.OpenManageCoreWindow.RegisterHandler(Handler)!); });
-        ThemeComboBox.Items = new List<FluentThemeMode> {FluentThemeMode.Dark, FluentThemeMode.Light};
+        ThemeComboBox.ItemsSource = new List<ThemeVariant> { ThemeVariant.Dark, ThemeVariant.Light};
     }
 
     private async Task Handler(InteractionContext<Unit, Unit> arg)

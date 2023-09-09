@@ -67,10 +67,6 @@
                 XAxes="{Binding XAxes}"
                 EasingFunction="{x:Null}"
                 LegendPosition="Top"
-                LegendBackground="{DynamicResource TextControlBackground}"
-                LegendTextBrush="{DynamicResource TextControlForeground}"
-                TooltipBackground="{DynamicResource TextControlBackground}"
-                TooltipTextBrush="{DynamicResource TextControlForeground}"
                 MinHeight="400" />
         </StackPanel>
     </Grid>

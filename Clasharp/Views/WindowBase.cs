@@ -5,7 +5,6 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 using Clasharp.ViewModels;
-using MessageBox.Avalonia;
 using ReactiveUI;
 
 namespace Clasharp.Views;

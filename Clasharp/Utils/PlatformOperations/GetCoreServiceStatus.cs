@@ -28,7 +28,7 @@ public class GetServiceStatus : PlatformSpecificOperation<string, ServiceStatus>
             var serviceController = new ServiceController(serviceName);
             return Task.FromResult((ServiceStatus) (int) serviceController.Status);
         }
-        catch (Exception e)
+        catch
         {
             return Task.FromResult(ServiceStatus.Uninstalled);
         }

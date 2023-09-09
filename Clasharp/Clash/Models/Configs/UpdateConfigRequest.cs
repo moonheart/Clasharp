@@ -5,7 +5,8 @@ namespace Clasharp.Clash.Models;
 public class UpdateConfigRequest
 {
     [JsonPropertyName("path")]
-    public string Path { get; set; }
+    public string Path { get; set; } = string.Empty;
+
     [JsonPropertyName("payload")]
-    public string Payload { get; set; }
+    public string Payload { get; set; } = string.Empty;
 }

@@ -15,7 +15,7 @@
             <Button Command="{Binding OpenCreateBox}" Content="{x:Static clasharp:Resources.txtNewProfile}"></Button>
         </StackPanel>
         <utils:CustomListBox Grid.Row="1"
-                             Items="{Binding Profiles}"
+                             ItemsSource="{Binding Profiles}"
                              SelectedItem="{Binding SelectedProfile, Mode=TwoWay}"
                              Background="Transparent">
             <utils:CustomListBox.ItemTemplate>

@@ -21,12 +21,12 @@
             </Grid.Styles>
             <StackPanel>
                 <TextBlock Classes="header" Text="{x:Static clasharp:Resources.titleRules}"></TextBlock>
-                <DataGrid Items="{Binding Rules}" AutoGenerateColumns="True" IsReadOnly="True" Height="300">
+                <DataGrid ItemsSource="{Binding Rules}" AutoGenerateColumns="True" IsReadOnly="True" Height="300">
                 </DataGrid>
             </StackPanel>
             <StackPanel Grid.Row="1">
                 <TextBlock Classes="header" Text="{x:Static clasharp:Resources.titleProviders}"></TextBlock>
-                <DataGrid Items="{Binding Providers}" AutoGenerateColumns="True" IsReadOnly="True">
+                <DataGrid ItemsSource="{Binding Providers}" AutoGenerateColumns="True" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn>
                             <DataTemplate DataType="providers:RuleProvider">

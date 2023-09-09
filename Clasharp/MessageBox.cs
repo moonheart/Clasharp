@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using MessageBox.Avalonia;
+using MsBox.Avalonia;
 
 namespace Clasharp;
 
@@ -12,11 +12,11 @@ public static class MessageBox
     {
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            await MessageBoxManager.GetMessageBoxStandardWindow(
+            await MessageBoxManager.GetMessageBoxStandard(
                     title,
                     text,
                     windowStartupLocation: WindowStartupLocation.CenterOwner)
-                .ShowDialog(desktop.MainWindow);
+                .ShowWindowDialogAsync(desktop.MainWindow);
         }
     }
 }

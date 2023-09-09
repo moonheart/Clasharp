@@ -21,9 +21,9 @@
                     Command="{Binding CloseAllConnection}"
             ></Button>
         </StackPanel>
-        <DataGrid Grid.Row="1" Name="ConnectionsGrid" Items="{Binding Connections}"
+        <DataGrid Grid.Row="1" Name="ConnectionsGrid" ItemsSource="{Binding Connections}"
                   VerticalAlignment="Stretch"
-                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                  SelectedItem="{Binding SelectedItem, Mode=Default}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataTemplate DataType="connections:ConnectionExt">

@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+
+using Avalonia.Styling;
 using Avalonia.Themes.Fluent;
 using Clasharp.Clash.Models;
 using Clasharp.Cli;
@@ -125,7 +127,7 @@ public class SettingsViewModel : ViewModelBase, ISettingsViewModel
     }
 
     [Reactive]
-    public FluentThemeMode ThemeMode { get; set; }
+    public ThemeVariant ThemeMode { get; set; }
 
     [Reactive]
     public SystemProxyMode SystemProxyMode { get; set; }

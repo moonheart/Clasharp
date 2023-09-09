@@ -71,11 +71,12 @@ public class Worker : BackgroundService
         context.Return();
     }
 
-    private async Task HandleStop(HttpListenerContext context, CancellationToken cancellationToken)
+    private Task HandleStop(HttpListenerContext context, CancellationToken cancellationToken)
     {
         _logger.LogInformation("HandleStop");
         _clashWrapper?.Stop();
         context.Return();
+        return Task.CompletedTask;
     }
 
     private async Task HandleLogs(HttpListenerContext context, CancellationToken cancellationToken)

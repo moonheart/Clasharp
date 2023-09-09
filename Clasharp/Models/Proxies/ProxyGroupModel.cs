@@ -17,6 +17,7 @@ public class ProxyGroupModel : ReactiveObject
 
     public ProxyGroupModel(ProxyGroup proxyGroup, Func<string, string, Task> setProxy)
     {
+        FilterString = string.Empty;
         _proxyGroup = proxyGroup;
         SelectedProxy = _proxyGroup.Now == null
             ? null

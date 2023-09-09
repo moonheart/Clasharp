@@ -10,7 +10,7 @@ namespace Clasharp
     public class ViewLocator : IDataTemplate
     {
         private static Regex _regex = new Regex(@"(?:DesignTime|ViewModels)\.(?:Design)?([^\.]+)ViewModel"); 
-        public IControl Build(object data)
+        public Control Build(object data)
         {
             var name = _regex.Replace(data.GetType().FullName!, "Views.$1View");
             var type = Type.GetType(name);

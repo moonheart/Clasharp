@@ -72,14 +72,14 @@ namespace Clasharp
             {
                 if (Styles.FirstOrDefault(d => d is FluentTheme) is FluentTheme fluentTheme)
                 {
-                    fluentTheme.Mode = theme;
+                    Current!.RequestedThemeVariant = theme;
                 }
             });
         }
 
         private void StartMainWindow(IClassicDesktopStyleApplicationLifetime desktop)
         {
-            if (desktop.MainWindow is not {IsVisible: true})
+            if (desktop.MainWindow is not { IsVisible: true })
             {
                 desktop.MainWindow = new MainWindow
                 {
@@ -143,7 +143,7 @@ namespace Clasharp
         private void SetupSuspensionHost()
         {
             // Create the AutoSuspendHelper.
-            var suspension = new AutoSuspendHelper(ApplicationLifetime);
+            var suspension = new AutoSuspendHelper(ApplicationLifetime!);
             RxApp.SuspensionHost.CreateNewAppState = () => new AppSettings();
             RxApp.SuspensionHost.SetupDefaultSuspendResume(
                 new NewtonsoftJsonSuspensionDriver<AppSettings>(GlobalConfigs.MainConfig));

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reactive;
+
+using Avalonia.Styling;
 using Avalonia.Themes.Fluent;
 using Clasharp.Models.ServiceMode;
 using Clasharp.Models.Settings;
@@ -10,7 +12,7 @@ namespace Clasharp.Interfaces;
 public interface ISettingsViewModel: IViewModelBase
 {
     ManagedConfigs ManagedFields { get; set; }
-    FluentThemeMode ThemeMode { get; set; }
+    ThemeVariant ThemeMode { get; set; }
     SystemProxyMode SystemProxyMode { get; set; }
     bool UseSystemCore { get; set; }
     bool UseServiceMode { get; set; }

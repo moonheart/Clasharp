@@ -12,9 +12,9 @@ public class DesignProxyRulesListViewModel : ViewModelBase, IProxyRulesListViewM
 {
     public override string Name => "Rules";
 
-    public ReadOnlyObservableCollection<RuleInfo> Rules { get; }
+    public ReadOnlyObservableCollection<RuleInfo> Rules { get; } = new(new ObservableCollection<RuleInfo>());
 
-    public ReadOnlyObservableCollection<RuleProvider> Providers { get; } 
+    public ReadOnlyObservableCollection<RuleProvider> Providers { get; } = new(new ObservableCollection<RuleProvider>());
 
-    public ReactiveCommand<string, Unit> UpdateCommand { get; }
+    public ReactiveCommand<string, Unit> UpdateCommand { get; } = ReactiveCommand.Create((string _) => { });
 }

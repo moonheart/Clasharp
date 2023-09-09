@@ -46,6 +46,6 @@ public class DesignConnectionsViewModel : ViewModelBase, IConnectionsViewModel
         }));
 
     public ConnectionExt? SelectedItem { get; set; }
-    public ReactiveCommand<string, Unit> CloseConnection { get; }
-    public ReactiveCommand<Unit, Unit> CloseAllConnection { get; }
+    public ReactiveCommand<string, Unit> CloseConnection { get; } = ReactiveCommand.Create((string _) => { });
+    public ReactiveCommand<Unit, Unit> CloseAllConnection { get; } = ReactiveCommand.Create(() => { });
 }

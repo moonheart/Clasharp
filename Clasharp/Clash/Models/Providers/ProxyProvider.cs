@@ -7,9 +7,9 @@ namespace Clasharp.Clash.Models.Providers;
 
 public sealed class ProxyProvider
 {
-    public string Name { get; set; }
-    public List<ProxyGroup> Proxies { get; set; }
-    public string Type { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public List<ProxyGroup> Proxies { get; set; } = new();
+    public string Type { get; set; } = string.Empty;
     public DateTime UpdatedAt { get; set; }
     public VehicleType VehicleType { get; set; }
 

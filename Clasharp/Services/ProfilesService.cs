@@ -42,7 +42,7 @@ public class ProfilesService : IDisposable, IProfilesService
 
     public ProfilesService(AppSettings appSettings)
     {
-        _profiles = new(d => d.Filename);
+        _profiles = new(d => d.Filename ?? string.Empty);
 
         if (!Directory.Exists(GlobalConfigs.ProfilesDir)) Directory.CreateDirectory(GlobalConfigs.ProfilesDir);
 
@@ -65,11 +65,11 @@ public class ProfilesService : IDisposable, IProfilesService
         {
             if (profile.Type == ProfileType.Remote && profile.UpdateInterval != null)
             {
-                if (_profileAutoUpdates.TryGetValue(profile.Filename, out var value))
+                if (_profileAutoUpdates.TryGetValue(profile.Filename ?? string.Empty, out var value))
                 {
                     if (value.Item1 != profile.UpdateInterval)
                     {
-                        _profileAutoUpdates[profile.Filename].Item2.Dispose();
+                        _profileAutoUpdates[profile.Filename ?? string.Empty].Item2.Dispose();
                         SetupInterval(profile);
                     }
                 }
@@ -79,7 +79,7 @@ public class ProfilesService : IDisposable, IProfilesService
                 }
             }
 
-            var fullPath = Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename);
+            var fullPath = Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename ?? string.Empty);
             var fileInfo = new FileInfo(fullPath);
             if (!fileInfo.Exists)
             {
@@ -103,7 +103,7 @@ public class ProfilesService : IDisposable, IProfilesService
             await DownloadProfile(profile);
         }
 
-        var disposable = Observable.Interval(TimeSpan.FromMinutes((double) profile.UpdateInterval!)).Subscribe(OnNext);
+        var disposable = Observable.Interval(TimeSpan.FromMinutes((double)profile.UpdateInterval!)).Subscribe(OnNext);
         _profileAutoUpdates[profile.Filename!] = (profile.UpdateInterval.Value, disposable);
     }
 

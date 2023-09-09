@@ -2,8 +2,8 @@
 
 public class SelectProxy
 {
-    public string Group { get; set; }
-    public string Proxy { get; set; }
+    public string Group { get; set; } = string.Empty;
+    public string Proxy { get; set; } = string.Empty;
 
     public override bool Equals(object? obj)
     {

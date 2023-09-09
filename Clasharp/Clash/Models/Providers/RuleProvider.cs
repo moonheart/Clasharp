@@ -4,10 +4,10 @@ namespace Clasharp.Clash.Models.Providers;
 
 public sealed class RuleProvider
 {
-    public string Behavior { get; set; }
-    public string Name { get; set; }
+    public string Behavior { get; set; } = "";
+    public string Name { get; set; } = "";
     public int RuleCount { get; set; }
-    public string Type { get; set; }
+    public string Type { get; set; } = "";
     public DateTime UpdatedAt { get; set; }
     public VehicleType VehicleType { get; set; }
 

@@ -3,7 +3,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using MessageBox.Avalonia;
+using MsBox.Avalonia;
 using ReactiveUI;
 using Refit;
 using Serilog;
@@ -17,7 +17,7 @@ public static class ExceptionHandler
         Log.Error(arg.Input.Item1, "Exception from InteractionContext");
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            await MessageBoxManager.GetMessageBoxStandardWindow("Error", arg.Input.Item1.Message).ShowDialog(desktop.MainWindow);
+            await MessageBoxManager.GetMessageBoxStandard("Error", arg.Input.Item1.Message).ShowWindowDialogAsync(desktop.MainWindow);
             if (arg.Input.exit)
             {
                 desktop.Shutdown(1);

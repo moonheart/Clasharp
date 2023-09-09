@@ -44,7 +44,7 @@
                 <Grid RowDefinitions="*,Auto" Width="135">
                     <ListBox
                         Background="Transparent"
-                        Items="{Binding Selections}"
+                        ItemsSource="{Binding Selections}"
                         SelectedItem="{Binding CurrentViewModel}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>

@@ -42,7 +42,8 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
                 Name = "Download",
                 GeometryFill = null,
                 GeometryStroke = null,
-                TooltipLabelFormatter = point => point.Model.ToHumanSize(),
+                XToolTipLabelFormatter = point => point.Model.ToHumanSize(),
+                YToolTipLabelFormatter = point => point.Model.ToHumanSize(),
                 Stroke = new SolidColorPaint(SKColors.Green) {StrokeThickness = 1},
                 GeometrySize = 0
             },
@@ -50,7 +51,8 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
             {
                 Values = _upSpeeds,
                 Name = "Upload",
-                TooltipLabelFormatter = point => point.Model.ToHumanSize(),
+                XToolTipLabelFormatter = point => point.Model.ToHumanSize(),
+                YToolTipLabelFormatter = point => point.Model.ToHumanSize(),
                 GeometryFill = null,
                 GeometryStroke = null,
                 Stroke = new SolidColorPaint(SKColors.Red) {StrokeThickness = 1},

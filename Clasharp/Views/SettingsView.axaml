@@ -15,7 +15,7 @@
                 <TextBlock Classes="SettingHeader" Text="{x:Static clasharp:Resources.settingSystemProxy}" />
                 <ListBox
                     Background="Transparent"
-                    Items="{Binding SystemProxyModes}"
+                    ItemsSource="{Binding SystemProxyModes}"
                     SelectedItem="{Binding SystemProxyMode, Mode=TwoWay}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>

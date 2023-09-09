@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using Clasharp.Interfaces;
@@ -37,6 +38,7 @@ public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
             await connectionService.CloseConnection(id));
         CloseAllConnection = ReactiveCommand.CreateFromTask(async () =>
             await connectionService.CloseAllConnections());
+        this.WhenAnyValue(d => d.SelectedItem).Subscribe(d => { Debug.WriteLine("--------1----------" + d?.Id); });
     }
 
     private sealed class ConnectionChangeAdaptor : IObservableCollectionAdaptor<ConnectionExt, string>
@@ -72,11 +74,17 @@ public class ConnectionsViewModel : ViewModelBase, IConnectionsViewModel
 
     private readonly ObservableAsPropertyHelper<string> _uploadTotal;
     public string UploadTotal => _uploadTotal.Value;
-    public string DownloadSpeed { get; }
-    public string UploadSpeed { get; }
+    public string DownloadSpeed { get; } = "";
+    public string UploadSpeed { get; } = "";
 
-    [Reactive]
-    public ConnectionExt? SelectedItem { get; set; }
+
+    private string? _connectionId;
+
+    public ConnectionExt? SelectedItem
+    {
+        get => _connections.FirstOrDefault(d => d.Id == _connectionId);
+        set { this.RaiseAndSetIfChanged(ref _connectionId, value?.Id); }
+    }
 
     public ReactiveCommand<string, Unit> CloseConnection { get; }
     public ReactiveCommand<Unit, Unit> CloseAllConnection { get; }
@@ -113,8 +121,6 @@ public sealed class MyReadOnlyObservableCollection<T> : ReadOnlyObservableCollec
 
     private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        Console.WriteLine(e.PropertyName);
-        Debug.WriteLine(e.PropertyName);
         var args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, sender, sender,
             IndexOf((T) sender));
         OnCollectionChanged(args);

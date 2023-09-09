@@ -7,6 +7,7 @@ using Clasharp.Services;
 using Clasharp.Utils;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using RunningState = Clasharp.Cli.Generated.RunningState;
 
 namespace Clasharp.ViewModels;
 
@@ -19,6 +20,8 @@ public class ClashInfoViewModel : ViewModelBase, IClashInfoViewModel
         IClashCli clashCli)
     {
         Version = "Unknown";
+        RealtimeSpeed = "Unknown";
+        RunningState = RunningState.Stopped;
 
         realtimeTrafficService.Obj.Select(d => $"↑ {d.Up.ToHumanSize()}/s\n↓ {d.Down.ToHumanSize()}/s")
             .ToPropertyEx(this, d => d.RealtimeSpeed);

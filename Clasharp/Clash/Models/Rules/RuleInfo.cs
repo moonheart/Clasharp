@@ -4,13 +4,13 @@ namespace Clasharp.Clash.Models.Rules;
 
 public sealed class RuleInfo
 {
-    public string Type { get; set; }
+    public string Type { get; set; } = string.Empty;
 
 
-    public string Payload { get; set; }
+    public string Payload { get; set; } = string.Empty;
 
 
-    public string Proxy { get; set; }
+    public string Proxy { get; set; } = string.Empty;
 
     protected bool Equals(RuleInfo other)
     {

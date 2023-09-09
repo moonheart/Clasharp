@@ -37,9 +37,9 @@ namespace Clasharp.DesignTime
 
         public IConnectionsViewModel ConnectionsViewModel { get; }
         public IClashInfoViewModel ClashInfoViewModel { get; }
-        public ISettingsViewModel SettingsViewModel { get; }
-        public IProfilesViewModel ProfilesViewModel { get; }
+        public ISettingsViewModel SettingsViewModel { get; } = new DesignSettingsViewModel();
+        public IProfilesViewModel ProfilesViewModel { get; } = new DesignProfilesViewModel();
         public ObservableCollection<IViewModelBase> Selections { get; }
-        public Color TintColor { get; }
+        public Color TintColor { get; } = Colors.Transparent;
     }
 }
