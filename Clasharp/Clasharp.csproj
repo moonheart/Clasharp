@@ -104,8 +104,9 @@
       </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
-      <None Include="Assets\3rdparty\gsudo.exe" Link="%(Filename)%(Extension)">
+      <None Include="Assets\3rdparty\gsudo.exe" Link="%(Filename)%(Extension)" Condition="'$(RuntimeIdentifier)'=='win-x64'">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </None>
     </ItemGroup>
 </Project>
