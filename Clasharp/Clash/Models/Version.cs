@@ -8,7 +8,7 @@ public sealed class VersionInfo
 
     public string Version { get; set; } = string.Empty;
 
-    protected bool Equals(VersionInfo other)
+    private bool Equals(VersionInfo other)
     {
         return Meta == other.Meta && Version == other.Version;
     }

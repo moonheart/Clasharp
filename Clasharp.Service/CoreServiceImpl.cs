@@ -32,12 +32,7 @@ namespace Clasharp.Service
         public override Task<StartClashResponse> StartClash(StartClashRequest request, ServerCallContext context)
         {
             _clashWrapper?.Stop();
-            _clashWrapper = new ClashWrapper(new ClashLaunchInfo()
-            {
-                ConfigPath = request.ConfigPath,
-                ExecutablePath = request.ExecutablePath,
-                WorkDir = request.WorkDir
-            });
+            _clashWrapper = new ClashWrapper(new ClashLaunchInfo(request.ExecutablePath, request.WorkDir, request.ConfigPath));
             _clashWrapper.Start();
             return Task.FromResult(new StartClashResponse());
         }

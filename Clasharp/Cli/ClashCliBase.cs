@@ -83,9 +83,12 @@ public abstract class ClashCliBase : IClashCli
     public async Task<RawConfig> GenerateConfig()
     {
         var configYaml = await File.ReadAllTextAsync(await EnsureConfig());
-        var configDic =
-            new DeserializerBuilder().Build().Deserialize(new StringReader(configYaml)) as
-                Dictionary<object, object>;
+        var configDic = new DeserializerBuilder().Build().Deserialize(new StringReader(configYaml)) as Dictionary<object, object>;
+        if (configDic == null)
+        {
+            throw new InvalidOperationException("Invalid config");
+        }
+
         MergeManagedFields(configDic);
 
         var mergedYaml = new SerializerBuilder().ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
@@ -93,11 +96,7 @@ public abstract class ClashCliBase : IClashCli
         await File.WriteAllTextAsync(GlobalConfigs.RuntimeClashConfig, mergedYaml);
         var rawConfig = new DeserializerBuilder().Build().Deserialize<RawConfig>(mergedYaml);
 
-        var clashWrapper = new ClashWrapper(new ClashLaunchInfo
-        {
-            ConfigPath = GlobalConfigs.RuntimeClashConfig, ExecutablePath = await GetClashExePath.Exec(_appSettings.UseSystemCore),
-            WorkDir = GlobalConfigs.ProgramHome
-        });
+        var clashWrapper = new ClashWrapper(new ClashLaunchInfo(await GetClashExePath.Exec(_appSettings.UseSystemCore), GlobalConfigs.ProgramHome, GlobalConfigs.RuntimeClashConfig));
         clashWrapper.Test();
 
         return rawConfig;

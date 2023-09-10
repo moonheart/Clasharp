@@ -17,10 +17,7 @@ public class ClashLocalCli : ClashCliBase
     protected override async Task DoStart(string configPath, bool useSystemCore)
     {
         _clashWrapper?.Stop();
-        _clashWrapper = new ClashWrapper(new ClashLaunchInfo
-        {
-            ConfigPath = configPath, ExecutablePath = await GetClashExePath.Exec(useSystemCore), WorkDir = GlobalConfigs.ProgramHome
-        });
+        _clashWrapper = new ClashWrapper(new ClashLaunchInfo(await GetClashExePath.Exec(useSystemCore), GlobalConfigs.ProgramHome, configPath));
         _ = Task.Run(() =>
         {
             while (_clashWrapper.LogsQueue.TryDequeue(out var log))

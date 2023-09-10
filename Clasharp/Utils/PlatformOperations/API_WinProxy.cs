@@ -19,7 +19,7 @@ namespace Clasharp.Utils.PlatformOperations;
             return SetProxy(strProxy, null);
         }
 
-        public static bool SetProxy(string strProxy, string exceptions)
+        public static bool SetProxy(string? strProxy, string? exceptions)
         {
             InternetPerConnOptionList list = new InternetPerConnOptionList();
 

@@ -106,7 +106,7 @@ public sealed class MyReadOnlyObservableCollection<T> : ReadOnlyObservableCollec
         {
             foreach (var eNewItem in e.NewItems)
             {
-                ((INotifyPropertyChanged) eNewItem).PropertyChanged += OnItemPropertyChanged;
+                ((INotifyPropertyChanged)eNewItem).PropertyChanged += OnItemPropertyChanged;
             }
         }
 
@@ -114,15 +114,19 @@ public sealed class MyReadOnlyObservableCollection<T> : ReadOnlyObservableCollec
         {
             foreach (var eOldItem in e.OldItems)
             {
-                ((INotifyPropertyChanged) eOldItem).PropertyChanged -= OnItemPropertyChanged;
+                ((INotifyPropertyChanged)eOldItem).PropertyChanged -= OnItemPropertyChanged;
             }
         }
     }
 
     private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        var args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, sender, sender,
-            IndexOf((T) sender));
+        if (sender == null)
+        {
+            return;
+        }
+
+        var args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, sender, sender, IndexOf((T)sender));
         OnCollectionChanged(args);
     }
 }

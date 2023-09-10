@@ -57,12 +57,12 @@ namespace Clasharp
             {
                 desktop.ShutdownRequested += (sender, args) => { Locator.Current.GetService<IClashCli>()?.Stop(); };
                 desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                if (desktop.Args.Length <= 0 || desktop.Args.All(d => d != "--autostart"))
+                if (desktop.Args == null || desktop.Args.Length <= 0 || desktop.Args.All(d => d != "--autostart"))
                 {
                     StartMainWindow(desktop);
                 }
 
-                if (desktop.Args.Any(d => d == "--autostart"))
+                if (desktop.Args != null && desktop.Args.Any(d => d == "--autostart"))
                 {
                     Locator.Current.GetService<IClashCli>()?.Start();
                 }

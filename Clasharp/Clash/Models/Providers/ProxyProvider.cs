@@ -13,7 +13,7 @@ public sealed class ProxyProvider
     public DateTime UpdatedAt { get; set; }
     public VehicleType VehicleType { get; set; }
 
-    protected bool Equals(ProxyProvider other)
+    private bool Equals(ProxyProvider other)
     {
         return Name == other.Name && Proxies.SequenceEqual(other.Proxies) && Type == other.Type && UpdatedAt.ToString("s").Equals(other.UpdatedAt.ToString("s")) && VehicleType == other.VehicleType;
     }

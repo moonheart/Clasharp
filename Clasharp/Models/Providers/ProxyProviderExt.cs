@@ -17,7 +17,7 @@ public sealed class ProxyProviderExt
 
     public List<ProxyGroupExt> Proxies { get; }
 
-    protected bool Equals(ProxyProviderExt other)
+    private bool Equals(ProxyProviderExt other)
     {
         return ProxyProvider.Equals(other.ProxyProvider);
     }

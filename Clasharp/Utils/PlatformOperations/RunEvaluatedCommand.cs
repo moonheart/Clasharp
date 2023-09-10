@@ -26,8 +26,8 @@ public class RunEvaluatedCommand : PlatformSpecificOperation<string, CommandResu
 
     protected override async Task<CommandResult> DoForWindows(string command)
     {
-        var currentFilename = Process.GetCurrentProcess().MainModule.FileName;
-        var gsudo = Path.Combine(Path.GetDirectoryName(currentFilename), "gsudo.exe");
+        var currentFilename = Process.GetCurrentProcess().MainModule!.FileName;
+        var gsudo = Path.Combine(Path.GetDirectoryName(currentFilename)!, "gsudo.exe");
         var process = new Process
         {
             StartInfo = new ProcessStartInfo

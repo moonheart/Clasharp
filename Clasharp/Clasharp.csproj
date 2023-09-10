@@ -94,7 +94,6 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Clasharp.Common\Clasharp.Common.csproj" />
-      <ProjectReference Include="..\Clasharp.Service\Clasharp.Service.csproj" />
       <ProjectReference Include="..\references\RichEnum\RichEnum\RichEnum.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
     <ItemGroup>

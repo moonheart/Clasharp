@@ -11,7 +11,7 @@ public sealed class RuleProvider
     public DateTime UpdatedAt { get; set; }
     public VehicleType VehicleType { get; set; }
 
-    protected bool Equals(RuleProvider other)
+    private bool Equals(RuleProvider other)
     {
         return Behavior == other.Behavior && Name == other.Name && RuleCount == other.RuleCount && Type == other.Type && UpdatedAt.ToString("s").Equals(other.UpdatedAt.ToString("s")) && VehicleType == other.VehicleType;
     }

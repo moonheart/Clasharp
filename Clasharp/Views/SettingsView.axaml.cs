@@ -24,11 +24,14 @@ public partial class SettingsView : UserControlBase<SettingsViewModel>
     private async Task Handler(InteractionContext<Unit, Unit> arg)
     {
         var profileEditWindow = new ClashCoreManageWindow
-            {DataContext = new ClashCoreManageViewModel(Locator.Current.GetService<AppSettings>())};
+            {DataContext = new ClashCoreManageViewModel(Locator.Current.GetService<AppSettings>()!)};
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var res = await profileEditWindow.ShowDialog<Unit>(desktop.MainWindow);
-            arg.SetOutput(res);
+            if (desktop.MainWindow != null)
+            {
+                var res = await profileEditWindow.ShowDialog<Unit>(desktop.MainWindow);
+                arg.SetOutput(res);
+            }
         }
         else
         {

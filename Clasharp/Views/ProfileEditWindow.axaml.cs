@@ -18,9 +18,12 @@ public partial class ProfileEditWindow : WindowBase<ProfileEditViewModel>
         InitializeComponent();
         this.WhenActivated(d =>
         {
-            d(ViewModel.Save.Subscribe(Close));
-            d(ViewModel.ShowOpenFileDialog.RegisterHandler(ShowFileDialog));
-            Title = ViewModel.IsCreate ? Clasharp.Resources.txtNewProfile : Clasharp.Resources.txtEditProfile;
+            if (ViewModel != null)
+            {
+                d(ViewModel.Save.Subscribe(Close));
+                d(ViewModel.ShowOpenFileDialog.RegisterHandler(ShowFileDialog));
+                Title = ViewModel.IsCreate ? Clasharp.Resources.txtNewProfile : Clasharp.Resources.txtEditProfile;
+            }
         });
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {

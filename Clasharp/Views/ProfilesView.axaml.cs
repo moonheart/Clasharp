@@ -22,14 +22,15 @@ public partial class ProfilesView : UserControlBase<ProfilesViewModel>
     {
         var profileEditWindow = new ProfileEditWindow
         {
-            DataContext = new ProfileEditViewModel(obj.Input,
-                Locator.Current.GetService<IProfilesService>(),
-                Locator.Current.GetService<AppSettings>())
+            DataContext = new ProfileEditViewModel(obj.Input, Locator.Current.GetService<IProfilesService>()!, Locator.Current.GetService<AppSettings>()!)
         };
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var res = await profileEditWindow.ShowDialog<Profile>(desktop.MainWindow);
-            obj.SetOutput(res);
+            if (desktop.MainWindow != null)
+            {
+                var res = await profileEditWindow.ShowDialog<Profile>(desktop.MainWindow);
+                obj.SetOutput(res);
+            }
         }
         else
         {

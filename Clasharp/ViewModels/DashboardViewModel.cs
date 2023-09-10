@@ -29,7 +29,7 @@ public class DashboardViewModel : ViewModelBase, IDashboardViewModel
         {
             DownloadTotal = d.DownloadTotal.ToHumanSize();
             UploadTotal = d.UploadTotal.ToHumanSize();
-            ConnectionsCount = d.Connections.Count;
+            ConnectionsCount = d.Connections?.Count ?? 0;
         });
 
         _downSpeeds.AddRange(Enumerable.Repeat<long>(0, 60));

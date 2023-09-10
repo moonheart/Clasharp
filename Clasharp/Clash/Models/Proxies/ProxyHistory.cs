@@ -8,7 +8,7 @@ public sealed class ProxyHistory
 
     public int Delay { get; set; }
 
-    protected bool Equals(ProxyHistory other)
+    private bool Equals(ProxyHistory other)
     {
         return Time.ToString("s").Equals(other.Time.ToString("s")) && Delay == other.Delay;
     }

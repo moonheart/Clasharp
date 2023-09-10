@@ -13,7 +13,7 @@ public class DesignProfileEditViewModel:ViewModelBase, IProfileEditViewModel
     public Profile Profile { get; set; } = new();
     public ProfileType ProfileType { get; set; }
     public string FromFile { get; set; } = string.Empty;
-    public ReactiveCommand<Unit, Profile> Save { get; } = ReactiveCommand.Create(() => new Profile());
+    public ReactiveCommand<Unit, Profile?> Save { get; } = ReactiveCommand.Create(() => (Profile?)new Profile());
     public ReactiveCommand<Unit, Unit> OpenFile { get; } = ReactiveCommand.Create(() => { });
     public Interaction<Unit, string?> ShowOpenFileDialog { get; } = new();
     public bool IsCreate { get; }

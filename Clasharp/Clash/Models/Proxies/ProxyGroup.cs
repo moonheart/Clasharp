@@ -17,7 +17,7 @@ public sealed class ProxyGroup
 
     public bool Udp { get; set; }
 
-    protected bool Equals(ProxyGroup other)
+    private bool Equals(ProxyGroup other)
     {
         return All.SequenceEqual(other.All) && History.SequenceEqual(other.History) && Name == other.Name && Now == other.Now && Type == other.Type && Udp == other.Udp;
     }

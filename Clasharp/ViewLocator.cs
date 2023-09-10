@@ -10,8 +10,12 @@ namespace Clasharp
     public class ViewLocator : IDataTemplate
     {
         private static Regex _regex = new Regex(@"(?:DesignTime|ViewModels)\.(?:Design)?([^\.]+)ViewModel"); 
-        public Control Build(object data)
+        public Control Build(object? data)
         {
+            if (data == null)
+            {
+                return new TextBlock { Text = "Null data" };
+            }
             var name = _regex.Replace(data.GetType().FullName!, "Views.$1View");
             var type = Type.GetType(name);
 
@@ -31,7 +35,7 @@ namespace Clasharp
             return new TextBlock {Text = "Not Found: " + name};
         }
 
-        public bool Match(object data)
+        public bool Match(object? data)
         {
             return data is ViewModelBase;
         }

@@ -135,6 +135,7 @@ public class ProfilesService : IDisposable, IProfilesService
     {
         _appSettings.Profiles.Remove(profile);
         _profiles.Remove(profile);
+        if (profile.Filename == null) return;
         var fullPath = Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename);
         if (File.Exists(fullPath)) File.Delete(fullPath);
     }
@@ -150,10 +151,18 @@ public class ProfilesService : IDisposable, IProfilesService
         try
         {
             var content = await HttpClientHolder.Normal.GetStringAsync(profile.RemoteUrl);
-            await File.WriteAllTextAsync(Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename), content);
+            if (profile.Filename != null)
+            {
+                await File.WriteAllTextAsync(Path.Combine(GlobalConfigs.ProfilesDir, profile.Filename), content);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Empty profile filename to be downloaded, profile: {profile.Name}");
+            }
+
             profile.UpdateTime = DateTime.Now;
         }
-        catch (Exception e)
+        catch (HttpRequestException e)
         {
             MessageBus.Current.SendMessage(new LogEntry(LogLevel.ERROR,
                 $"Failed to download profile from {profile.RemoteUrl}, {e.Message}"));

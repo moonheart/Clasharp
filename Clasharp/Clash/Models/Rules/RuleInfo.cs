@@ -12,7 +12,7 @@ public sealed class RuleInfo
 
     public string Proxy { get; set; } = string.Empty;
 
-    protected bool Equals(RuleInfo other)
+    private bool Equals(RuleInfo other)
     {
         return Type == other.Type && Payload == other.Payload && Proxy == other.Proxy;
     }

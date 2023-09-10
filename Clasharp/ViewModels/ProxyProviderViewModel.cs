@@ -26,7 +26,7 @@ public sealed class ProxyProviderViewModel : ViewModelBase, IProxyProviderViewMo
 
     public List<ProxyGroupExt> Proxies { get; }
 
-    protected bool Equals(ProxyProviderViewModel other)
+    private bool Equals(ProxyProviderViewModel other)
     {
         return _proxyProvider.Equals(other._proxyProvider);
     }
