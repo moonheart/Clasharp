@@ -1,0 +1,46 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Clasharp.Common";
+
+message StartClashRequest{
+  string ExecutablePath = 1;
+  string WorkDir = 2;
+  string ConfigPath = 3;
+}
+
+message StartClashResponse{
+ string Message = 1; 
+}
+
+message StopClashRequest{
+  int32 Timeout = 1;
+}
+
+message StopClashResponse{
+  string Message = 1; 
+}
+
+message GetRealtimeLogs{
+  
+}
+
+message LogMessage{
+  string Message = 1;
+}
+
+message GetRunningState{
+
+}
+message RunningState{
+  bool IsRunning = 1;
+}
+
+service CoreService{
+  rpc StartClash(StartClashRequest) returns (StartClashResponse);
+  
+  rpc StopClash(StopClashRequest) returns (StopClashResponse);
+  
+  rpc Logs(GetRealtimeLogs) returns (stream LogMessage);
+
+  rpc IsRunning(GetRunningState) returns (RunningState);
+}

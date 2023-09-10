@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using Avalonia;
+using Avalonia.Input;
 using Clasharp.ViewModels;
 
 namespace Clasharp.Views
@@ -9,14 +10,16 @@ namespace Clasharp.Views
         public MainWindow()
         {
             InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 AcrylicBorder1.IsVisible = false;
                 AcrylicBorder2.IsVisible = false;
             }
+        }
+
+        protected override void OnPointerPressed(PointerPressedEventArgs e)
+        {
+            BeginMoveDrag(e);
         }
     }
 }

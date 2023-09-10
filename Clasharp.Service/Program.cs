@@ -1,4 +1,9 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Net;
+using System.Runtime.InteropServices;
+using Clasharp.Common;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace Clasharp.Service;
 
@@ -6,26 +11,24 @@ static class Program
 {
     public static async Task Main(string[] args)
     {
-        var hostBuilder = Host.CreateDefaultBuilder(args)
-            .ConfigureServices(services =>
-            {
-                services.AddHostedService<Worker>();
-                services.AddSingleton<HttpListenerWrapper>();
-            });
+        var builder = WebApplication.CreateBuilder(args);
+        builder.WebHost.ConfigureKestrel(options => { options.Listen(IPAddress.Any, GlobalConfigs.ClashServicePort, listenOptions => { listenOptions.Protocols = HttpProtocols.Http2; }); });
+
+        builder.Services.AddGrpc();
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            hostBuilder.UseWindowsService(service =>
-            {
-                service.ServiceName = "Clash Gui Service";
-            });
-        }else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            builder.Host.UseWindowsService(service => { service.ServiceName = "Clash Gui Service"; });
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            hostBuilder.UseSystemd();
+            builder.Host.UseSystemd();
         }
 
-        var host = hostBuilder.Build();
-        await host.RunAsync();
-    }
+        var application = builder.Build();
 
+        application.MapGrpcService<CoreServiceImpl>();
+
+        await application.RunAsync();
+    }
 }

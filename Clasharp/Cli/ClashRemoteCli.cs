@@ -9,6 +9,8 @@ using Clasharp.Services;
 using Clasharp.Utils;
 using Clasharp.Common;
 using Refit;
+using Grpc.Net.Client;
+using Grpc.Core;
 
 namespace Clasharp.Cli;
 
@@ -29,7 +31,7 @@ public interface IRemoteClash
 
 public class ClashRemoteCli : ClashCliBase
 {
-    private readonly IRemoteClash _remoteClash;
+    private readonly CoreService.CoreServiceClient _remoteClash;
     private readonly CoreServiceHelper _coreServiceHelper;
 
     public ClashRemoteCli(IClashApiFactory clashApiFactory, IProfilesService profilesService, AppSettings appSettings,
@@ -37,9 +39,8 @@ public class ClashRemoteCli : ClashCliBase
         : base(clashApiFactory, profilesService, appSettings)
     {
         ClashApiFactory = clashApiFactory;
-        _remoteClash = RestService.For<IRemoteClash>(
-            HttpClientHolder.For($"http://localhost:{GlobalConfigs.ClashServicePort}/"),
-            new RefitSettings().AddExceptionHandler());
+        var channel = GrpcChannel.ForAddress($"http://localhost:{GlobalConfigs.ClashServicePort}/");
+        _remoteClash = new CoreService.CoreServiceClient(channel);
         _coreServiceHelper = coreServiceHelper;
     }
 
@@ -54,7 +55,7 @@ public class ClashRemoteCli : ClashCliBase
             throw new InvalidOperationException("Core service not installed or running");
         }
 
-        await _remoteClash.StartClash(new ClashLaunchInfo
+        await _remoteClash.StartClashAsync(new StartClashRequest()
         {
             ExecutablePath = await GetClashExePath.Exec(useSystemCore),
             WorkDir = GlobalConfigs.ProgramHome,
@@ -65,10 +66,11 @@ public class ClashRemoteCli : ClashCliBase
         _cancellationTokenSource = new CancellationTokenSource();
         _ = Task.Run(async () =>
         {
-            await foreach (var realtimeLog in _remoteClash.GetRealtimeLogs()
-                               .WithCancellation(_cancellationTokenSource.Token))
+            var logs = _remoteClash.Logs(new GetRealtimeLogs());
+
+            await foreach (var log in logs.ResponseStream.ReadAllAsync())
             {
-                CliLogProcessor(realtimeLog);
+                CliLogProcessor(logs.ResponseStream.Current.Message);
             }
         });
     }
@@ -76,6 +78,6 @@ public class ClashRemoteCli : ClashCliBase
     protected override async Task DoStop()
     {
         _cancellationTokenSource?.Cancel();
-        await _remoteClash.StopClash();
+        await _remoteClash.StopClashAsync(new StopClashRequest());
     }
 }

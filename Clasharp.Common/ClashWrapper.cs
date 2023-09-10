@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
 
@@ -7,8 +8,7 @@ public class ClashWrapper
 {
     private readonly ClashLaunchInfo _clashLaunchInfo;
     private Process? _process;
-    
-    public Action<string>? OnNewLog { get; set; }
+    public ConcurrentQueue<string> LogsQueue { get; } = new();
 
     public ClashWrapper(ClashLaunchInfo clashLaunchInfo)
     {
@@ -31,25 +31,26 @@ public class ClashWrapper
                 StandardOutputEncoding = Encoding.UTF8
             }
         };
-        
+
         tmp.OutputDataReceived += (_, args) =>
         {
             if (string.IsNullOrEmpty(args.Data)) return;
-            OnNewLog?.Invoke(args.Data);
+            LogsQueue.Enqueue(args.Data);
         };
-        
+
         tmp.Start();
         _process?.Dispose();
         _process = tmp;
         _process.PriorityClass = ProcessPriorityClass.High;
         _process.BeginOutputReadLine();
-        
+
         if (_process.WaitForExit(500))
         {
             var readToEnd = _process.StandardError.ReadToEnd();
             throw new InvalidOperationException(readToEnd);
         }
     }
+
     public void Test()
     {
         var process = new Process()
@@ -79,6 +80,7 @@ public class ClashWrapper
     {
         return !_process?.HasExited ?? false;
     }
+
     public void Stop()
     {
         _process?.Kill(true);

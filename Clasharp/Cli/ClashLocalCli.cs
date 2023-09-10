@@ -20,10 +20,14 @@ public class ClashLocalCli : ClashCliBase
         _clashWrapper = new ClashWrapper(new ClashLaunchInfo
         {
             ConfigPath = configPath, ExecutablePath = await GetClashExePath.Exec(useSystemCore), WorkDir = GlobalConfigs.ProgramHome
-        })
+        });
+        _ = Task.Run(() =>
         {
-            OnNewLog = CliLogProcessor
-        };
+            while (_clashWrapper.LogsQueue.TryDequeue(out var log))
+            {
+                CliLogProcessor(log);
+            }
+        });
         _clashWrapper.Start();
     }
 

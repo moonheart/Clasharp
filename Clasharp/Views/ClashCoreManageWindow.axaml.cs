@@ -9,9 +9,6 @@ public partial class ClashCoreManageWindow : WindowBase<ClashCoreManageViewModel
     public ClashCoreManageWindow()
     {
         InitializeComponent();
-#if DEBUG
-        this.AttachDevTools();
-#endif
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             AcrylicBorder.IsVisible = false;

@@ -16,9 +16,6 @@ public partial class ProfileEditWindow : WindowBase<ProfileEditViewModel>
     public ProfileEditWindow()
     {
         InitializeComponent();
-#if DEBUG
-        this.AttachDevTools();
-#endif
         this.WhenActivated(d =>
         {
             d(ViewModel.Save.Subscribe(Close));

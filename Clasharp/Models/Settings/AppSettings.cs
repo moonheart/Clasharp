@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Avalonia.Styling;
 using Avalonia.Themes.Fluent;
 using Clasharp.Models.Profiles;
@@ -23,6 +24,7 @@ public class AppSettings: ReactiveObject
     public ManagedConfigs ManagedFields { get; set; } = new();
 
     [Reactive]
+    [JsonIgnore]
     public ThemeVariant ThemeMode { get; set; }
     
     public bool UseSystemCore { get; set; }
