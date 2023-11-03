@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
@@ -32,7 +32,7 @@
         <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.1" />
         <PackageReference Include="Grpc.Net.Client" Version="2.49.0" />
         <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-beta.950" />
-        <PackageReference Include="MessageBox.Avalonia" Version="3.1.4" />
+        <PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.7.0" />
         <PackageReference Include="ReactiveUI.Fody" Version="19.4.1" />
