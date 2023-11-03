@@ -1,9 +1,0 @@
-.idea/
-.vs
-bin
-obj
-publish
-*.user
-.vscode
-clasharp-*/
-release-dir
